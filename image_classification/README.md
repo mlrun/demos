@@ -11,5 +11,5 @@ it consists of 4 MLRun and Nuclio functions:
 ## Notebooks
 
 * [Import, tag, and launch training]() 
-* [Serving function development and testing]()
+* [Serving function development and testing](nuclio-serving-tf-images.ipynb)
 * [KubeFlow pipelines workflow]()
