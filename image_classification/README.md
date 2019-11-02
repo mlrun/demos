@@ -8,8 +8,11 @@ it consists of 4 MLRun and Nuclio functions:
 3. Distrubuted training using TF, Keras and Horovod
 4. Automated model deployment using Nuclio (serverless)
 
-## Notebooks
+<p align="center"><img src="workflow.png" width="180"/></p>
 
-* [Import, tag, and launch training]() 
+## Notebooks & Code
+
+* [All-in-one: Import, tag, launch training, deploy serving](mlrun_mpijob_classify.ipynb) 
 * [Serving function development and testing](nuclio-serving-tf-images.ipynb)
-* [KubeFlow pipelines workflow]()
+* [KubeFlow pipelines workflow - TBD]()
+* [Training function code](horovod-training.py)
