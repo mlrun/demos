@@ -1,2 +1,4 @@
-# demos
-End to end MLRun demos
+# End to End MLRun Demos
+
+## [Image Classification Using Distributed Training](image_classification/README.md)
+
