@@ -13,6 +13,7 @@ it consists of 4 MLRun and Nuclio functions:
 ## Notebooks & Code
 
 * [All-in-one: Import, tag, launch training, deploy serving](mlrun_mpijob_classify.ipynb) 
+* [Training function code](horovod-training.py)
 * [Serving function development and testing](nuclio-serving-tf-images.ipynb)
 * [KubeFlow pipelines workflow - TBD]()
-* [Training function code](horovod-training.py)
+
