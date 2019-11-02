@@ -8,7 +8,7 @@ it consists of 4 MLRun and Nuclio functions:
 3. Distrubuted training using TF, Keras and Horovod
 4. Automated model deployment using Nuclio (serverless)
 
-<p align="center"><img src="workflow.png" width="180"/></p>
+<br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
 ## Notebooks & Code
 
