@@ -10,6 +10,12 @@ it consists of 4 MLRun and Nuclio functions:
 
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
+This example also shows how to server models through:
+* [jupyter notebook](nuclio-serving-tf-images.ipynb)
+* [docker image (last cell)](mlrun_mpijob_classify.ipynb)
+
+The [Dockerfile](./inference-docker/Dockerfile) and [function code](./inference-docker/main.py) are available under [inference-docker](./inference-docker)
+
 ## Notebooks & Code
 
 * [All-in-one: Import, tag, launch training, deploy serving](mlrun_mpijob_classify.ipynb) 
