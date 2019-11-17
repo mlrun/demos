@@ -46,9 +46,9 @@ mlctx.logger.info(f'Training data has {df.size} samples')
 mlctx.logger.info(f'{df.category.value_counts()}')
 
 # Get image parameters
-IMAGE_WIDTH = mlctx.get_param('image_width')#, 128)
-IMAGE_HEIGHT = mlctx.get_param('image_height')#, 128)
-IMAGE_CHANNELS = mlctx.get_param('image_channels')#, 3)  # RGB color
+IMAGE_WIDTH = mlctx.get_param('image_width', 128)
+IMAGE_HEIGHT = mlctx.get_param('image_height', 128)
+IMAGE_CHANNELS = mlctx.get_param('image_channels', 3)  # RGB color
 IMAGE_SIZE = (IMAGE_WIDTH, IMAGE_HEIGHT)
 
 # Get training parameters
