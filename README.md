@@ -6,7 +6,7 @@ model training and automated deployment.
 The demos include running locally on a notebook, running on an elastic Kubernetes cluster using serverless functions,
 and pipeline automation using KubeFlow pipelines 
 
-## [XGBoost Classification with Hyper Parameters (Iris dataset)]()
+## [XGBoost Classification with Hyper Parameters (Iris dataset)](xgboost/train_xgboost_serverless.ipynb)
 
 Demonstrate a popular machine learning use case (iris dataset) and how to run training in parallel with hyper-parameters.
 
