@@ -40,12 +40,17 @@ Demonstrate real-time face images capture and recognition, and location tracking
 This comprehensive e demo include multiple components: live images capture utility, images identification and tracking, 
 labeling app (using Streamlit) to tag unidentified faces, and model training
 
+<br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
+
 > work in progress 
 
 ## [Predictive Network/Telemetry Monitoring](netops/Readme.md)
 
 Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
 data preparation, model training, and automated model deployment.
+
+<br><p align="center"><img src="./netops/netops-metrics.png" width="500"/></p><br>
+
 
 > work in progress 
 
