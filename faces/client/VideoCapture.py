@@ -9,7 +9,7 @@ import socket
 
 # the number of frames to process ( set to -1 for endless stream)
 
-INTI_FILE_PATH = "config/init-dev133.ini"
+INTI_FILE_PATH = "config/init.ini"
 NUMBER_OF_FRAMES = -1
 CAMERA_NAME = socket.gethostname()
 
