@@ -10,7 +10,7 @@ The examples demonstrate how you can:
 
 the demo applications are tested on [Iguazio's data science PaaS](https://www.iguazio.com/), 
 and use iguazio shared data fabric (v3io), the can be modified to work with any shared file storage by replacing the 
-`apply(v3io_mount())` calls with other KubeFlow volume modifiers.
+`apply(v3io_mount())` calls with other KubeFlow volume modifiers. You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
 
 Pre-requisites:
 * need to have a Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo)
