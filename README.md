@@ -29,7 +29,7 @@ This comprehensive e demo include multiple components: live images capture utili
 labeling app (using Streamlit) to tag unidentified faces, and model training
  
 
-## [Predictive Network/Telemetry Monitoring]()
+## [Predictive Network/Telemetry Monitoring](netops/Readme.md)
 
 Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
 data preparation, model training, and automated model deployment.
