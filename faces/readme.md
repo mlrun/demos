@@ -5,8 +5,8 @@ it consists of 4 MLRun and Nuclio functions:
 
 1. import images of known person into the cluster file system
 2. client that records video , streams the data into iguazio file system and triggers the serving function 
-3. training the model using hog algorithm  (form [Notebook](nuclio_face_prediction.ipynb) 
-4. Automated deployment of Nuclio model serving function (form [Notebook](nuclio_face_prediction.ipynb)
+3. training the model using hog algorithm  (form [Notebook](./notebooks/nuclio_face_prediction.ipynb) 
+4. Automated deployment of Nuclio model serving function (form [Notebook](./notebooks/nuclio_face_prediction.ipynb)
 5. Labeling Unknown images using streamlit  (form [Notebook](./streamlit/label_prompt.py)
  
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
