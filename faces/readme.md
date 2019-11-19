@@ -14,8 +14,8 @@ The Example also demonstrate an [automated pipeline](mlrun_mpijob_pipe.ipynb) us
 
 ## Notebooks & Code
 
-* [All-in-one: Import, launch training, deploy serving](face_recognition.ipynb) * 
-* [Serving function development and testing](nuclio_face_prediction.ipynb)
+* [All-in-one: Import, launch training, deploy serving](notebooks/face_recognition.ipynb) * 
+* [Serving function development and testing](notebooks/nuclio_face_prediction.ipynb)
 * [Auto generation of KubeFlow pipelines workflow](mlrun_mpijob_pipe.ipynb)
 * [client for streaming data into iguazio](./client)
   * [function code](./inference-docker/main.py)
