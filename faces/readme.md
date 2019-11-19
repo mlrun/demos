@@ -3,6 +3,6 @@ This example utilizes face recognition, OpenCV, scikit-learn and Nuclio. It show
 
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
-##Notebooks
-[Automated KubeFlow pipeline deployment from raw data to serving prediction function](face_recognition.ipynb)
-[Serving function development and testing](nuclio_face_prediction.ipynb)
+## Notebooks
+<br>[Automated KubeFlow pipeline deployment from raw data to serving prediction function](face_recognition.ipynb)
+<br>[Serving function development and testing](nuclio_face_prediction.ipynb)
