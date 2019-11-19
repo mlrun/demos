@@ -20,7 +20,7 @@ of  on the identified person
 * [Serving function development and testing](notebooks/nuclio_face_prediction.ipynb)
 * [client for streaming data into iguazio](./client/VideoCapture.py)
 * [labeling unknown images and re-enforce learning ](./streamlit/label_prompt.py)  
-  
+ 
   
 
 
