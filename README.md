@@ -33,18 +33,21 @@ run a distributed job over MPI (Horovod), deploy a model serving Nuclio function
 
 <br><p align="center"><img src="./image_classification/hvd-pipe.png" width="500"/></p><br>
 
-## [Real-time face recognition with re-enforced learning]()
+## [Real-time face recognition with re-enforced learning](faces/readme.md)
 
 Demonstrate real-time face images capture and recognition, and location tracking of identities.
 
 This comprehensive e demo include multiple components: live images capture utility, images identification and tracking, 
 labeling app (using Streamlit) to tag unidentified faces, and model training
- 
+
+> work in progress 
 
 ## [Predictive Network/Telemetry Monitoring]()
 
 Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
 data preparation, model training, and automated model deployment.
+
+> work in progress 
 
 ## [Running Serverless Spark](spark/mlrun_sparkk8s.ipynb)
 
