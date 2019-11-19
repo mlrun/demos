@@ -1,4 +1,4 @@
-# Image face recognition Using CV2 
+# Real-time face recognition with re-enforced learning
 
 This example is using CV2, and Nuclio demonstrating end to end solution for real time face recognition over video stream, 
 it consists of 4 MLRun and Nuclio functions:
