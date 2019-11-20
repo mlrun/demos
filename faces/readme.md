@@ -4,10 +4,10 @@ This example is using face recognition, OpenCV, scikit-learn and Nuclio demonstr
 <br>It consists of 5 MLRun and Nuclio functions:
 
 <br>1. import images of known person into the cluster file system
-<br>2. training the model using sklearn classifier on top of OpenCV deep learning algorithm (form [Notebook])(./notebooks/face_recognition.ipynb)
-<br>3. Automated deployment of Nuclio model serving function (form [Notebook])(./notebooks/nuclio_face_prediction.ipynb) 
+<br>2. training the model using sklearn classifier on top of OpenCV deep learning algorithm. from [Notebook](./notebooks/face_recognition.ipynb)
+<br>3. Automated deployment of Nuclio model serving function. from [Notebook](./notebooks/nuclio_face_prediction.ipynb) 
 <br>4. client that records video , streams the data into iguazio file system and triggers the serving function 
-<br>5. Labeling Unknown images using streamlit  (form [Code])(./streamlit/label_prompt.py)
+<br>5. Labeling Unknown images using streamlit. from [Code](./streamlit/label_prompt.py)
  
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
