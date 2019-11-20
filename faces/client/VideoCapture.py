@@ -9,9 +9,10 @@ import socket
 
 # the number of frames to process ( set to -1 for endless stream)
 
-INTI_FILE_PATH = "config/init.ini"
+INTI_FILE_PATH = "config/init-cloud.ini"
 NUMBER_OF_FRAMES = -1
 CAMERA_NAME = socket.gethostname()
+NEW_PERSON = True
 
 logger = Logger(level=logging.DEBUG)
 app_conf = AppConf(logger, INTI_FILE_PATH)
@@ -26,7 +27,7 @@ while count > 0 or NUMBER_OF_FRAMES == -1:
         vf = V3ioImage(logger, app_conf, frame, CAMERA_NAME)
         if ret:
             with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-                future = {executor.submit(sp.send_image(vf))}
+                future = {executor.submit(sp.send_image(vf,NEW_PERSON))}
 
         else:
             logger.error("read cap failed")
