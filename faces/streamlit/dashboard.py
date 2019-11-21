@@ -81,11 +81,20 @@ if __name__ == '__main__':
                     st.empty()
         else:
             st.success('No more images to label')
+       
     if page == 'View Collected Images':
         st.title('View Collected Images')
         enc_df = client.read(backend="kv", table='iguazio/demos/face-recognition/artifacts/encodings', reset_index=True)
-        view_df = enc_df[['fileName', 'camera', 'time', 'imgUrl']]
-        view_df['time'] = pd.to_datetime(view_df['time'])
-        view_df = view_df.rename(columns={'camera': 'identifier'})
-        #view_df['identifier'] = view_df['identifier'][:-4]
-        st.dataframe(view_df[['fileName', 'time', 'camera']])
+        view_df = enc_df[['fileName', 'camera', 'time']]
+        view_df = view_df.rename(columns={'fileName': 'identifier'})
+        view_df['identifier'] = view_df['identifier']
+        st.dataframe(view_df)
+        
+        idx = st.selectbox('Choose image to view', range(len(view_df)), key=2)
+        
+        img_url = enc_df.iloc[idx]['imgUrl']
+        kv_img = cv2.imread(img_url)
+        rgb_kv_img = cv2.cvtColor(kv_img, cv2.COLOR_BGR2RGB)
+        plt.imshow(rgb_kv_img)
+        plt.axis('off')
+        st.pyplot()
