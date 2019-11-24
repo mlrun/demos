@@ -57,9 +57,8 @@ class ImageSender(object):
                                     auth=HTTPBasicAuth(self.conf.username, self.conf.password),
                                     verify=False)
         self.logger.debug(response.text)
-        nuclio_mount_path = self.conf.nuclio_mount
-        uriTuple = (nuclio_mount_path, self.conf.stream_name, file_name)
-        file_path = "/".join(uriTuple)
+        uri_tuple = (self.conf.nuclio_mount, self.conf.stream_name, file_name)
+        file_path = "/".join(uri_tuple)
         payload ={"file_path":file_path, "time": current_time, "camera": "cammy"}
         if not new_person:
             self.invoke_trigger(payload)
