@@ -19,9 +19,12 @@ def generate_nuclio_uri(logger: Logger, conf: AppConf):
     return uri
 
 
-def generate_image_uri(logger: Logger, conf: AppConf,filename):
+def generate_image_uri(logger: Logger, conf: AppConf,filename,new_person):
     file_name = filename
-    uriTuple = (conf.webapi_url, conf.container,conf.username, conf.stream_name, file_name)
+    if new_person:
+        uriTuple = (conf.webapi_url, conf.container, conf.username, conf.data_set_path, file_name)
+    else:
+        uriTuple = (conf.webapi_url, conf.container,conf.username, conf.stream_name, file_name)
     uri = "/".join(uriTuple)
     logger.debug("uri :" + uri)
     return uri
@@ -41,20 +44,24 @@ class ImageSender(object):
         self.logger = logger
         self.conf = conf
 
-    def send_image(self, img: AbsImage):
+    def send_image(self, img: AbsImage, new_person):
         img_data = img.convert_frame_to_bytes()
         current_time = img.get_create_time()
-        file_name = generate_file_name(current_time, self.conf.partition)
-        api_host = generate_image_uri(self.logger, self.conf, file_name)
+        if not new_person:
+            file_name = generate_file_name(current_time, self.conf.partition)
+            api_host = generate_image_uri(self.logger, self.conf, file_name,new_person)
+        else:
+            file_name = generate_file_name(current_time, False)
+            api_host = generate_image_uri(self.logger, self.conf, file_name, new_person)
         response = requests.request("PUT", api_host, data=img_data,
                                     auth=HTTPBasicAuth(self.conf.username, self.conf.password),
                                     verify=False)
         self.logger.debug(response.text)
-        nuclio_mount_path = self.conf.nuclio_mount
-        uriTuple = (nuclio_mount_path, self.conf.stream_name, file_name)
-        file_path = "/".join(uriTuple)
+        uri_tuple = (self.conf.nuclio_mount, self.conf.stream_name, file_name)
+        file_path = "/".join(uri_tuple)
         payload ={"file_path":file_path, "time": current_time, "camera": "cammy"}
-        self.invoke_trigger(payload)
+        if not new_person:
+            self.invoke_trigger(payload)
 
     def invoke_trigger(self, payload):
         url = generate_nuclio_uri(self.logger, self.conf)
