@@ -15,6 +15,9 @@ import time
 def load_images(data_path):
     return [f for f in paths.list_images(data_path) if '.ipynb' not in f]
 
+@st.cache
+def load_enc_df():
+    return client.read(backend="kv", table='iguazio/demos/face-recognition/artifacts/encodings', reset_index=True)
 
 
 if __name__ == '__main__':
@@ -72,7 +75,7 @@ if __name__ == '__main__':
                             os.mkdir(dir_name)
                         file_name = dir_name + '/' + date_time + '.jpg'
                 else:
-                        dir_name = data_path + 'input/' + selected_label.replace(' ', '_')
+                        dir_name = 'input/' + selected_label.replace(' ', '_')
                         if not os.path.exists(dir_name):
                               os.mkdir(dir_name)
                         file_name = dir_name + '/' + date_time + '.jpg'
@@ -83,8 +86,9 @@ if __name__ == '__main__':
             st.success('No more images to label')
        
     if page == 'View Collected Images':
+        
         st.title('View Collected Images')
-        enc_df = client.read(backend="kv", table='iguazio/demos/face-recognition/artifacts/encodings', reset_index=True)
+        enc_df = load_enc_df()
         view_df = enc_df[['fileName', 'camera', 'time']]
         view_df = view_df.rename(columns={'fileName': 'identifier'})
         view_df['identifier'] = view_df['identifier']
