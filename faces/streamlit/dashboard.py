@@ -72,7 +72,7 @@ if __name__ == '__main__':
                             os.mkdir(dir_name)
                         file_name = dir_name + '/' + date_time + '.jpg'
                 else:
-                        dir_name = 'input/' + selected_label.replace(' ', '_')
+                        dir_name = data_path + 'input/' + selected_label.replace(' ', '_')
                         if not os.path.exists(dir_name):
                               os.mkdir(dir_name)
                         file_name = dir_name + '/' + date_time + '.jpg'
