@@ -16,7 +16,8 @@ including using iguazio key value store and TSDB(Time Series Data Base) to store
 of an the identified and un-identified faces.
 ## Notebooks & Code
 
-* [All-in-one: Import, launch training, deploy serving](notebooks/face-recognition.ipynb) * 
+* [Video Stream client](client/README.md)
+* [All-in-one: Import, launch training, deploy serving](notebooks/face-recognition.ipynb)  
 * [Serving function development and testing](notebooks/nuclio-face-prediction.ipynb)
 * [client for streaming data into iguazio](./client/VideoCapture.py)
 * [labeling unknown images and re-enforce learning ](./streamlit/label_prompt.py)  
