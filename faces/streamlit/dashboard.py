@@ -7,13 +7,11 @@ import v3io_frames as v3f
 import os
 import shutil
 import datetime
-import time
-
-
 
 
 def load_images(data_path):
     return [f for f in paths.list_images(data_path) if '.ipynb' not in f]
+
 
 @st.cache
 def load_enc_df():
@@ -30,8 +28,7 @@ if __name__ == '__main__':
     
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
     if page == 'Label Unknown Images':
-    
-        
+
         images = load_images(data_path + 'label_pending')
         st.title('Label Unknown Images')
         
@@ -52,11 +49,7 @@ if __name__ == '__main__':
             plt.axis('off')
             st.pyplot()
 
-
-
-
-            selected_label = st.selectbox(label='Select label for the image',
-                                        options=options,key=0)
+            selected_label = st.selectbox(label='Select label for the image', options=options, key=0)
 
             # Was a label selected (in previous step) ?
             # - Yes
@@ -64,27 +57,27 @@ if __name__ == '__main__':
                 tag_time = datetime.datetime.now()
                 date_time = tag_time.strftime("%d:%m:%Y:%H%M%S")
                 if selected_label == 'not an employee':
-                        dir_name = data_path + 'unrecognized'
-                        if not os.path.exists(dir_name):
-                            os.mkdir(dir_name)
-                        file_name =  dir_name + '/' + date_time + '.jpg'
+                    dir_name = data_path + 'unrecognized'
+                    if not os.path.exists(dir_name):
+                        os.mkdir(dir_name)
+                    file_name = dir_name + '/' + date_time + '.jpg'
                 elif selected_label == 'add new employee':
-                        new_name = st.text_input('Please enter name of employee')
-                        dir_name = data_path + 'input/' + new_name.replace(' ', '_')
-                        if not os.path.exists(dir_name):
-                            os.mkdir(dir_name)
-                        file_name = dir_name + '/' + date_time + '.jpg'
+                    new_name = st.text_input('Please enter name of employee')
+                    dir_name = data_path + 'input/' + new_name.replace(' ', '_')
+                    if not os.path.exists(dir_name):
+                        os.mkdir(dir_name)
+                    file_name = dir_name + '/' + date_time + '.jpg'
                 else:
-                        dir_name = data_path + 'input/' + selected_label.replace(' ', '_')
-                        if not os.path.exists(dir_name):
-                              os.mkdir(dir_name)
-                        file_name = dir_name + '/' + date_time + '.jpg'
-                if st.button('apply'):
+                    dir_name = data_path + 'input/' + selected_label.replace(' ', '_')
+                    if not os.path.exists(dir_name):
+                        os.mkdir(dir_name)
+                    file_name = dir_name + '/' + date_time + '.jpg'
+                if st.button('apply', key=100):
                     shutil.move(path, file_name)
                     st.empty()
         else:
             st.success('No more images to label')
-       
+
     if page == 'View Collected Images':
         
         st.title('View Collected Images')
