@@ -15,18 +15,18 @@ log_level=info <br>
 partition = true <br>
 
 [webapi] <br>
-url = <https://webapi.default-tenant.app.com> <br>
-container = _container_ <br>
-stream_name = _stream name_ <br>
+url = _*web api https url*_ <br>
+container = _*container*_ <br>
+stream_name = _*stream name*_ <br>
 
 [nuclio] <br>
-url = _nuclio_fucntion_api_ <br>
+url = _*nuclio fucntion api*_ <br>
 mount = /User <br>
 
 [auth] <br>
-username = _user name_ <br>
-password = _password_ <br>
-session_key = _platform access key_ <br>
+username = _*user name*_ <br>
+password = _*password*_ <br>
+session_key = _*platform access key*_ <br>
 
 ## run the client
 python VideoCapture.py
