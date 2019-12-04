@@ -10,7 +10,7 @@ clone demos to your laptop
 cd mlrun/demos/faces/client
 
 ## configure client init.ini file:
-### edit the bold variables
+### edit bold variables
 
 [app] <br>
 log_level=info <br> 
