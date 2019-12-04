@@ -9,25 +9,25 @@ clone demos to your laptop
 ## go to client path
 cd mlrun/demos/faces/client
 
-## configure client:
+## configure client init.ini file:
 [app] <br>
 log_level=info <br> 
 partition = true <br>
 
 [webapi] <br>
 url = <https://webapi.default-tenant.app.com> <br>
-container = container <br>
-stream_name = stream <br>
+container = <container> <br>
+stream_name = <stream name> <br>
 
 [nuclio] <br>
 url = nuclio_fucntion_api <br>
 mount = /User <br>
 
 [auth] <br>
-username = user name <br>
-password = password <br>
-session_key = session key <br>
+username = <user name> <br>
+password = <password> <br>
+session_key = <session key> <br>
 
 ## run the client
-python VideoCapture
+python VideoCapture.py
 
