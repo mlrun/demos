@@ -16,17 +16,17 @@ partition = true <br>
 
 [webapi] <br>
 url = <https://webapi.default-tenant.app.com> <br>
-container = <container> <br>
-stream_name = <stream name> <br>
+container = _container_ <br>
+stream_name = _stream name_ <br>
 
 [nuclio] <br>
-url = nuclio_fucntion_api <br>
+url = _nuclio_fucntion_api_ <br>
 mount = /User <br>
 
 [auth] <br>
-username = <user name> <br>
-password = <password> <br>
-session_key = <session key> <br>
+username = _user name_ <br>
+password = _password_ <br>
+session_key = _platform access key_ <br>
 
 ## run the client
 python VideoCapture.py
