@@ -32,4 +32,6 @@ volumes:
 * Ensure that you have already have a trained model generated through [face-recognition.ipynb](https://github.com/mlrun/demos/faces/notebooks/face-recognition.ipynb)
 * Verify that dashboard.py script exists under the path "/User/demos/demos/faces/streamlit/dashboard.py", the file should be there upon git cloning mlrun/demos in jupyter under ~/demos.
 * Deploy streamlit as a service from your edited streamlit.yaml in iguazio platform using the following command: `kubectl -n default-tenant apply -f streamlit.yaml`
-* In your web browser go to **your_app_node_ip_address**:30090 and view your interactive streamlit dashboard.
+* In your web browser go to **your_app_node_ip_address**:30090 and view your interactive streamlit dashboard:
+
+<br><p align="center"><img src="dashboard.png" width="600"/></p><br>
