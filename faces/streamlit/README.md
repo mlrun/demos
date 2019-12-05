@@ -1,4 +1,4 @@
-# Deployment of streamlit dashboard or labeling images and browsing collected data
+# Deployment of streamlit dashboard for labeling images and browsing collected data
 
 This markdown presents instructions for deploying streamlit dashboard to our application needs:
 
