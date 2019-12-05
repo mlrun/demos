@@ -34,4 +34,4 @@ volumes:
 * Deploy streamlit as a service from your edited streamlit.yaml in iguazio platform using the following command: `kubectl -n default-tenant apply -f streamlit.yaml`
 * In your web browser go to **your_app_node_ip_address**:30090 and view your interactive streamlit dashboard:
 
-<br><p align="center"><img src="dashboard.png" width="600"/></p><br>
+<br><p align="center"><img src="dashboard.png" width="1000" height="500"/></p><br>
