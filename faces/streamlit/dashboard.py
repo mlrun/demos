@@ -15,23 +15,23 @@ def load_images(data_path):
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/face-recognition/artifacts/encodings', reset_index=True)
+    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True)
 
 
 if __name__ == '__main__':
     client = v3f.Client("framesd:8081", container="users")
-    data_path = '/User/demos/face-recognition/dataset/'
-    artifact_path = 'User/demos/face-recognition/artifacts/'
+    data_path = '/User/demos/demos/faces/dataset/'
+    artifact_path = 'User/demos/demos/faces/artifacts/'
     classes_url = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_url)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
-    
+
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
     if page == 'Label Unknown Images':
 
         images = load_images(data_path + 'label_pending')
         st.title('Label Unknown Images')
-        
+
         # generates list of valid labeling options
         options = ['None'] + known_classes + ['add new employee', 'not an employee']
 
@@ -79,16 +79,15 @@ if __name__ == '__main__':
             st.success('No more images to label')
 
     if page == 'View Collected Images':
-        
         st.title('View Collected Images')
         enc_df = load_enc_df()
         view_df = enc_df[['fileName', 'camera', 'time']]
         view_df = view_df.rename(columns={'fileName': 'identifier'})
         view_df['identifier'] = view_df['identifier']
         st.dataframe(view_df)
-        
+
         idx = st.selectbox('Choose image to view', range(len(view_df)), key=2)
-        
+
         img_url = enc_df.iloc[idx]['imgUrl']
         kv_img = cv2.imread(img_url)
         rgb_kv_img = cv2.cvtColor(kv_img, cv2.COLOR_BGR2RGB)
