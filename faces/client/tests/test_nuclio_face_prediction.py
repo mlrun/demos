@@ -16,7 +16,6 @@ import logging
 import shutil
 
 
-
 class SKModel(object):
     def __init__(self):
         self.name = 'model.bst'
@@ -24,7 +23,14 @@ class SKModel(object):
         self.model = None
         self.ready = None
         self.classes = os.environ['CLASSES_MAP']
-        self.unknown_path = os.environ['UNKNOWN_PATH']
+        self.dataset_path = os.environ['DATASET_PATH']
+
+    def move_unknown_file(self,new_row, img_url):
+        destination = self.unknown_path + '/' + img_url.split('/')[-1]
+        new_row['imgUrl'] = destination
+        dest = shutil.move(img_url, destination)
+        return destination
+
 
     def load(self):
         self.model = joblib.load(self.model_filepath)
@@ -103,6 +109,8 @@ class SKModel(object):
             new_row['time'] = datetime.datetime.utcnow()
 
             if new_row['label'] == -1:
+                self.move_unknown_file(new_row, img_url)
+                context.logger.debug('moving ' + img_url + 'to' + destination)
                 destination = self.unknown_path+'/'+img_url.split('/')[-1]
                 new_row['imgUrl'] = destination
                 dest = shutil.move(img_url, destination)
