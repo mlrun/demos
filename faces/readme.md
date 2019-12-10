@@ -6,8 +6,8 @@ This example is using face recognition, OpenCV, scikit-learn and Nuclio demonstr
 <br>1. face recognition and encoding in photos using OpenCV deep learning model. from [Notebook](notebooks/face-recognition.ipynb)
 <br>2. train and ouput sklearn predictor based on the extracted encodings. from [Notebook](notebooks/face-recognition.ipynb)
 <br>3. automated deployment of Nuclio model serving function. from [Notebook](notebooks/nuclio-face-prediction.ipynb) 
-<br>4. client that records video , streams the data into iguazio file system and triggers the serving function.  
-<br>5. labeling unrecognized faces using streamlit service that runs on iguazios' platform. from [Code](./streamlit/dashboard.py)
+<br>4. client that records video, streams the data into file system and triggers the serving function.  
+<br>5. labeling unrecognized faces using interactive dashboard built with streamlit. from [Code](./streamlit/dashboard.py)
  
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
@@ -20,4 +20,4 @@ of an the identified and un-identified faces.
 * [All-in-one: import, launch training, deploy serving function](notebooks/face-recognition.ipynb)  
 * [Serving function development and testing](notebooks/nuclio-face-prediction.ipynb)
 * [client for streaming data into iguazio](./client/VideoCapture.py)
-* [labeling unknown images and retrain model on newly collected data ](./streamlit/dashboard.py)  
+* [labeling unknown images and retrain model on newly collected data](./streamlit/dashboard.py)  
