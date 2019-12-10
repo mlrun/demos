@@ -23,7 +23,7 @@ spec:
           value: <ACCESS_KEY>
         ports:
         - containerPort: 8501
-        command: ["streamlit", "run", "/User/demos/face-recognition/streamlit/dashboard.py" ]
+        command: ["streamlit", "run", "/User/demos/demos/faces/streamlit/dashboard.py" ]
         args: []
         volumeMounts:
         - mountPath: User
