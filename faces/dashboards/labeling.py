@@ -93,19 +93,38 @@ tbl = """<script>
     var dst_for_unknowns = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,5).join('/') + "unknowns/" + $(".dataframe tr.selected td").text().split("/").slice(-2)
         
     function tagSelected(){{
-            
+        var src_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2).join("/")
+        var dst_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,6).join('/') + "/input/" + $('#options tr.selected td').text().replace(" ", "_") + "/" + $(".dataframe tr.selected td").text().split("/").slice(-1).join("/")
+        var access_key = "{0}"
+        
+        var xhr_get = new XMLHttpRequest();            
+        xhr_get.open("GET", src_img_url);
+        xhr_get.setRequestHeader("x-v3io-session-key", access_key);
+        xhr_get.responseType = "blob";
+        xhr_get.onload = function(){{
+            var xhr_post = new XMLHttpRequest();
+            xhr_post.open('POST', dst_img_url);
+            xhr_post.setRequestHeader("x-v3io-session-key", access_key);
+            xhr_post.onload = function(){{
+                var xhr_delete = new XMLHttpRequest();
+                xhr_delete.open('DELETE', src_img_url)
+                xhr_delete.setRequestHeader("x-v3io-session-key", access_key);
+                xhr_delete.onload = alert("Person successfully tagged as " + $('#options tr.selected td').text());
+                xhr_delete.send();
+            }};
+            xhr_post.send(xhr_get.response);
+        }};
+        xhr_get.send();
     }}
         
     function addEmployee(){{
             console.log("add employee activated")
     }}
-        ß
+        
     function notEmployed(){{
         var src_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2).join("/") 
         var dst_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,6).join('/') + "/unknowns/" + $(".dataframe tr.selected td").text().split("/").slice(-1).join("/")
         var access_key = "{0}"
-        console.log(src_img_url)
-        console.log(dst_for_unknowns)
         
         var xhr_get = new XMLHttpRequest();            
         xhr_get.open("GET", src_img_url);
@@ -165,7 +184,7 @@ def handler(context, event):
     classes_df = pd.read_csv(classes_url)
 
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values if 'MACOSX' not in n]
-    images = [f for f in paths.list_images(data_path) if '.ipynb' not in f]
+    images = [f for f in paths.list_images(data_path + 'label_pending') if '.ipynb' not in f]
 
     d = {'url': images}
     paths_df = pd.DataFrame(d)
