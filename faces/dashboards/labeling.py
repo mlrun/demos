@@ -89,9 +89,6 @@ tbl = """<script>
             }});
     }});
     
-    var src_img_url = "{1}" + $(".dataframe tr.selected td").text().slice(2) 
-    var dst_for_unknowns = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,5).join('/') + "unknowns/" + $(".dataframe tr.selected td").text().split("/").slice(-2)
-        
     function tagSelected(){{
         var src_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2).join("/")
         var dst_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,6).join('/') + "/input/" + $('#options tr.selected td').text().replace(" ", "_") + "/" + $(".dataframe tr.selected td").text().split("/").slice(-1).join("/")
@@ -118,7 +115,31 @@ tbl = """<script>
     }}
         
     function addEmployee(){{
-            console.log("add employee activated")
+        var new_user = prompt("Please provide name of the employee in the image")
+        new_user = new_user.split(" ").join("_")
+        var src_img_url = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2).join("/")
+        var dst_folder = "{1}" + $(".dataframe tr.selected td").text().split("/").slice(2,6).join('/') + "/input/" + new_user
+        var dst_img_url = dst_folder + "/" + $(".dataframe tr.selected td").text().split("/").slice(-1).join("/")
+        var access_key = "{0}"
+        
+        var xhr_get = new XMLHttpRequest();            
+        xhr_get.open("GET", src_img_url);
+        xhr_get.setRequestHeader("x-v3io-session-key", access_key);
+        xhr_get.responseType = "blob";
+        xhr_get.onload = function(){{
+            var xhr_post = new XMLHttpRequest();
+            xhr_post.open('POST', dst_img_url);
+            xhr_post.setRequestHeader("x-v3io-session-key", access_key);
+            xhr_post.onload = function(){{
+                var xhr_delete = new XMLHttpRequest();
+                xhr_delete.open('DELETE', src_img_url)
+                xhr_delete.setRequestHeader("x-v3io-session-key", access_key);
+                xhr_delete.onload = alert("Person successfully tagged as " + new_user.split("_").join(" "));
+                xhr_delete.send();
+            }};
+            xhr_post.send(xhr_get.response);
+        }};
+        xhr_get.send();
     }}
         
     function notEmployed(){{
