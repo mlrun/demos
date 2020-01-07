@@ -41,7 +41,7 @@ The demo includes 4 steps: download the images repository, label the images, run
 
 <br><p align="center"><img src="./image_classification/hvd-pipe.png" width="500"/></p><br>
 
-## [Real-time face recognition with re-enforced learning](faces/readme.md)
+## [Real-time face recognition with re-enforced learning](faces/README.md)
 
 Demonstrate real-time face image capture, recognition, and location tracking of identities.
 
@@ -50,7 +50,7 @@ This comprehensive demonstration includes multiple components: a live image capt
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
 
-## [Predictive Network/Telemetry Monitoring](netops/Readme.md)
+## [Predictive Network/Telemetry Monitoring](netops/README.md)
 
 Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
 data preparation, model training, and automated model deployment.
