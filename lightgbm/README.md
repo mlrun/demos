@@ -1,3 +1,5 @@
+<img src="./lgbm-pipeline.PNG" width="1200" align="center"/>
+
 # Instructions for LightGBM demo
 
 Run the notebooks in the following order, and pay close attention to the instructions
