@@ -1,4 +1,4 @@
-<img src="./lgbm-pipeline.PNG" width="1200" align="center"/>
+<img src="./images/my-lgbm-pipeline.png" width="1200" align="center"/>
 
 # Instructions for LightGBM demo
 
