@@ -1,6 +1,6 @@
 # LightGBM and KubeFlow with MLRun
 
-<img src="./images/lgbm-pipeline.PNG" width="600" align="center"/>
+<img src="./images/my-lgbm-pipeline.png" width="600" align="center"/>
 
 In this set of notebooks we build a simple classification model using the **[HIGGS](https://archive.ics.uci.edu/ml/datasets/HIGGS)** dataset and the **[LightGBM](https://lightgbm.readthedocs.io/en/latest/)** package. The model is embedded into a **[KubeFlow](https://www.kubeflow.org/)** **[pipeline](https://www.kubeflow.org/docs/pipelines/)**.
 
