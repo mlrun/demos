@@ -1,10 +1,10 @@
 # Real-time face recognition with deep learning 
 
-This example is using face recognition, OpenCV, scikit-learn and Nuclio demonstrating end to end solution for real time face recognition over video stream. 
+This example is using face recognition, OpenCV, PyTorch and Nuclio demonstrating end to end solution for real time face recognition over video stream. 
 <br>It consists of 5 MLRun and Nuclio functions:
 
 <br>1. face recognition and encoding in photos using OpenCV deep learning model. from [Notebook](notebooks/face-recognition.ipynb)
-<br>2. train and ouput sklearn predictor based on the extracted encodings. from [Notebook](notebooks/face-recognition.ipynb)
+<br>2. train and ouput PyTorch predictor based on the extracted encodings. from [Notebook](notebooks/face-recognition.ipynb)
 <br>3. automated deployment of Nuclio model serving function. from [Notebook](notebooks/nuclio-face-prediction.ipynb) 
 <br>4. client that records video, streams the data into file system and triggers the serving function.  
 <br>5. labeling unrecognized faces using interactive dashboard built with streamlit. from [Code](./streamlit/dashboard.py)
