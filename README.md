@@ -30,7 +30,7 @@ Demonstrate a popular big data, machine learning competition use case (the HIGGS
 
 The first step is retrieveing and storing the data in parquet fromat, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
 
-<br><p align="center"><img src="./lightgbm/atlas-higgs.png" width="500"/></p><br>
+<br><p align="center"><img src="./lightgbm/images/atlas-higgs.png" width="500"/></p><br>
 
 
 ## [Image Classification Using Distributed Training (Horovod)](image_classification/README.md)
