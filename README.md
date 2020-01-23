@@ -60,7 +60,7 @@ data preparation, model training, and automated model deployment.
 
 > work in progress 
 
-## [Running Serverless Spark](spark/mlrun_sparkk8s.ipynb)
+## [Running Serverless Spark](spark/mlrun-sparkk8s.ipynb)
 
 Demonstrate how the same spark job can run locally and as a distributed MLRun job over Kubernetes.
 The Spark function can be incorporated as a step in various data preparation and machine learning scenarios.
