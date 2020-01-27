@@ -15,7 +15,7 @@ The Example also demonstrate an [automated pipeline](mlrun-mpijob-pipe.ipynb) us
 ## Notebooks & Code
 
 * [All-in-one: Import, tag, launch training, deploy serving](mlrun-mpijob-classify.ipynb) 
-* [Training function code](horovod-training.py)
+* [Training function code](horovod_training.py)
 * [Serving function development and testing](nuclio-serving-tf-images.ipynb)
 * [Auto generation of KubeFlow pipelines workflow](mlrun-mpijob-pipe.ipynb)
 * [Building serving function using Dockerfile](./inference-docker)
