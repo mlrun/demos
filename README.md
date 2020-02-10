@@ -33,13 +33,13 @@ The first step is retrieveing and storing the data in parquet fromat, partitioni
 <br><p align="center"><img src="./lightgbm/atlas-higgs.png" width="500"/></p><br>
 
 
-## [Image Classification Using Distributed Training (Horovod)](image_classification/README.md)
+## [Image Classification Using Distributed Training (Horovod)](image-classification/README.md)
 
 Demonstrate a use case of image classification using TensorFlow, Keras and Horovod.
 
 The demo includes 4 steps: download the images repository, label the images, run a distributed job over MPI (Horovod), and finally, deploy the model serving Nuclio function.
 
-<br><p align="center"><img src="./image_classification/hvd-pipe.png" width="500"/></p><br>
+<br><p align="center"><img src="./image-classification/hvd-pipe.png" width="500"/></p><br>
 
 ## [Real-time face recognition with re-enforced learning](faces/README.md)
 
@@ -60,7 +60,7 @@ data preparation, model training, and automated model deployment.
 
 > work in progress 
 
-## [Running Serverless Spark](spark/mlrun_sparkk8s.ipynb)
+## [Running Serverless Spark](spark/mlrun-sparkk8s.ipynb)
 
 Demonstrate how the same spark job can run locally and as a distributed MLRun job over Kubernetes.
 The Spark function can be incorporated as a step in various data preparation and machine learning scenarios.
