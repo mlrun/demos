@@ -6,11 +6,11 @@ model training and automated deployment.
 The examples demonstrate how you can:
  * Run pipelines on locally on a notebook.
  * Run some or all tasks on an elastic Kubernetes cluster using serverless functions.
- * Create automated ML workflows using [KubeFlow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
+ * Create automated ML workflows using [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
 
 The demo applications are tested on the [Iguazio's Data Science PaaS](https://www.iguazio.com/), 
 and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the 
-```apply(v3io_mount())``` calls with other KubeFlow volume modifiers. You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
+```apply(v3io_mount())``` calls with other Kubeflow volume modifiers. You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
 
 Pre-requisites:
 * A Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).

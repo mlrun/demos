@@ -11,7 +11,7 @@ This example is using face recognition, OpenCV, scikit-learn and Nuclio demonstr
  
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
-The example also demonstrates an [automated pipeline](notebooks/face-recognition.ipynb) using MLRun and KubeFlow pipelines, 
+The example also demonstrates an [automated pipeline](notebooks/face-recognition.ipynb) using MLRun and Kubeflow pipelines, 
 including using iguazio key value store and TSDB(Time Series Data Base) to store meta data and tracking data
 of an the identified and un-identified faces.
 ## Notebooks & Code
