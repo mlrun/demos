@@ -19,5 +19,5 @@ of an the identified and un-identified faces.
 * [Video Stream client](client/README.md)
 * [All-in-one: import, launch training, deploy serving function](notebooks/face-recognition.ipynb)  
 * [Serving function development and testing](notebooks/nuclio-face-prediction.ipynb)
-* [client for streaming data into iguazio](./client/VideoCapture.py)
+* [client for streaming data into iguazio](client/video_capture.py)
 * [labeling unknown images and retrain model on newly collected data](./streamlit/dashboard.py)  
