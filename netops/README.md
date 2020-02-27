@@ -1,33 +1,34 @@
-# Predictive Network/Telemetry Monitoring
+# Predictive Telemetry/Network Operations (NetOps) Monitoring
 
-## **WIP**
+## **WORK IN PROGRESS**
 
-The netops demo demonstrates predictive infrastructure monitoring: the application builds, trains, and deploys a machine-learning model for analyzing and predicting failure in network devices as part of a network operations (NetOps) flow.
+This demo demonstrates predictive infrastructure monitoring: the application builds, trains, and deploys a machine-learning model for analyzing and predicting failure in network devices as part of a network-operations (NetOps) flow.
 
 ## Demo structure
 
-The demo is comprised of five main parts:
+The demo consists of five main parts:
 
-### [Generator](nuclio-generator.ipynb):
+### [Generator](nuclio-generator.ipynb)
 
-Using our open source deployment generator (Which you can pip install here) we create a network deployment (Defaults to Company, Data center, Device).
-We then add our metrics via metrics configuration. (Defaults to CPU Utilization, Latency, Throughput, Packet loss).
+Using the open-source deployment generator (which you can `pip install` here), create a network deployment (defaults to `Company`, `Data center`, and `Device`).
+Then, add your metrics via metrics configuration (defaults to `CPU Utilization`, `Latency`, `Throughput`, and `Packet loss`).
 
-The generator can create both normal device metrics as defined by the Yaml, and error scenarios that cascade through the metrics until the device reaches a critical failure.
+The generator can create both normal device metrics, as defined in the YAML file, and error scenarios that cascade through the metrics until the device reaches a critical failure.
 
-### [Data Preprocessing](nuclio-data-preperations.ipynb):
+### [Data preprocessing](nuclio-data-preperations.ipynb)
 
-Turning the device's metrics stream to a feature vector using aggregations from multiple timespans (Current, Minutely, Hourly)
+Turning the device's metrics stream to a feature vector using aggregations from multiple time spans (current, ,minutely, or hourly)
 
-### [Training](nuclio-training.ipynb):
+### [Training](nuclio-training.ipynb)
 
-Using the feature vectors from the previous steps, and the is_error metrics given by the generator, train a ML model (Spans from scikit based to XGBoost & TF).
+Using the feature vectors from the previous steps, and the `is_error` metrics given by the generator, train an ML model; (spans from scikit-learn based to XGBoost and TensorFlow).
 The model is then saved to a file for future usage.
 
-### [Inference](nuclio-inference.ipynb):
+### [Inference](nuclio-inference.ipynb)
 
-Using the model file from the previous step and the feature vectors created by the Preprocessing stage, predict if a device is about to fail.
+Using the model file from the previous step and the feature vectors created in the preprocessing stage, predict whether a device is about to fail.
 
-### [MLRun - Pipeline](mlrun.ipynb)
+### [MLRun pipeline](mlrun.ipynb)
 
-Using MLRun to create a pipeline from the four process nuclio functions.
+Using MLRun to create a pipeline from the four process Nuclio functions.
+

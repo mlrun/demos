@@ -1,24 +1,17 @@
 # Image Classification Using Distributed Training
 
-This example is using TensorFlow, Horovod, and Nuclio demonstrating end to end solution for image classification, 
-it consists of 4 MLRun and Nuclio functions:
+This demo uses TensorFlow, Keras, Horovod, and Nuclio to demonstrate an end-to-end solution for image recognition and classification.
 
-1. import an image archive from S3 to the cluster file system
-2. Tag the images based on their name structure 
-3. Distributed training using TF, Keras and Horovod
-4. Automated deployment of Nuclio model serving function (form [Notebook](nuclio-serving-tf-images.ipynb) and from [Dockerfile](./inference-docker))
+The demo consists of four MLRun and Nuclio functions for perming the following tasks:
+
+1. Import an image archive from AWS S3 to the data store of the Iguazio Data Science Platform ("the platform") &mdash; see the [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook.
+2. Tag the images based on their name structure &mdash; see the [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook.
+3. Perform distributed training using [TensorFlow](https://www.tensorflow.org/), [Keras](https://keras.io/), and [Horovod](https://eng.uber.com/horovod/) &mdash; see the [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook and the [**horovod_training.py**](horovod_training*.py) Python application.
+4. Automate deployment of a [Nuclio](https://nuclio.io/) model serving function for serving the training model &mdash; from a web notebook &mdash; see [**nuclio-serving-tf-images.ipynb**](nuclio-serving-tf-images.ipynb) &mdash; or from a Dockerfile file &mdash; see the [**inference-docker**](inference-docker) directory, which contains a [**Dockerfile**](inference-docker/Dockerfile) and the related function code ([**main.py**](inference-docker/main.py)).
 
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
-The Example also demonstrate an [automated pipeline](mlrun-mpijob-pipe.ipynb) using MLRun and Kubeflow pipelines 
+The demo also demonstrates ML pipeline automation from a web notebook using MLRun and [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) &mdash; see [**mlrun-mpijob-pipe.ipynb**](mlrun-mpijob-pipe.ipynb).
 
-## Notebooks & Code
-
-* [All-in-one: Import, tag, launch training, deploy serving](mlrun-mpijob-classify.ipynb) 
-* [Training function code](horovod_training.py)
-* [Serving function development and testing](nuclio-serving-tf-images.ipynb)
-* [Auto generation of Kubeflow pipelines workflow](mlrun-mpijob-pipe.ipynb)
-* [Building serving function using Dockerfile](./inference-docker)
-  * [function code](./inference-docker/main.py)
-  * [Dockerfile](./inference-docker/Dockerfile)
+> **Note:** You can use the all-in-one [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook to run all tasks.
 

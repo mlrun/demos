@@ -1,67 +1,87 @@
-# End to End MLRun Demos
+# MLRun Demos &mdash; End-to-End Use-Case Applications
 
-The following examples demonstrate complete machine learning pipelines which include data collection, data preparation, 
-model training and automated deployment. 
+The MLRun demos are end-to-end use-case applications that demonstrate complete machine-learning ("ML") pipelines &mdash; including data collection and preparation, model training, and deployment automation.
 
-The examples demonstrate how you can:
- * Run pipelines on locally on a notebook.
- * Run some or all tasks on an elastic Kubernetes cluster using serverless functions.
- * Create automated ML workflows using [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
+#### In This Document
 
-The demo applications are tested on the [Iguazio's Data Science PaaS](https://www.iguazio.com/), 
-and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the 
-```apply(v3io_mount())``` calls with other Kubeflow volume modifiers. You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [XGBoost classification with hyperparameters (Iris data set)](#xgboost-demo)
+- [LightGBM classification with hyperparameters (HIGGS data set)](#lightgbm-demo)
+- [Image classification using distributed training (Horovod)](#image-classification-demo)
+- [Real-time face recognition with deep learning](#faces-demo)
+- [Predictive telemetry/network operations (NetOps) monitoring](#netops-demo) [WORK IN PROGRESS]
+- [Serverless Spark](#serverless-spark-demo)
 
-Pre-requisites:
-* A Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).
-* MLRun RESTfull DB installed (httpd), [see YAML](https://github.com/mlrun/mlrun/blob/master/hack/mlrundb.yaml) (alternatively can use a shared file system to store metadata).
+## Overview
 
-## [XGBoost Classification with Hyper Parameters (Iris dataset)](xgboost/README.md)
+The demos demonstrate how you can
 
-Demonstrate a popular machine learning use case (iris dataset) and how to run training in parallel with hyper-parameters.
+- Run pipelines locally from a web notebook such as Jupyter Notebook.
+- Run some or all tasks on an elastic Kubernetes cluster by using serverless functions.
+- Create automated ML workflows using [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
 
-The first step is injecting the iris dataset, followed by parallel XGBoost training, and automated model deployment
+The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com/) ("the platform") and use its shared data fabric, which is accessible via the `v3io` file-system mount; if you're not already a platform user, [request a free trial](https://go.iguazio.com/start-your-free-triail).
+You can also modify the code to work with any shared file storage by replacing the `apply(v3io_mount())` calls with any other Kubeflow volume modifier.
+
+## Prerequisites
+
+To run the MLRun demos, first do the following:
+
+- Prepare a Kubernetes cluster with preinstalled operators or custom resources (CRDs) for Horovod, Nuclio, and/or Spark &mdash; depending on the demos that you wish to run.
+- Install the MLRun RESTful database (DB), which uses the Apache HTTP Server ("httpd"); see [**mlrundb.yaml**](https://github.com/mlrun/mlrun/blob/master/hack/mlrundb.yaml).
+  Alternatively, you can use a shared file system to store metadata.
+
+<a id="xgboost-demo"></a>
+## XGBoost classification with hyperparameters (Iris data set)
+
+The XGBoost classification demo ([**xgboost**](xgboost/README.md)) demonstrates how to implement a popular machine-learning use case &mdash; binary classification on the Iris data set &mdash; and run model training in parallel with hyperparameters.
+
+The demo injects the Iris data set, runs parallel [XGBoost](https://xgboost.readthedocs.io) model training with hyperparameters, and automates the model deployment.
 
 <br><p align="center"><img src="./xgboost/trees.png" width="500"/></p><br>
 
-## [LighGBM Classification with Hyper Parameters (HIGGS dataset)](lightgbm/README.md)
+<a id="lightgbm-demo"></a>
+## LightGBM classification with hyperparameters (HIGGS data set)
 
-Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI dataset) and how to run training in parallel with hyper-parameters.
+The LightGBM classification demo ([**lightgbm**](lightgbm/README.md)) demonstrates how to implement a popular machine-learning competition use case &mdash; binary classification on the HIGGS data set &mdash; and run model training in parallel with hyperparameters.
 
-The first step is retrieveing and storing the data in parquet fromat, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
+The demo retrieves and stores the data in Parquet format, partitioning it into training, validation and test sets; runs parallel [LightGBM](https://github.com/microsoft/LightGBM) model training; and automates the model deployment.
 
 <br><p align="center"><img src="./lightgbm/atlas-higgs.png" width="500"/></p><br>
 
+<a id="image-classification-demo"></a>
+## Image classification using distributed training (Horovod)
 
-## [Image Classification Using Distributed Training (Horovod)](image-classification/README.md)
+The image-classification demo ([**image-classification**](image-classification/README.md)) demonstrates a use case of image recognition and classification using [TensorFlow](https://www.tensorflow.org/), [Keras](https://keras.io/), and [Horovod](https://eng.uber.com/horovod/).
 
-Demonstrate a use case of image classification using TensorFlow, Keras and Horovod.
-
-The demo includes 4 steps: download the images repository, label the images, run a distributed job over MPI (Horovod), and finally, deploy the model serving Nuclio function.
+The demo downloads the images repository; identities (recognizes) and classifies (labels) the images by using TensorFlow and Keras; runs a distributed Horovod job over MPI; and finally, deploys a Nuclio function for serving the model.
 
 <br><p align="center"><img src="./image-classification/hvd-pipe.png" width="500"/></p><br>
 
-## [Real-time face recognition with re-enforced learning](faces/README.md)
+<a id="faces-demo"></a>
+## Real-time face recognition with deep learning
 
-Demonstrate real-time face image capture, recognition, and location tracking of identities.
+The face-recognition demo ([**faces**](faces/README.md)) demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
-This comprehensive demonstration includes multiple components: a live image capture utility, image identification and tracking, a labeling app to tag unidentified faces using Streamlit, and model training.
+This comprehensive demo includes multiple components: a live image capture utility; image identification (recognition) and tracking using [OpenCV](https://opencv.org/); a labeling application for tagging unidentified faces using [Streamlit](https://www.streamlit.io/); model training using [PyTorch](https://pytorch.org); and automated model deployment using [Nuclio](https://nuclio.io/).
 
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
+<a id="netops-demo"></a>
+## Predictive telemetry/network operations (NetOps) monitoring
 
-## [Predictive Network/Telemetry Monitoring](netops/README.md)
+The predictive network-operations (NetOps) demo ([**netops**](netops/README.md)) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation, model training, and automated model deployment.
 
-Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
-data preparation, model training, and automated model deployment.
+> **Note:** This demos is currently work in progress.
 
 <br><p align="center"><img src="./netops/netops-metrics.png" width="500"/></p><br>
 
+<a id="serverless-spark-demo"></a>
+## Serverless Spark
 
-> work in progress 
+The serverless Spark demo ([**mlrun-sparkk8s**](spark/mlrun-sparkk8s.ipynb)) demonstrates how to run the same spark job locally and as a distributed MLRun job over Kubernetes.
+The Spark function can be incorporated as a step in various data-preparation and machine-learning scenarios.
+<!-- [c-serverless-spark-demo] TODO: Link to the spark/README.md file when
+  updated. -->
 
-## [Running Serverless Spark](spark/mlrun-sparkk8s.ipynb)
-
-Demonstrate how the same spark job can run locally and as a distributed MLRun job over Kubernetes.
-The Spark function can be incorporated as a step in various data preparation and machine learning scenarios.
- 

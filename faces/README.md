@@ -1,23 +1,20 @@
-# Real-time face recognition with deep learning 
+# Real-time Face Recognition with Deep Learning 
 
-This example is using face recognition, OpenCV, scikit-learn and Nuclio demonstrating end to end solution for real time face recognition over video stream. 
-<br>It consists of 5 MLRun and Nuclio functions:
+This demo uses OpenCV, PyTorch, and Nuclio to demonstrate an end-to-end solution for real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
-<br>1. face recognition and encoding in photos using OpenCV deep learning model. from [Notebook](notebooks/face-recognition.ipynb)
-<br>2. train and ouput sklearn predictor based on the extracted encodings. from [Notebook](notebooks/face-recognition.ipynb)
-<br>3. automated deployment of Nuclio model serving function. from [Notebook](notebooks/nuclio-face-prediction.ipynb) 
-<br>4. client that records video, streams the data into file system and triggers the serving function.  
-<br>5. labeling unrecognized faces using interactive dashboard built with streamlit. from [Code](./streamlit/dashboard.py)
+The demo consists of five MLRun and Nuclio functions for performing the following tasks:
+
+1. Identify (recognize) faces from webcam pictures and encode the processed images by using the [OpenCV](https://opencv.org/) deep-learning model &mdash; see the [**notebooks/face-recognition.ipynb**](notebooks/face-recognition.ipynb) notebook.
+
+2. Train an model ML model and generate a predictor based on the extracted encodings by using [PyTorch](https://pytorch.org) &mdash; see the [**notebooks/face-recognition.ipynb**](notebooks/face-recognition.ipynb) notebook.
+
+3. Automate deployment of a [Nuclio](https://nuclio.io/) function for serving the training model &mdash; see the [**notebooks/nuclio-face-prediction.ipynb**](notebooks/nuclio-face-prediction.ipynb) notebook.
+
+4. Record video, stream the data to the data store of the Iguazio Data Science Platform ("the platform"), and trigger the serving function by using the demo's client application &mdash; see the [**client**](client/README.md) directory and files.
+
+5. Classify and label unrecognized faces by using an interactive dashboard built with [Streamlit](https://www.streamlit.io/) &mdash; see the [**streamlit/dashboard.py**](streamlit/dashboard.py) Python application.
  
 <br><p align="center"><img src="workflow.png" width="600"/></p><br>
 
-The example also demonstrates an [automated pipeline](notebooks/face-recognition.ipynb) using MLRun and Kubeflow pipelines, 
-including using iguazio key value store and TSDB(Time Series Data Base) to store meta data and tracking data
-of an the identified and un-identified faces.
-## Notebooks & Code
+The demo also demonstrates ML pipeline automation from a web notebook using MLRun and [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/), including using the platform's NoSQL (key-value) data store and time-series database (TSDB) library to store metadata and track location data for the identified and unidentified faces &mdash; see [**notebooks/face-recognition.ipynb**](notebooks/face-recognition.ipynb).
 
-* [Video Stream client](client/README.md)
-* [All-in-one: import, launch training, deploy serving function](notebooks/face-recognition.ipynb)  
-* [Serving function development and testing](notebooks/nuclio-face-prediction.ipynb)
-* [client for streaming data into iguazio](./client/VideoCapture.py)
-* [labeling unknown images and retrain model on newly collected data](./streamlit/dashboard.py)  
