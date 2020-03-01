@@ -6,6 +6,7 @@ from video.v3io_image import V3ioImage
 import logging
 import socket
 import requests
+import json
 
 
 INIT_FILE_PATH = "config/init.ini"
@@ -25,7 +26,10 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
                 cv2.imshow('frame', frame)
                 vi = V3ioImage(logger, frame, CAMERA_NAME)
                 img_json = vi.image_json
-                future = {executor.submit(logger.info(requests.request("POST", app_conf.nuclio_url, json=img_json)))}
+                logger.debug(img_json)
+                response = requests.request("POST", app_conf.nuclio_url, json=img_json)
+                logger.info(response.content)
+                # future = {executor.submit(logger.info(requests.request("POST", app_conf.nuclio_url, json=img_json)))}
             else:
                 logger.error("read cap failed")
             if cv2.waitKey(1) & 0xFF == ord('q'):

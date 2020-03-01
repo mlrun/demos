@@ -37,7 +37,7 @@ class V3ioImage(AbsImage):
         return json.dumps({"content":self.image_str, "time":self.create_time, "camera":self.camera})
 
     def convert_frame_to_jpg_str(self):
-        #gray = VideoFrame.convert_frame_to_gray(frame)
+        #gray = self.convert_frame_to_gray(self.frame)
         #resized = cv2.resize(gray,(360,480))
         jpg = self.convert_to_jpg(self.frame)
         encoded = self.b64_encode_frame(jpg)
@@ -66,6 +66,11 @@ class V3ioImage(AbsImage):
         return txt_decoded_utf
 
     @staticmethod
+    def encode_from_utf(item):
+        txt_encoded_utf = item.encode('utf-8')
+        return txt_encoded_utf
+
+    @staticmethod
     def convert_to_jpg(frame):
         retval, buffer = cv2.imencode('.jpg', frame)
         if retval:
@@ -73,9 +78,8 @@ class V3ioImage(AbsImage):
         else:
             raise
 
-
-    @staticmethod
-    def jpg_str_to_frame(frame):
+    def jpg_str_to_frame(self,frame):
+        #utf_encoded_str =   self.encode_from_utf(frame)
         jpg_original = base64.b64decode(frame)
         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
         img = cv2.imdecode(jpg_as_np, flags=1)
