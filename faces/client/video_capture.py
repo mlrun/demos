@@ -9,12 +9,25 @@ import requests
 import json
 
 
+def get_conf_log_level(level):
+    if level == "debug":
+        return logging.DEBUG
+    if level == "info":
+        return logging.INFO
+    if level == "warn":
+        return logging.WARN
+    if level == "error":
+        return logging.ERROR
+
+
 INIT_FILE_PATH = "config/init.ini"
 NUMBER_OF_FRAMES = -1
 CAMERA_NAME = socket.gethostname()
 
-logger = Logger(level=logging.DEBUG)
-app_conf = AppConf(logger, INIT_FILE_PATH)
+
+app_conf = AppConf(INIT_FILE_PATH)
+logger = Logger(level=get_conf_log_level(app_conf.log_level))
+
 cap = cv2.VideoCapture(0)
 count = NUMBER_OF_FRAMES
 with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
@@ -27,9 +40,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
                 vi = V3ioImage(logger, frame, CAMERA_NAME)
                 img_json = vi.image_json
                 logger.debug(img_json)
-                response = requests.request("POST", app_conf.nuclio_url, json=img_json)
-                logger.info(response.content)
-                # future = {executor.submit(logger.info(requests.request("POST", app_conf.nuclio_url, json=img_json)))}
+                future = {executor.submit(logger.info(requests.request("POST", app_conf.nuclio_url, json=img_json).content))}
             else:
                 logger.error("read cap failed")
             if cv2.waitKey(1) & 0xFF == ord('q'):
