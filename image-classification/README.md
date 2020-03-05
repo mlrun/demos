@@ -2,7 +2,7 @@
 
 This demo uses TensorFlow, Keras, Horovod, and Nuclio to demonstrate an end-to-end solution for image recognition and classification.
 
-The demo consists of four MLRun and Nuclio functions for perming the following tasks:
+The demo consists of four MLRun and Nuclio functions for performing the following tasks:
 
 1. Import an image archive from AWS S3 to the data store of the Iguazio Data Science Platform ("the platform") &mdash; see the [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook.
 2. Tag the images based on their name structure &mdash; see the [**mlrun-mpijob-classify.ipynb**](mlrun-mpijob-classify.ipynb) notebook.
