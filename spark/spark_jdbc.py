@@ -1,4 +1,4 @@
-# Pyspark example called by mlrun_sparkk8s.ipynb
+# Pyspark example called by mlrun-sparkk8s.ipynb
 import os
 # Iguazio env
 V3IO_USER = os.getenv('V3IO_USERNAME')
