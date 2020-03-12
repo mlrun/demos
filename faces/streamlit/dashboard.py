@@ -15,7 +15,7 @@ def load_images(data_path):
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True)
+    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
