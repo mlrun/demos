@@ -14,21 +14,9 @@ cd mlrun/demos/faces/client
 
 [app] <br>
 log_level=info <br> 
-partition = true <br>
-
-[webapi] <br>
-url = _**web api https url**_ <br>
-container = _**container**_ <br>
-stream_name = _**stream name**_ <br>
 
 [nuclio] <br>
 url = _**nuclio fucntion api**_ <br>
-mount = /User <br>
-
-[auth] <br>
-username = _**user name**_ <br>
-password = _**password**_ <br>
-session_key = _**platform access key**_ <br>
 
 ## run the client
 python VideoCapture.py

@@ -7,7 +7,6 @@ import v3io_frames as v3f
 import os
 import shutil
 import datetime
-from PIL import Image
 
 
 def load_images(data_path):
@@ -32,7 +31,7 @@ def generate_image_collage(num_of_images, images):
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True, filter="label!=-1")
+    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True)
 
 
 if __name__ == '__main__':
@@ -56,7 +55,7 @@ if __name__ == '__main__':
         # Are there any images left to tag?
         # - Yes
         if len(images) > 0:
-            im = Image.open('label_pending/20191216081622.jpg')
+            #im = Image.open('label_pending/20191216081622.jpg')
 
             # Show image select box
             #idx = st.selectbox('Choose picture to label', range(len(images)))
