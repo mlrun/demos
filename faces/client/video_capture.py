@@ -6,7 +6,7 @@ from video.v3io_image import V3ioImage
 import logging
 import socket
 import requests
-import json
+
 
 
 def get_conf_log_level(level):
