@@ -16,11 +16,11 @@ Pre-requisites:
 * A Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).
 * MLRun Service installed (httpd), [see instructions](https://github.com/mlrun/mlrun/blob/master/README.md#installation) (alternatively can use a shared file system to store metadata).
 
-## [XGBoost Classification with Hyper Parameters (Iris dataset)](https://github.com/mlrun/demo-xgb-project)
+## [Data exploration and end to end Sklearn pipeline (Iris dataset)](./sklearn-pipe/sklearn-project.ipynb)
 
-Demonstrate a popular machine learning use case (iris dataset) and how to run training in parallel with hyper-parameters.
+Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated pipeline.
 
-The first step is injecting the iris dataset, followed by parallel XGBoost training, and automated model deployment
+The first step is injecting the iris dataset, followed by data exploration, building an automated ML training and testing pipeline, and automated model deployment
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
