@@ -20,7 +20,9 @@ Pre-requisites:
 
 Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated pipeline.
 
-The first step is injecting the iris dataset, followed by data exploration, building an automated ML training and testing pipeline, and automated model deployment
+The first step is injecting the iris dataset, followed by data exploration, building an automated ML training and testing pipeline, and automated model deployment.
+
+to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-project.ipynb) into an empty directory and run the cells one by one.
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
