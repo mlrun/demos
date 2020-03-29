@@ -36,7 +36,7 @@ The first step is retrieveing and storing the data in parquet fromat, partitioni
 
 
 
-## [Image Classification Using Distributed Training (Horovod)](https://github.com/mlrun/demo-image-classification)
+## [Image Classification Using Distributed Training (Horovod)](horovod-pipe/horovod-project.ipynb)
 
 Demonstrate a use case of image classification using TensorFlow, Keras and Horovod.
 
