@@ -18,7 +18,7 @@ Pre-requisites:
 
 ## [Data exploration and end to end Sklearn pipeline (Iris dataset)](./sklearn-pipe/sklearn-project.ipynb)
 
-Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated pipeline.
+Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated ML pipeline.
 
 The first step is injecting the iris dataset, followed by data exploration, building an automated ML training and testing pipeline, and automated model deployment.
 
@@ -26,21 +26,25 @@ to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-p
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
-## [LighGBM Classification with Hyper Parameters (HIGGS dataset)]()
 
-*TBD*
+#### Pipeline output:
 
-Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI dataset) and how to run training in parallel with hyper-parameters.
-
-The first step is retrieveing and storing the data in parquet fromat, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
-
+<br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
 
 ## [Image Classification Using Distributed Training (Horovod)](horovod-pipe/horovod-project.ipynb)
 
-Demonstrate a use case of image classification using TensorFlow, Keras and Horovod.
+This example is using TensorFlow, Horovod, and Nuclio demonstrating end to end solution for image classification, 
+it consists of 4 MLRun and Nuclio functions and Kubeflow Pipelines Orchastration:
 
-The demo includes 4 steps: download the images repository, label the images, run a distributed job over MPI (Horovod), and finally, deploy the model serving Nuclio function.
+1. **Download**: import an image archive from S3 to the cluster file system
+2. **Label**: Tag the images based on their name structure 
+3. **Traing**: Distrubuted training using TF, Keras and Horovod
+4. **Inference**: Automated deployment of Nuclio model serving function 
+
+<br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
+
+#### Pipeline output:
 
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
 
@@ -49,6 +53,8 @@ The demo includes 4 steps: download the images repository, label the images, run
 Demonstrate real-time face image capture, recognition, and location tracking of identities.
 
 This comprehensive demonstration includes multiple components: a live image capture utility, image identification and tracking, a labeling app to tag unidentified faces using Streamlit, and model training.
+
+#### Pipeline output:
 
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
@@ -59,4 +65,13 @@ Demonstrate ingestion of telemetry data from simulator or live stream, feature e
 data preparation, model training, and automated model deployment.
 
 <br><p align="center"><img src="./netops/netops-metrics.png" width="500"/></p><br>
+
+## [LighGBM Classification with Hyper Parameters (HIGGS dataset)]()
+
+**TBD under construction**
+
+Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI dataset) and how to run training in parallel with hyper-parameters.
+
+The first step is retrieveing and storing the data in parquet fromat, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
+
 
