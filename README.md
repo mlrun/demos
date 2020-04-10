@@ -44,7 +44,7 @@ to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-p
 
 #### Pipeline output:
 
-You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots)
+You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots) (static html files)
 
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
