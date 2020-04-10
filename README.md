@@ -1,10 +1,10 @@
 # End to End MLRun Demos
 
 The following examples demonstrate complete machine learning pipelines which include data collection, data preparation, 
-model training and automated deployment. 
+model training, validation and automated deployment. 
 
 The examples demonstrate how you can:
- * Run pipelines on locally on a notebook.
+ * Run ML functions and pipelines locally on a notebook.
  * Run some or all tasks on an elastic Kubernetes cluster using serverless functions.
  * Create automated ML workflows using [KubeFlow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
 
@@ -14,13 +14,28 @@ and use Iguazio's shared data fabric (v3io), and can be modified to work with an
 
 Pre-requisites:
 * A Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).
-* MLRun Service installed (httpd), [see instructions](https://github.com/mlrun/mlrun/blob/master/README.md#installation) (alternatively can use a shared file system to store metadata).
+* MLRun Service installed in the cluster, [see instructions](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
+* Shared file or object storage for the data/artifacts.
 
-## [Data exploration and end to end Sklearn pipeline (Iris dataset)](./sklearn-pipe/sklearn-project.ipynb)
+### The General ML Pipeline Flow 
+The various demos follow some or all of the steps shown in the diagram below:
+
+<br><p align="center"><img src="./docs/mlrun-pipeline.png" width="800"/></p><br>
+
+
+
+## [Data exploration and end to end Sklearn pipeline with AutoML (Iris dataset)](./sklearn-pipe/sklearn-project.ipynb)
 
 Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated ML pipeline.
 
-The first step is injecting the iris dataset, followed by data exploration, building an automated ML training and testing pipeline, and automated model deployment.
+The combined CI/Data/ML pipeline includes the following steps:
+* Build the iris generator (ingest) function container 
+* Ingest the iris data
+* Analyze the dataset features
+* Train and test the model using multiple algorithms (AutoML)
+* Deploy the model as a real-time serverless function
+* Test the serverless function REST API with test dataset
+
 
 to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-project.ipynb) into an empty directory and run the cells one by one.
 
@@ -28,6 +43,9 @@ to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-p
 
 
 #### Pipeline output:
+
+You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots)
+
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
@@ -59,12 +77,19 @@ This comprehensive demonstration includes multiple components: a live image capt
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
 
-## [Predictive Network/Telemetry Monitoring](netops/README.md)
+## [Predictive Network/Telemetry Monitoring](https://github.com/mlrun/demo-network-operations)
 
 Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
-data preparation, model training, and automated model deployment.
+data preparation (aggregation), model training, and automated model deployment.
 
-<br><p align="center"><img src="./netops/netops-metrics.png" width="500"/></p><br>
+The demo is maintained in a separate Git repository and also demonstrates how to manage project lifecycle using git.
+
+<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
+
+#### Pipeline output:
+
+<br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
+
 
 ## [LighGBM Classification with Hyper Parameters (HIGGS dataset)]()
 
