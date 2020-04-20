@@ -44,9 +44,9 @@ hvd.init()
 
 # if gpus found, pin GPU to be used to process local rank (one GPU per process)
 gpus = tf.config.experimental.list_physical_devices('GPU')
-for gpu in gpus:
-    tf.config.experimental.set_memory_growth(gpu, True)
 if gpus:
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
     tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
 else:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
