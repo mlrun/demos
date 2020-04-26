@@ -38,16 +38,15 @@ def init_functions(functions: dict, project=None, secrets=None):
 )
 def kfpipeline(
         image_archive='store:///images',
-        images_path='/User/mlrun/examples/images',
-        source_dir='/User/mlrun/examples/images/cats_n_dogs',
-        checkpoints_dir='/User/mlrun/examples/checkpoints',
-        model_path='models/cats_n_dogs.h5',
+        images_path='/User/artifacts/images',
+        source_dir='/User/artifacts/images/cats_n_dogs',
+        checkpoints_dir='/User/artifacts/checkpoints',
+        model_path='/User/artifacts/models/cats_n_dogs.h5',
         model_name='cat_vs_dog_v1'):
 
     # step 1: download images
     open_archive = funcs['utils'].as_step(name='download',
                                           handler='open_archive',
-                                          out_path=images_path,
                                           params={'target_dir': images_path},
                                           inputs={'archive_url': image_archive},
                                           outputs=['content'])
@@ -55,18 +54,17 @@ def kfpipeline(
     # step 2: label images
     label = funcs['utils'].as_step(name='label',
                                    handler='categories_map_builder',
-                                   out_path=images_path,
                                    params={'source_dir': source_dir},
                                    outputs=['categories_map',
                                             'file_categories']).after(open_archive)
 
     # step 3: train the model
     train = funcs['trainer'].as_step(name='train',
-                                     params={'epochs': 8,
+                                     params={'epochs': 2,
                                              'checkpoints_dir': checkpoints_dir,
                                              'model_path'     : model_path,
                                              'data_path'      : source_dir,
-                                             'batch_size'     : 224},
+                                             'batch_size'     : 256},
                                      inputs={
                                          'categories_map': label.outputs['categories_map'],
                                          'file_categories': label.outputs['file_categories']},
