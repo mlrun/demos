@@ -1,0 +1,4 @@
+state,iter,param.sample,param.label_column,param.test_size,param.model_pkg_class,output.rocauc,output.accuracy,output.f1_score
+completed,1,-1,label,0.1,sklearn.ensemble.RandomForestClassifier,0.9945117845117846,0.9411764705882353,0.9411764705882353
+completed,2,-1,label,0.1,sklearn.linear_model.LogisticRegression,0.9945117845117846,0.9705882352941176,0.9705882352941176
+completed,3,-1,label,0.1,sklearn.ensemble.AdaBoostClassifier,0.9931397306397306,0.9411764705882353,0.9411764705882353
