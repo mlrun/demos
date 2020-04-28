@@ -40,9 +40,9 @@ def kfpipeline(
         image_archive='store:///images',
         images_path='/User/artifacts/images',
         source_dir='/User/artifacts/images/cats_n_dogs',
-        checkpoints_dir='/User/artifacts/checkpoints',
-        model_path='/User/artifacts/models/cats_n_dogs.h5',
-        model_name='cat_vs_dog_v1'):
+        checkpoints_dir='/User/artifacts/models/tf2/checkpoints',
+        model_path='/User/artifacts/models/tf2/cats_n_dogs.h5',
+        model_name='cat_vs_dog_tfv2'):
 
     # step 1: download images
     open_archive = funcs['utils'].as_step(name='download',
