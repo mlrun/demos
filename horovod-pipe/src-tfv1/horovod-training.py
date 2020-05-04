@@ -24,7 +24,7 @@ from mlrun.artifacts import ChartArtifact
 # Acquire MLRun context and parameters:
 mlctx      = get_or_create_ctx('horovod-trainer')
 DATA_PATH       = mlctx.get_param('data_path')
-MODEL_PATH      = mlctx.get_param('model_path', 'models/model.hd5')
+MODEL_DIR       = mlctx.get_param('model_dir', 'models')
 CHECKPOINTS_DIR = mlctx.get_param('checkpoints_dir')
 IMAGE_WIDTH     = mlctx.get_param('image_width', 128)
 IMAGE_HEIGHT    = mlctx.get_param('image_height', 128)
@@ -58,7 +58,7 @@ if tf.test.gpu_device_name():
 K.set_session(tf.Session(config=config))
 
 if hvd.rank() == 0:
-    mlctx.logger.info('Validating paths:\nData_path:\t{D}\nModel_path:\t{M}\n'.format(D=DATA_PATH, M=MODEL_PATH))
+    mlctx.logger.info('Validating paths:\nData_path:\t{D}\nModel_dir:\t{M}\n'.format(D=DATA_PATH, M=MODEL_DIR))
     mlctx.logger.info('Categories map:{cm}'.format(cm=categories_map))
     mlctx.logger.info('Got {d} files in {D}'.format(d=df.shape[0], D=DATA_PATH))
     mlctx.logger.info('Training data has {s} samples'.format(s=df.size))
@@ -67,7 +67,6 @@ if hvd.rank() == 0:
 # artifact folders (deprecate these)
 os.makedirs(DATA_PATH, exist_ok=True)
 os.makedirs(CHECKPOINTS_DIR, exist_ok=True)
-os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 
 #
 # Training
@@ -184,22 +183,15 @@ history = model.fit(
 
 # save the model only on worker 0 to prevent failures ("cannot lock file")
 if hvd.rank() == 0:
-
-    MODEL_DIR = os.path.dirname(MODEL_PATH)
+    os.makedirs(MODEL_DIR, exist_ok=True)
+    model_artifacts = os.path.join(mlctx.artifact_path, MODEL_DIR)
 
     # log the epoch advancement
     mlctx.logger.info('history:', history.history)
+    print('MA:', model_artifacts)
 
     # Save the model file
-    model.save(MODEL_PATH)
-    mlctx.log_artifact('model', local_path=MODEL_PATH,
-                       labels={'framework': 'tensorflow'})
-
-    # Save architecture and weights
-    with open(os.path.join(MODEL_DIR, 'model-architecture.json'), 'w') as f:
-        f.write(model.to_json())
-    model.save_weights(os.path.join(MODEL_DIR, 'model-weights.h5'))
-
+    model.save(os.path.join(MODEL_DIR, 'model.h5'))
     # Produce training chart artifact
     chart = ChartArtifact('summary.html')
     chart.header = ['epoch', 'accuracy', 'val_accuracy', 'loss', 'val_loss']
@@ -208,9 +200,23 @@ if hvd.rank() == 0:
                        history.history['val_accuracy'][i],
                        history.history['loss'][i],
                        history.history['val_loss'][i]])
-    mlctx.log_artifact(
-        chart, local_path='training-summary.html', artifact_path=MODEL_DIR)
+    summary = mlctx.log_artifact(
+        chart, local_path='training-summary.html', artifact_path=model_artifacts)
+    
+
+    # Save weights
+    model.save_weights('model-weights.h5')
+    weights = mlctx.log_artifact('model-weights', local_path='model-weights.h5', artifact_path=model_artifacts)
 
     # Log results
     mlctx.log_result('loss', float(history.history['loss'][EPOCHS - 1]))
     mlctx.log_result('accuracy', float(history.history['accuracy'][EPOCHS - 1]))
+
+    mlctx.log_model('model', model_dir=MODEL_DIR, model_file='model.h5',
+                    labels={'framework': 'tensorflow'},
+                    metrics=mlctx.results, extra_data={
+                        'training-summary': summary.target_path,
+                        'model-architecture.json': bytes(model.to_json(), encoding='utf8'),
+                        'model-weights.h5': weights.target_path,
+                        'categories_map': mlctx.get_input('categories_map').url
+                    })
