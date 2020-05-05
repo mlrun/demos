@@ -52,13 +52,15 @@ You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots) (st
 
 ## [Image Classification Using Distributed Training (Horovod)](horovod-pipe/horovod-project.ipynb)
 
-This example is using TensorFlow, Horovod, and Nuclio demonstrating end to end solution for image classification, 
+This example is using TensorFlow (v1 or v2), Horovod, and Nuclio demonstrating end to end solution for image classification, 
 it consists of 4 MLRun and Nuclio functions and Kubeflow Pipelines Orchastration:
 
 1. **Download**: import an image archive from S3 to the cluster file system
 2. **Label**: Tag the images based on their name structure 
-3. **Traing**: Distrubuted training using TF, Keras and Horovod
+3. **Traing**: Distrubuted training using TF1 or TF2, Keras and Horovod
 4. **Inference**: Automated deployment of Nuclio model serving function 
+
+> Note the demo supports both TensorFlow 1 & 3, there is one (shared) notebook and two code files (one per TF version)
 
 <br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
 
