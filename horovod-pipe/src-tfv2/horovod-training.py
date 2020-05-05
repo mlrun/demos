@@ -211,8 +211,8 @@ if hvd.rank() == 0:
     mlctx.log_model('model', artifact_path=model_artifacts, model_file='model.h5',
                     labels={'framework': 'tensorflow'},
                     metrics=mlctx.results, extra_data={
-                        'training-summary': summary.target_path,
+                        'training-summary': summary,
                         'model-architecture.json': bytes(model.to_json(), encoding='utf8'),
-                        'model-weights.h5': weights.target_path,
+                        'model-weights.h5': weights,
                         'categories_map': mlctx.get_input('categories_map').url
                     })
