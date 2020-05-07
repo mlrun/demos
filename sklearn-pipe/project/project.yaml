@@ -13,9 +13,19 @@ functions:
       args: []
       env: []
       default_handler: ''
+      entry_points:
+        iris_generator:
+          name: iris_generator
+          doc: ''
+          parameters:
+          - name: context
+          - name: format
+            default: csv
+          outputs: []
+          lineno: 11
       description: ''
       build:
-        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlciBvbiAyMDIwLTA0LTEwIDIwOjUwCgppbXBvcnQgb3MKZnJvbSBza2xlYXJuLmRhdGFzZXRzIGltcG9ydCBsb2FkX2lyaXMKZnJvbSBza2xlYXJuLm1vZGVsX3NlbGVjdGlvbiBpbXBvcnQgdHJhaW5fdGVzdF9zcGxpdAppbXBvcnQgbnVtcHkgYXMgbnAKZnJvbSBza2xlYXJuLm1ldHJpY3MgaW1wb3J0IGFjY3VyYWN5X3Njb3JlCmZyb20gbWxydW4uYXJ0aWZhY3RzIGltcG9ydCBUYWJsZUFydGlmYWN0LCBQbG90QXJ0aWZhY3QKaW1wb3J0IHBhbmRhcyBhcyBwZAoKZGVmIGlyaXNfZ2VuZXJhdG9yKGNvbnRleHQsIGZvcm1hdD0nY3N2Jyk6CiAgICBpcmlzID0gbG9hZF9pcmlzKCkKICAgIGlyaXNfZGF0YXNldCA9IHBkLkRhdGFGcmFtZShkYXRhPWlyaXMuZGF0YSwgY29sdW1ucz1pcmlzLmZlYXR1cmVfbmFtZXMpCiAgICBpcmlzX2xhYmVscyA9IHBkLkRhdGFGcmFtZShkYXRhPWlyaXMudGFyZ2V0LCBjb2x1bW5zPVsnbGFiZWwnXSkKICAgIGlyaXNfZGF0YXNldCA9IHBkLmNvbmNhdChbaXJpc19kYXRhc2V0LCBpcmlzX2xhYmVsc10sIGF4aXM9MSkKICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbygnc2F2aW5nIGlyaXMgZGF0YWZyYW1lIHRvIHt9Jy5mb3JtYXQoY29udGV4dC5hcnRpZmFjdF9wYXRoKSkKICAgIGNvbnRleHQubG9nX2RhdGFzZXQoJ2lyaXNfZGF0YXNldCcsIGRmPWlyaXNfZGF0YXNldCwgZm9ybWF0PWZvcm1hdCwgaW5kZXg9RmFsc2UpCgo=
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlciBvbiAyMDIwLTA1LTA3IDIxOjAyCgppbXBvcnQgb3MKZnJvbSBza2xlYXJuLmRhdGFzZXRzIGltcG9ydCBsb2FkX2lyaXMKZnJvbSBza2xlYXJuLm1vZGVsX3NlbGVjdGlvbiBpbXBvcnQgdHJhaW5fdGVzdF9zcGxpdAppbXBvcnQgbnVtcHkgYXMgbnAKZnJvbSBza2xlYXJuLm1ldHJpY3MgaW1wb3J0IGFjY3VyYWN5X3Njb3JlCmZyb20gbWxydW4uYXJ0aWZhY3RzIGltcG9ydCBUYWJsZUFydGlmYWN0LCBQbG90QXJ0aWZhY3QKaW1wb3J0IHBhbmRhcyBhcyBwZAoKZGVmIGlyaXNfZ2VuZXJhdG9yKGNvbnRleHQsIGZvcm1hdD0nY3N2Jyk6CiAgICBpcmlzID0gbG9hZF9pcmlzKCkKICAgIGlyaXNfZGF0YXNldCA9IHBkLkRhdGFGcmFtZShkYXRhPWlyaXMuZGF0YSwgY29sdW1ucz1pcmlzLmZlYXR1cmVfbmFtZXMpCiAgICBpcmlzX2xhYmVscyA9IHBkLkRhdGFGcmFtZShkYXRhPWlyaXMudGFyZ2V0LCBjb2x1bW5zPVsnbGFiZWwnXSkKICAgIGlyaXNfZGF0YXNldCA9IHBkLmNvbmNhdChbaXJpc19kYXRhc2V0LCBpcmlzX2xhYmVsc10sIGF4aXM9MSkKICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbygnc2F2aW5nIGlyaXMgZGF0YWZyYW1lIHRvIHt9Jy5mb3JtYXQoY29udGV4dC5hcnRpZmFjdF9wYXRoKSkKICAgIGNvbnRleHQubG9nX2RhdGFzZXQoJ2lyaXNfZGF0YXNldCcsIGRmPWlyaXNfZGF0YXNldCwgZm9ybWF0PWZvcm1hdCwgaW5kZXg9RmFsc2UpCgo=
         base_image: mlrun/mlrun
         commands:
         - pip install sklearn
@@ -32,5 +42,35 @@ functions:
   name: live_tester
 workflows:
 - name: main
-  path: workflow.py
+  code: "from kfp import dsl\nfrom mlrun import mount_v3io\n\nfuncs = {}\nDATASET\
+    \ = 'iris_dataset'\nLABELS  = \"label\"\n\n\n# init functions is used to configure\
+    \ function resources and local settings\ndef init_functions(functions: dict, project=None,\
+    \ secrets=None):\n    for f in functions.values():\n        f.apply(mount_v3io())\n\
+    \     \n    # uncomment this line to collect the inference results into a stream\n\
+    \    # and specify a path in V3IO (<datacontainer>/<subpath>)\n    #functions['serving'].set_env('INFERENCE_STREAM',\
+    \ 'users/admin/model_stream')\n\n    \n@dsl.pipeline(\n    name=\"Demo training\
+    \ pipeline\",\n    description=\"Shows how to use mlrun.\"\n)\ndef kfpipeline():\n\
+    \    \n    # build our ingestion function (container image)\n    builder = funcs['gen-iris'].deploy_step(skip_deployed=True)\n\
+    \    \n    # run the ingestion function with the new image and params\n    ingest\
+    \ = funcs['gen-iris'].as_step(\n        name=\"get-data\",\n        handler='iris_generator',\n\
+    \        image=builder.outputs['image'],\n        params={'format': 'pq'},\n \
+    \       outputs=[DATASET])\n\n    # analyze our dataset\n    describe = funcs[\"\
+    describe\"].as_step(\n        name=\"summary\",\n        params={\"label_column\"\
+    : LABELS},\n        inputs={\"table\": ingest.outputs[DATASET]})\n    \n    #\
+    \ train with hyper-paremeters \n    train = funcs[\"train\"].as_step(\n      \
+    \  name=\"train-skrf\",\n        params={\"sample\"          : -1, \n        \
+    \        \"label_column\"    : LABELS,\n                \"test_size\"       :\
+    \ 0.10},\n        hyperparams={'model_pkg_class': [\"sklearn.ensemble.RandomForestClassifier\"\
+    , \n                                         \"sklearn.linear_model.LogisticRegression\"\
+    ,\n                                         \"sklearn.ensemble.AdaBoostClassifier\"\
+    ]},\n        selector='max.accuracy',\n        inputs={\"dataset\"         : ingest.outputs[DATASET]},\n\
+    \        outputs=['model', 'test_set'])\n\n    # test and visualize our model\n\
+    \    test = funcs[\"test\"].as_step(\n        name=\"test\",\n        params={\"\
+    label_column\": LABELS},\n        inputs={\"models_path\" : train.outputs['model'],\n\
+    \                \"test_set\"    : train.outputs['test_set']})\n\n    # deploy\
+    \ our model as a serverless function\n    deploy = funcs[\"serving\"].deploy_step(models={f\"\
+    {DATASET}_v1\": train.outputs['model']}, tag='v2')\n    \n    # test out new model\
+    \ server (via REST API calls)\n    tester = funcs[\"live_tester\"].as_step(name='model-tester',\n\
+    \        params={'addr': deploy.outputs['endpoint'], 'model': f\"{DATASET}_v1\"\
+    },\n        inputs={'table': train.outputs['test_set']})\n"
 artifacts: []
