@@ -1,104 +1,113 @@
-# End to End MLRun Demos
+# End-to End MLRun Demos
 
-The following examples demonstrate complete machine learning pipelines which include data collection, data preparation, 
-model training, validation and automated deployment. 
+<a id="overview"></a>
+## Overview
 
-The examples demonstrate how you can:
- * Run ML functions and pipelines locally on a notebook.
- * Run some or all tasks on an elastic Kubernetes cluster using serverless functions.
- * Create automated ML workflows using [KubeFlow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
+The following examples demonstrate complete machine learning pipelines which include data collection, data preparation,
+model training, validation and automated deployment.
 
-The demo applications are tested on the [Iguazio's Data Science PaaS](https://www.iguazio.com/), 
-and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the 
-```apply(v3io_mount())``` calls with other KubeFlow volume modifiers. You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
+The examples demonstrate how you can do the following:
 
-Pre-requisites:
-* A Kubernetes cluster with pre-installed operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).
-* MLRun Service installed in the cluster, [see instructions](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
-* Shared file or object storage for the data/artifacts.
+- Run ML functions and pipelines locally on a notebook.
+- Run some or all tasks on an elastic Kubernetes cluster using serverless functions.
+- Create automated ML workflows using [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/).
 
-### The General ML Pipeline Flow 
+The demo applications are tested on the [Iguazio's Data Science PaaS](https://www.iguazio.com/), and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the `apply(v3io_mount())` calls with other Kubeflow volume modifiers.
+You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
+
+<a id="prerequisites"></a>
+### Prerequisites
+
+- A Kubernetes cluster with preinstalled operators/CRDs for Horovod, Nuclio, Spark (depending on the specific demo).
+- MLRun Service installed in the cluster, [see instructions](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
+- Shared file or object storage for the data/artifacts.
+
+<a id="general-ml-flow"></a>
+### The General ML Pipeline Flow
+
 The various demos follow some or all of the steps shown in the diagram below:
 
 <br><p align="center"><img src="./docs/mlrun-pipeline.png" width="800"/></p><br>
 
+<a id="demo-sklearn-pipe"></a>
+## [Data Exploration and End-to-End scikit-learn (sklearn) Pipeline with AutoML (Iris Data Set)](./sklearn-pipe/sklearn-project.ipynb)
 
-
-## [Data exploration and end to end Sklearn pipeline with AutoML (Iris dataset)](./sklearn-pipe/sklearn-project.ipynb)
-
-Demonstrate a popular machine learning use case (iris dataset), how to explore the data and build an end to end automated ML pipeline.
+Demonstrate a popular machine learning use case (iris data set), how to explore the data and build an end to end automated ML pipeline.
 
 The combined CI/Data/ML pipeline includes the following steps:
-* Build the iris generator (ingest) function container 
-* Ingest the iris data
-* Analyze the dataset features
-* Train and test the model using multiple algorithms (AutoML)
-* Deploy the model as a real-time serverless function
-* Test the serverless function REST API with test dataset
 
+- Build the iris generator (ingest) function container.
+- Ingest the iris data.
+- Analyze the data-set features.
+- Train and test the model using multiple algorithms (AutoML).
+- Deploy the model as a real-time serverless function.
+- Test the serverless function REST API with a test data set.
 
-to start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-project.ipynb) into an empty directory and run the cells one by one.
+To start, download the notebook [sklearn-project.ipynb](./sklearn-pipe/sklearn-project.ipynb) into an empty directory and run the cells one by one.
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
+<a id="demo-sklearn-pipe-pipeline-output"></a>
+#### Pipeline Output
 
-#### Pipeline output:
-
-You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots) (static html files)
-
+You can see various output plots in [sklearn-pipe/plots](sklearn-pipe/plots) (static HTML files).
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
-
+<a id="demo-horovd-image-classification"></a>
 ## [Image Classification Using Distributed Training (Horovod)](horovod-pipe/horovod-project.ipynb)
 
-This example is using TensorFlow (v1 or v2), Horovod, and Nuclio demonstrating end to end solution for image classification, 
-it consists of 4 MLRun and Nuclio functions and Kubeflow Pipelines Orchastration:
+This example uses TensorFlow (v1 or v2), Horovod, and Nuclio, demonstrating end-to-end solution for image classification.
+The demo consists of four MLRun and Nuclio functions and Kubeflow Pipelines orchestration:
 
-1. **Download**: import an image archive from S3 to the cluster file system
-2. **Label**: Tag the images based on their name structure 
-3. **Traing**: Distrubuted training using TF1 or TF2, Keras and Horovod
-4. **Inference**: Automated deployment of Nuclio model serving function 
+1. **Download**: Import an image archive from S3 to the cluster file system.
+2. **Label**: Tag the images based on their name structure.
+3. **Training**: Distributed training using TF1 or TF2, Keras and Horovod.
+4. **Inference**: Automated deployment of Nuclio model serving function.
 
-> Note the demo supports both TensorFlow 1 & 3, there is one (shared) notebook and two code files (one per TF version)
+> **Note:** The demo supports both TensorFlow v1 and v3, there is one (shared) notebook and two code files (one per TF version)
 
 <br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
 
-#### Pipeline output:
+<a id="demo-horovd-image-classification-pipeline-output"></a>
+#### Pipeline Output
 
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
 
-## [Real-time face recognition with re-enforced learning](faces/README.md)
+<a id="demo-face-recognition"></a>
+## [Real-Time Face Recognition with Re-enforced Learning](faces/README.md)
 
 Demonstrate real-time face image capture, recognition, and location tracking of identities.
 
 This comprehensive demonstration includes multiple components: a live image capture utility, image identification and tracking, a labeling app to tag unidentified faces using Streamlit, and model training.
 
-#### Pipeline output:
+<a id="demo-face-recognition-pipeline-output"></a>
+#### Pipeline Output
 
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
-
-## [Predictive Network/Telemetry Monitoring](https://github.com/mlrun/demo-network-operations)
-
-Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, 
-data preparation (aggregation), model training, and automated model deployment.
-
-The demo is maintained in a separate Git repository and also demonstrates how to manage project lifecycle using git.
-
-<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
-
-#### Pipeline output:
-
-<br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
-
-
-## [LighGBM Classification with Hyper Parameters (HIGGS dataset)]()
+<a id="demo-sklearn-pipe"></a>
+## Predictive Network/Telemetry Monitoring
+<!-- TODO: When the demo is read, edit the description, and remove the TBD. -->
 
 **TBD under construction**
 
-Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI dataset) and how to run training in parallel with hyper-parameters.
+Demonstrate ingestion of telemetry data from simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
 
-The first step is retrieveing and storing the data in parquet fromat, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
+The demo is maintained in a separate Git repository and also demonstrates how to manage project life cycle using git.
 
+<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
+
+#### Pipeline Output
+
+<br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
+
+## LightGBM Classification with Hyperparameters (HIGGS Data Set)
+<!-- TODO: When the demo is read, edit the description, and remove the TBD. -->
+
+**TBD under construction**
+
+Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI data set) and how to run training in parallel with hyper-parameters.
+
+The first step is retrieving and storing the data in Parquet format, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
 
