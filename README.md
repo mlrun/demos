@@ -15,6 +15,14 @@ The examples demonstrate how you can do the following:
 The demo applications are tested on the [Iguazio's Data Science PaaS](https://www.iguazio.com/), and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the `apply(v3io_mount())` calls with other Kubeflow volume modifiers.
 You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day-free-trial-in-the-cloud/).
 
+### Examples
+
+* [scikit-learn Pipeline with AutoML](#data-exploration-and-end-to-end-scikit-learn-sklearn-pipeline-with-automl-iris-data-set)
+* [Image Classification Using Distributed Training (Horovod)](#image-classification-using-distributed-training-horovod)
+* [Real-Time Face Recognition with Re-enforced Learning](#real-time-face-recognition-with-re-enforced-learning)
+* [Predictive Network/Telemetry Monitoring](#predictive-networktelemetry-monitoring)
+* [Real-time Customer Churn Prediction]()
+
 <a id="prerequisites"></a>
 ### Prerequisites
 
@@ -30,7 +38,7 @@ The various demos follow some or all of the steps shown in the diagram below:
 <br><p align="center"><img src="./docs/mlrun-pipeline.png" width="800"/></p><br>
 
 <a id="demo-sklearn-pipe"></a>
-## [Data Exploration and End-to-End scikit-learn (sklearn) Pipeline with AutoML (Iris Data Set)](./sklearn-pipe/sklearn-project.ipynb)
+## [End-to-End data prep + scikit-learn Pipeline with AutoML (Iris Data Set)](./sklearn-pipe/sklearn-project.ipynb)
 
 Demonstrate a popular machine learning use case (iris data set), how to explore the data and build an end to end automated ML pipeline.
 
@@ -102,12 +110,21 @@ The demo is maintained in a separate Git repository and also demonstrates how to
 
 <br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
 
-## LightGBM Classification with Hyperparameters (HIGGS Data Set)
-<!-- TODO: When the demo is read, edit the description, and remove the TBD. -->
+<a id="demo-churn"></a>
+## [Real-time Customer Churn Prediction (Kaggle Telco Churn dataset)](./churn/README.md)
 
-**TBD under construction**
+running customer churn data analyses using the **[Kaggle Telco Churn dataset](https://www.kaggle.com/blastchar/telco-customer-churn)**, training and validating an XGBoost model, and serving that with real-time Nuclio functions.
 
-Demonstrate a popular big data, machine learning competition use case (the HIGGS UCI data set) and how to run training in parallel with hyper-parameters.
+The demo consists of few MLRun and Nuclio functions and Kubeflow Pipelines orchestration:
+1. write custom data encoders:  raw data often needs to be processed, some features need to be categorized, other binarized.
+2. summarize data: look at things like class balance, variable distributions.
+3. define parameters and hyperparameters for a generic XGBoost training function
+4. train and test a number of models
+5. deploy a "best" models into "production" as a nuclio serverless functions
+6. test the model servers
 
-The first step is retrieving and storing the data in Parquet format, partitioning it into train, validation and test sets, followed by parallel LightGBM training, and automated model deployment.
+#### Pipeline Output
+
+<br><p align="center"><img src="./churn/assets/pipeline-3.png" width="500"/></p><br>
+
 
