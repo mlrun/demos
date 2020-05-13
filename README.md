@@ -17,11 +17,11 @@ You can request a [free trial of Iguazio PaaS](https://www.iguazio.com/lp/14-day
 
 ### Examples
 
-* [scikit-learn Pipeline with AutoML](#data-exploration-and-end-to-end-scikit-learn-sklearn-pipeline-with-automl-iris-data-set)
+* [scikit-learn Pipeline with AutoML](#end-to-end-data-prep--scikit-learn-pipeline-with-automl-iris-data-set)
 * [Image Classification Using Distributed Training (Horovod)](#image-classification-using-distributed-training-horovod)
 * [Real-Time Face Recognition with Re-enforced Learning](#real-time-face-recognition-with-re-enforced-learning)
 * [Predictive Network/Telemetry Monitoring](#predictive-networktelemetry-monitoring)
-* [Real-time Customer Churn Prediction]()
+* [Real-time Customer Churn Prediction](#real-time-customer-churn-prediction-kaggle-telco-churn-dataset)
 
 <a id="prerequisites"></a>
 ### Prerequisites
