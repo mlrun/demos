@@ -33,20 +33,19 @@ def kfpipeline():
         inputs={"src": RAW_CHURN_DATA},
         outputs=["preproc-colum_map",
                  "preproc-numcat_map",
-                 "preproc-label_encoders"
                  "cleaned-data",
-                 "encoded-data",
-                 "tenured-data"])
+                 "encoded-data"])
 
     # analyze our dataset
     describe = funcs["describe"].as_step(
         name="summary",
         params={"label_column"  : "labels"},
         inputs={"table": clean.outputs["encoded-data"]},
-        outputs={"histograms", 
+        outputs=["histograms", 
                  "imbalance",
+                 "imbalance-weights-vec",
                  "correlation",
-                 "correlation-matrix"})
+                 "correlation-matrix"])
     
     # train with hyper-paremeters
     xgb = funcs["classify"].as_step(
@@ -98,7 +97,7 @@ def kfpipeline():
                 "file_ext"           : "csv"
                },
         inputs={"dataset"   : clean.outputs["encoded-data"]},
-        outputs=["model",
+        outputs=["cx-model",
                  "coxhazard-summary",
                  "tenured-test-set"])
 
@@ -112,8 +111,8 @@ def kfpipeline():
     test_cox = funcs["coxtest"].as_step(
         name="test regressor",
         params={"label_column": "labels",
-                "plots_dest"  : "churn/test/cox"},
-        inputs={"models_path"  : cox.outputs["model"],
+                "plots_dest"  : "churn/test/plots"},
+        inputs={"models_path"  : cox.outputs["cx-model"],
                 "test_set"    : cox.outputs["tenured-test-set"]})
 
     # deploy our model as a serverless function

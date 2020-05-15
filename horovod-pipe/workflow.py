@@ -59,9 +59,10 @@ def kfpipeline(
 
     # step 3: train the model
     train = funcs['trainer'].as_step(name='train',
-                                     params={'epochs': 1,
+                                     params={'epochs': 4,
                                              'checkpoints_dir': checkpoints_dir,
                                              'data_path'      : source_dir,
+                                             'model_dir'     : 'tfmodels',
                                              'batch_size'     : 256},
                                      inputs={
                                          'categories_map': label.outputs['categories_map'],
