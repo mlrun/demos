@@ -115,7 +115,7 @@ def kfpipeline():
         inputs={"models_path"  : cox.outputs["cx-model"],
                 "test_set"    : cox.outputs["tenured-test-set"]})
 
-    # deploy our model as a serverless function
+    # deploy our model(s) as a serverless function
     deploy_xgb = funcs["server"].deploy_step(
         models={"churn_server_v1": xgb.outputs["model"]})
     deploy_xgb.after(cox)
