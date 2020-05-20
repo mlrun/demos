@@ -11,7 +11,7 @@ functions:
     spec:
       command: ''
       args: []
-      image: yjbds/ml-models:0.4.7
+      image: mlrun/ml-models
       env: []
       default_handler: ''
       entry_points:
@@ -63,9 +63,9 @@ functions:
           lineno: 18
       description: ''
       build:
-        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlciBvbiAyMDIwLTA1LTEzIDAyOjE4CgppbXBvcnQgb3MKCmltcG9ydCBqc29uCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IG51bXB5IGFzIG5wCmZyb20gY29sbGVjdGlvbnMgaW1wb3J0IGRlZmF1bHRkaWN0Cgpmcm9tIGNsb3VkcGlja2xlIGltcG9ydCBkdW1wcywgZHVtcCwgbG9hZAoKZnJvbSBza2xlYXJuLnByZXByb2Nlc3NpbmcgaW1wb3J0IChPbmVIb3RFbmNvZGVyLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIExhYmVsRW5jb2RlcikKCmZyb20gbWxydW4uZXhlY3V0aW9uIGltcG9ydCBNTENsaWVudEN0eApmcm9tIG1scnVuLmRhdGFzdG9yZSBpbXBvcnQgRGF0YUl0ZW0KCmRlZiBkYXRhX2NsZWFuKAogICAgY29udGV4dDpNTENsaWVudEN0eCwgCiAgICBzcmM6IERhdGFJdGVtLAogICAgZmlsZV9leHQ6IHN0ciA9ICJjc3YiLAogICAgbW9kZWxzX2Rlc3Q6IHN0ciA9ICJtb2RlbHMvZW5jb2RlcnMiLAogICAgY2xlYW5lZF9rZXk6IHN0ciA9ICJjbGVhbmVkLWRhdGEiLAogICAgZW5jb2RlZF9rZXk6IHN0ciA9ICJlbmNvZGVkLWRhdGEiCik6CiAgICAiIiJwcm9jZXNzIGEgcmF3IGNodXJuIGRhdGEgZmlsZQogICAgCiAgICBEYXRhIGhhcyAzIHN0YXRlcyBoZXJlOiBgcmF3YCwgYGNsZWFuZWRgIGFuZCBgZW5jb2RlZGAKICAgIAogICAgKiBgcmF3YCBrZXB0IGJ5IGRlZmF1bHQsIHRoZSBwaXBlbGluZSBiZWdpbnMgd2l0aCBhIHJhdyBkYXRhIGFydGlmYWN0CiAgICAqIGBjbGVhbmVkYCBrZXB0IGZvciBjaGFydHMsIHByZXNlbnRhdGlvbnMKICAgICogYGVuY29kZWRgIGlzIGlucHV0IGZvciBhIGNyb3NzIHZhbGlkYXRpb24gYW5kIHRyYWluaW5nIGZ1bmN0aW9uCiAgICAKICAgIHN0ZXBzIChub3QgbmVjZXNzYXJpbHkgaW4gY29ycmVjdCBvcmRlciwgc29tZSBwYXJhbGxlbCkKICAgICogY29sdW1uIG5hbWUgbWFwcwogICAgKiBkZWFsIHdpdGggbmFucyBhbmQgb3RoZXIgdHlwZXMgb2YgbWlzc2luZ3MvanVuawogICAgKiBsYWJlbCBlbmNvZGUgYmluYXJ5IGFuZCBvcmRpbmFsIGNhdGVnb3J5IGNvbHVtbnMKICAgICogY3JlYXRlIGNhdGVnb3J5IHJhbmdlcyBmcm9tIG51bWVyaWNhbCBjb2x1bW5zCiAgICBBbmQgZmluYWxseSwKICAgICogdGVzdAogICAgCiAgICBXaHkgd2UgZG9uJ3Qgb25lLWhvdC1lbmNvZGUgaGVyZT8gT25lIGhvdCBlbmNvZGluZyBpc24ndCBhIG5lY2Vzc2FyeQogICAgc3RlcCBmb3IgYWxsIGFsZ29yaXRobXMuIEl0IGNhbiBhbHNvIGdlbmVyYXRlIGEgdmVyeSBsYXJnZSBmZWF0dXJlCiAgICBtYXRyaXggdGhhdCBkb2Vzbid0IG5lZWQgdG8gYmUgc2VyaWFsaXplZCAoZXZlbiBpZiBzcGFyc2UpLgogICAgU28gd2UgbGVhdmUgb25lLWhvdC1lbmNvZGluZyBmb3IgdGhlIHRyYWluaW5nIHN0ZXAuCiAgICAKICAgIFdoYXQgYWJvdXQgc2NhbGluZyBudW1lcmljYWwgY29sdW1ucz8gU2FtZSBhcyB3aHkgd2UgZG9uJ3Qgb25lIGhvdAogICAgZW5jb2RlIGhlcmUuIERvIHdlIHNjYWxlIGJlZm9yZSB0cmFpbi10ZXN0IHNwbGl0PyAgSU1ITywgbm8uICBTY2FsaW5nCiAgICBiZWZvcmUgc3BsaXR0aW5nIGludHJvZHVjZXMgYSB0eXBlIG9mIGRhdGEgbGVha2FnZS4gIEluIGFkZGl0aW9uLAogICAgbWFueSBlc3RpbWF0b3JzIGFyZSBjb21wbGV0ZWx5IGltbXVuZSB0byB0aGUgbW9ub3RvbmljIHRyYW5zZm9ybWF0aW9ucwogICAgaW1wbGllZCBieSBzY2FsaW5nLCBzbyB3aHkgd2FzdGUgdGhlIGN5Y2xlcz8KICAgIAogICAgVE9ETzogCiAgICAgICAgKiBwYXJhbGxlbGl6ZSB3aGVyZSBwb3NzaWJsZQogICAgICAgICogbW9yZSBhYnN0cmFjdGlvbiAobW9yZSBwYXJhbWV0ZXJzLCBjaGFpbiBza2xlYXJuIHRyYW5zZm9ybWVycykKICAgICAgICAqIGNvbnZlcnQgdG8gbWFya2V0cGxhY2UgZnVuY3Rpb24KICAgICAgICAKICAgIDpwYXJhbSBjb250ZXh0OiAgICAgICAgICB0aGUgZnVuY3Rpb24gZXhlY3V0aW9uIGNvbnRleHQKICAgIDpwYXJhbSBzcmM6ICAgICAgICAgICAgICBhbiBhcnRpZmFjdCBvciBmaWxlIHBhdGgKICAgIDpwYXJhbSBmaWxlX2V4dDogICAgICAgICBmaWxlIHR5cGUgZm9yIGFydGlmYWN0cwogICAgOnBhcmFtIG1vZGVsc19kZXN0OiAgICAgICBsYWJlbCBlbmNvZGVycyBhbmQgb3RoZXIgcHJlcHJvY2Vzc2luZyBzdGVwcwogICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNob3VsZCBiZSBzYXZlZCB0b2dldGhlciB3aXRoIG90aGVyIHBpcGVsaW5lCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZWxzCiAgICA6cGFyYW0gY2xlYW5lZF9rZXk6ICAgICAga2V5IG9mIGNsZWFuZWQgZGF0YSB0YWJsZSBpbiBhcnRpZmFjdCBzdG9yZQogICAgOnBhcmFtIGVuY29kZWRfa2V5OiAgICAgIGtleSBvZiBlbmNvZGVkIGRhdGEgdGFibGUgaW4gYXJ0aWZhY3Qgc3RvcmUKICAgICIiIgogICAgZGYgPSBzcmMuYXNfZGYoKQogICAgCiAgICBkcm9wX2NvbHNfbGlzdCA9IFsiY3VzdG9tZXJJRCIsICJUb3RhbENoYXJnZXMiXQogICAgZGYuZHJvcChkcm9wX2NvbHNfbGlzdCwgYXhpcz0xLCBpbnBsYWNlPVRydWUpCiAgICAKICAgIG9sZF9jb2xzID0gZGYuY29sdW1ucwogICAgcmVuYW1lX2NvbHNfbWFwID0gewogICAgICAgICJTZW5pb3JDaXRpemVuIiA6ICJzZW5pb3IiLAogICAgICAgICJQYXJ0bmVyIiAgICAgICA6ICJwYXJ0bmVyIiwKICAgICAgICAiRGVwZW5kZW50cyIgICAgOiAiZGVwcyIsCiAgICAgICAgIkNodXJuIiAgICAgICAgIDogImxhYmVscyIKICAgIH0KICAgIGRmLnJlbmFtZShyZW5hbWVfY29sc19tYXAsIGF4aXM9MSwgaW5wbGFjZT1UcnVlKQoKICAgIGZvciBjb2wgaW4gZHJvcF9jb2xzX2xpc3Q6CiAgICAgICAgcmVuYW1lX2NvbHNfbWFwLnVwZGF0ZSh7Y29sOiAiX0RST1BQRURfIn0pCiAgICAKICAgIHRwID0gb3MucGF0aC5qb2luKG1vZGVsc19kZXN0LCAicHJlcHJvYy1jb2x1bW5fbWFwLmpzb24iKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoInByZXByb2MtY29sdW1uX21hcC5qc29uIiwKICAgICAgICAgICAgICAgICAgICAgICAgIGJvZHk9anNvbi5kdW1wcyhyZW5hbWVfY29sc19tYXApLAogICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWxfcGF0aD10cCkKICAgIAoKICAgIGRmID0gZGYuYXBwbHltYXAobGFtYmRhIHg6ICJObyIgaWYgc3RyKHgpLnN0YXJ0c3dpdGgoIk5vICIpIGVsc2UgeCkKCiAgICBiaW5zID0gWzAsIDEyLCAyNCwgMzYsIDQ4LCA2MCwgbnAuaW5mXQogICAgbGFiZWxzID0gWzAsIDEsIDIsIDMsIDQsIDVdCiAgICB0ZW51cmUgPSBkZi50ZW51cmUuY29weShkZWVwPVRydWUpCiAgICBkZlsidGVudXJlX21hcCJdID0gcGQuY3V0KGRmLnRlbnVyZSwgYmlucywgbGFiZWxzPUZhbHNlKQogICAgdGVudXJlX21hcCA9IGRpY3QoemlwKGJpbnMsIGxhYmVscykpCiAgICB0cCA9IG9zLnBhdGguam9pbihtb2RlbHNfZGVzdCwgInByZXByb2MtbnVtY2F0X21hcC5qc29uIikKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCJwcmVwcm9jLW51bWNhdF9tYXAuanNvbiIsIAogICAgICAgICAgICAgICAgICAgICAgICAgYm9keT1ieXRlcyhqc29uLmR1bXBzKHRlbnVyZV9tYXApLmVuY29kZSgidXRmLTgiKSksIAogICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWxfcGF0aD10cCkKICAgIAogICAgY29udGV4dC5sb2dfZGF0YXNldChjbGVhbmVkX2tleSwgZGY9ZGYsIGZvcm1hdD1maWxlX2V4dCwgaW5kZXg9RmFsc2UpCiAgICAKICAgIGZpeF9jb2xzID0gWyJnZW5kZXIiLCAicGFydG5lciIsICJkZXBzIiwgIk9ubGluZVNlY3VyaXR5IiwgCiAgICAgICAgICAgICAgICAiT25saW5lQmFja3VwIiwgIkRldmljZVByb3RlY3Rpb24iLCAiVGVjaFN1cHBvcnQiLAogICAgICAgICAgICAgICAgIlN0cmVhbWluZ1RWIiwgIlN0cmVhbWluZ01vdmllcyIsICJQaG9uZVNlcnZpY2UiLAogICAgICAgICAgICAgICAgIk11bHRpcGxlTGluZXMiLCAiUGFwZXJsZXNzQmlsbGluZyIsICJJbnRlcm5ldFNlcnZpY2UiLCAKICAgICAgICAgICAgICAgICJDb250cmFjdCIsICJQYXltZW50TWV0aG9kIiwgImxhYmVscyJdCiAgICAKICAgIGQgPSBkZWZhdWx0ZGljdChMYWJlbEVuY29kZXIpCiAgICBkZltmaXhfY29sc10gPSBkZltmaXhfY29sc10uYXBwbHkobGFtYmRhIHg6IGRbeC5uYW1lXS5maXRfdHJhbnNmb3JtKHguYXN0eXBlKHN0cikpKQogICAgY29udGV4dC5sb2dfZGF0YXNldChlbmNvZGVkX2tleSwgZGY9ZGYsIGZvcm1hdD1maWxlX2V4dCwgaW5kZXg9RmFsc2UpCgogICAgbW9kZWxfYmluID0gZHVtcHMoZCkKICAgIGNvbnRleHQubG9nX21vZGVsKCJtb2RlbCIsIAogICAgICAgICAgICAgICAgICAgICAgYm9keT1tb2RlbF9iaW4sCiAgICAgICAgICAgICAgICAgICAgICBhcnRpZmFjdF9wYXRoPW9zLnBhdGguam9pbihjb250ZXh0LmFydGlmYWN0X3BhdGgsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbW9kZWxzX2Rlc3QpLAogICAgICAgICAgICAgICAgICAgICAgbW9kZWxfZmlsZT0ibW9kZWwucGtsIikKCg==
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCgppbXBvcnQganNvbgppbXBvcnQgcGFuZGFzIGFzIHBkCmltcG9ydCBudW1weSBhcyBucApmcm9tIGNvbGxlY3Rpb25zIGltcG9ydCBkZWZhdWx0ZGljdAoKZnJvbSBjbG91ZHBpY2tsZSBpbXBvcnQgZHVtcHMsIGR1bXAsIGxvYWQKCmZyb20gc2tsZWFybi5wcmVwcm9jZXNzaW5nIGltcG9ydCAoT25lSG90RW5jb2RlciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBMYWJlbEVuY29kZXIpCgpmcm9tIG1scnVuLmV4ZWN1dGlvbiBpbXBvcnQgTUxDbGllbnRDdHgKZnJvbSBtbHJ1bi5kYXRhc3RvcmUgaW1wb3J0IERhdGFJdGVtCgpkZWYgZGF0YV9jbGVhbigKICAgIGNvbnRleHQ6TUxDbGllbnRDdHgsIAogICAgc3JjOiBEYXRhSXRlbSwKICAgIGZpbGVfZXh0OiBzdHIgPSAiY3N2IiwKICAgIG1vZGVsc19kZXN0OiBzdHIgPSAibW9kZWxzL2VuY29kZXJzIiwKICAgIGNsZWFuZWRfa2V5OiBzdHIgPSAiY2xlYW5lZC1kYXRhIiwKICAgIGVuY29kZWRfa2V5OiBzdHIgPSAiZW5jb2RlZC1kYXRhIgopOgogICAgIiIicHJvY2VzcyBhIHJhdyBjaHVybiBkYXRhIGZpbGUKICAgIAogICAgRGF0YSBoYXMgMyBzdGF0ZXMgaGVyZTogYHJhd2AsIGBjbGVhbmVkYCBhbmQgYGVuY29kZWRgCiAgICAKICAgICogYHJhd2Aga2VwdCBieSBkZWZhdWx0LCB0aGUgcGlwZWxpbmUgYmVnaW5zIHdpdGggYSByYXcgZGF0YSBhcnRpZmFjdAogICAgKiBgY2xlYW5lZGAga2VwdCBmb3IgY2hhcnRzLCBwcmVzZW50YXRpb25zCiAgICAqIGBlbmNvZGVkYCBpcyBpbnB1dCBmb3IgYSBjcm9zcyB2YWxpZGF0aW9uIGFuZCB0cmFpbmluZyBmdW5jdGlvbgogICAgCiAgICBzdGVwcyAobm90IG5lY2Vzc2FyaWx5IGluIGNvcnJlY3Qgb3JkZXIsIHNvbWUgcGFyYWxsZWwpCiAgICAqIGNvbHVtbiBuYW1lIG1hcHMKICAgICogZGVhbCB3aXRoIG5hbnMgYW5kIG90aGVyIHR5cGVzIG9mIG1pc3NpbmdzL2p1bmsKICAgICogbGFiZWwgZW5jb2RlIGJpbmFyeSBhbmQgb3JkaW5hbCBjYXRlZ29yeSBjb2x1bW5zCiAgICAqIGNyZWF0ZSBjYXRlZ29yeSByYW5nZXMgZnJvbSBudW1lcmljYWwgY29sdW1ucwogICAgQW5kIGZpbmFsbHksCiAgICAqIHRlc3QKICAgIAogICAgV2h5IHdlIGRvbid0IG9uZS1ob3QtZW5jb2RlIGhlcmU/IE9uZSBob3QgZW5jb2RpbmcgaXNuJ3QgYSBuZWNlc3NhcnkKICAgIHN0ZXAgZm9yIGFsbCBhbGdvcml0aG1zLiBJdCBjYW4gYWxzbyBnZW5lcmF0ZSBhIHZlcnkgbGFyZ2UgZmVhdHVyZQogICAgbWF0cml4IHRoYXQgZG9lc24ndCBuZWVkIHRvIGJlIHNlcmlhbGl6ZWQgKGV2ZW4gaWYgc3BhcnNlKS4KICAgIFNvIHdlIGxlYXZlIG9uZS1ob3QtZW5jb2RpbmcgZm9yIHRoZSB0cmFpbmluZyBzdGVwLgogICAgCiAgICBXaGF0IGFib3V0IHNjYWxpbmcgbnVtZXJpY2FsIGNvbHVtbnM/IFNhbWUgYXMgd2h5IHdlIGRvbid0IG9uZSBob3QKICAgIGVuY29kZSBoZXJlLiBEbyB3ZSBzY2FsZSBiZWZvcmUgdHJhaW4tdGVzdCBzcGxpdD8gIElNSE8sIG5vLiAgU2NhbGluZwogICAgYmVmb3JlIHNwbGl0dGluZyBpbnRyb2R1Y2VzIGEgdHlwZSBvZiBkYXRhIGxlYWthZ2UuICBJbiBhZGRpdGlvbiwKICAgIG1hbnkgZXN0aW1hdG9ycyBhcmUgY29tcGxldGVseSBpbW11bmUgdG8gdGhlIG1vbm90b25pYyB0cmFuc2Zvcm1hdGlvbnMKICAgIGltcGxpZWQgYnkgc2NhbGluZywgc28gd2h5IHdhc3RlIHRoZSBjeWNsZXM/CiAgICAKICAgIFRPRE86IAogICAgICAgICogcGFyYWxsZWxpemUgd2hlcmUgcG9zc2libGUKICAgICAgICAqIG1vcmUgYWJzdHJhY3Rpb24gKG1vcmUgcGFyYW1ldGVycywgY2hhaW4gc2tsZWFybiB0cmFuc2Zvcm1lcnMpCiAgICAgICAgKiBjb252ZXJ0IHRvIG1hcmtldHBsYWNlIGZ1bmN0aW9uCiAgICAgICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICAgICAgdGhlIGZ1bmN0aW9uIGV4ZWN1dGlvbiBjb250ZXh0CiAgICA6cGFyYW0gc3JjOiAgICAgICAgICAgICAgYW4gYXJ0aWZhY3Qgb3IgZmlsZSBwYXRoCiAgICA6cGFyYW0gZmlsZV9leHQ6ICAgICAgICAgZmlsZSB0eXBlIGZvciBhcnRpZmFjdHMKICAgIDpwYXJhbSBtb2RlbHNfZGVzdDogICAgICAgbGFiZWwgZW5jb2RlcnMgYW5kIG90aGVyIHByZXByb2Nlc3Npbmcgc3RlcHMKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaG91bGQgYmUgc2F2ZWQgdG9nZXRoZXIgd2l0aCBvdGhlciBwaXBlbGluZQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1vZGVscwogICAgOnBhcmFtIGNsZWFuZWRfa2V5OiAgICAgIGtleSBvZiBjbGVhbmVkIGRhdGEgdGFibGUgaW4gYXJ0aWZhY3Qgc3RvcmUKICAgIDpwYXJhbSBlbmNvZGVkX2tleTogICAgICBrZXkgb2YgZW5jb2RlZCBkYXRhIHRhYmxlIGluIGFydGlmYWN0IHN0b3JlCiAgICAiIiIKICAgIGRmID0gc3JjLmFzX2RmKCkKICAgIAogICAgZHJvcF9jb2xzX2xpc3QgPSBbImN1c3RvbWVySUQiLCAiVG90YWxDaGFyZ2VzIl0KICAgIGRmLmRyb3AoZHJvcF9jb2xzX2xpc3QsIGF4aXM9MSwgaW5wbGFjZT1UcnVlKQogICAgCiAgICBvbGRfY29scyA9IGRmLmNvbHVtbnMKICAgIHJlbmFtZV9jb2xzX21hcCA9IHsKICAgICAgICAiU2VuaW9yQ2l0aXplbiIgOiAic2VuaW9yIiwKICAgICAgICAiUGFydG5lciIgICAgICAgOiAicGFydG5lciIsCiAgICAgICAgIkRlcGVuZGVudHMiICAgIDogImRlcHMiLAogICAgICAgICJDaHVybiIgICAgICAgICA6ICJsYWJlbHMiCiAgICB9CiAgICBkZi5yZW5hbWUocmVuYW1lX2NvbHNfbWFwLCBheGlzPTEsIGlucGxhY2U9VHJ1ZSkKCiAgICBmb3IgY29sIGluIGRyb3BfY29sc19saXN0OgogICAgICAgIHJlbmFtZV9jb2xzX21hcC51cGRhdGUoe2NvbDogIl9EUk9QUEVEXyJ9KQogICAgCiAgICB0cCA9IG9zLnBhdGguam9pbihtb2RlbHNfZGVzdCwgInByZXByb2MtY29sdW1uX21hcC5qc29uIikKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCJwcmVwcm9jLWNvbHVtbl9tYXAuanNvbiIsCiAgICAgICAgICAgICAgICAgICAgICAgICBib2R5PWpzb24uZHVtcHMocmVuYW1lX2NvbHNfbWFwKSwKICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsX3BhdGg9dHApCiAgICAKCiAgICBkZiA9IGRmLmFwcGx5bWFwKGxhbWJkYSB4OiAiTm8iIGlmIHN0cih4KS5zdGFydHN3aXRoKCJObyAiKSBlbHNlIHgpCgogICAgYmlucyA9IFswLCAxMiwgMjQsIDM2LCA0OCwgNjAsIG5wLmluZl0KICAgIGxhYmVscyA9IFswLCAxLCAyLCAzLCA0LCA1XQogICAgdGVudXJlID0gZGYudGVudXJlLmNvcHkoZGVlcD1UcnVlKQogICAgZGZbInRlbnVyZV9tYXAiXSA9IHBkLmN1dChkZi50ZW51cmUsIGJpbnMsIGxhYmVscz1GYWxzZSkKICAgIHRlbnVyZV9tYXAgPSBkaWN0KHppcChiaW5zLCBsYWJlbHMpKQogICAgdHAgPSBvcy5wYXRoLmpvaW4obW9kZWxzX2Rlc3QsICJwcmVwcm9jLW51bWNhdF9tYXAuanNvbiIpCiAgICBjb250ZXh0LmxvZ19hcnRpZmFjdCgicHJlcHJvYy1udW1jYXRfbWFwLmpzb24iLCAKICAgICAgICAgICAgICAgICAgICAgICAgIGJvZHk9Ynl0ZXMoanNvbi5kdW1wcyh0ZW51cmVfbWFwKS5lbmNvZGUoInV0Zi04IikpLCAKICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsX3BhdGg9dHApCiAgICAKICAgIGNvbnRleHQubG9nX2RhdGFzZXQoY2xlYW5lZF9rZXksIGRmPWRmLCBmb3JtYXQ9ZmlsZV9leHQsIGluZGV4PUZhbHNlKQogICAgCiAgICBmaXhfY29scyA9IFsiZ2VuZGVyIiwgInBhcnRuZXIiLCAiZGVwcyIsICJPbmxpbmVTZWN1cml0eSIsIAogICAgICAgICAgICAgICAgIk9ubGluZUJhY2t1cCIsICJEZXZpY2VQcm90ZWN0aW9uIiwgIlRlY2hTdXBwb3J0IiwKICAgICAgICAgICAgICAgICJTdHJlYW1pbmdUViIsICJTdHJlYW1pbmdNb3ZpZXMiLCAiUGhvbmVTZXJ2aWNlIiwKICAgICAgICAgICAgICAgICJNdWx0aXBsZUxpbmVzIiwgIlBhcGVybGVzc0JpbGxpbmciLCAiSW50ZXJuZXRTZXJ2aWNlIiwgCiAgICAgICAgICAgICAgICAiQ29udHJhY3QiLCAiUGF5bWVudE1ldGhvZCIsICJsYWJlbHMiXQogICAgCiAgICBkID0gZGVmYXVsdGRpY3QoTGFiZWxFbmNvZGVyKQogICAgZGZbZml4X2NvbHNdID0gZGZbZml4X2NvbHNdLmFwcGx5KGxhbWJkYSB4OiBkW3gubmFtZV0uZml0X3RyYW5zZm9ybSh4LmFzdHlwZShzdHIpKSkKICAgIGNvbnRleHQubG9nX2RhdGFzZXQoZW5jb2RlZF9rZXksIGRmPWRmLCBmb3JtYXQ9ZmlsZV9leHQsIGluZGV4PUZhbHNlKQoKICAgIG1vZGVsX2JpbiA9IGR1bXBzKGQpCiAgICBjb250ZXh0LmxvZ19tb2RlbCgibW9kZWwiLCAKICAgICAgICAgICAgICAgICAgICAgIGJvZHk9bW9kZWxfYmluLAogICAgICAgICAgICAgICAgICAgICAgYXJ0aWZhY3RfcGF0aD1vcy5wYXRoLmpvaW4oY29udGV4dC5hcnRpZmFjdF9wYXRoLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1vZGVsc19kZXN0KSwKICAgICAgICAgICAgICAgICAgICAgIG1vZGVsX2ZpbGU9Im1vZGVsLnBrbCIpCgo=
         commands: []
-        code_origin: https://github.com/yjb-ds/demo-churn.git#b1d30837d342684ff70a7bd0ef3188b6df6e019d:clean_data.ipynb
+        code_origin: https://github.com/yjb-ds/demos.git#9fb331affb3b422bedd17ee4aa509e1d8fee30a9:clean_data.ipynb
 - url: hub://describe
   name: describe
 - url: hub://xgb_trainer
@@ -81,42 +81,46 @@ functions:
 workflows:
 - name: main
   code: "from kfp import dsl\nfrom mlrun import mount_v3io\n\nfuncs = {}\n\nGPUS =\
-    \ False\nRAW_CHURN_DATA = \"/User/repos/demos/churn/WA_Fn-UseC_-Telco-Customer-Churn.csv\"\
-    \n\n# init functions is used to configure function resources and local settings\n\
-    def init_functions(functions: dict, project=None, secrets=None):\n    for f in\
-    \ functions.values():\n        f.apply(mount_v3io())\n        \n    functions[\"\
-    server\"].set_env(\"INFERENCE_STREAM\", \"users/admin/artifacts/churn/model_stream\"\
+    \ False\n\nDATA_REPO = \"https://raw.githubusercontent.com/yjb-ds/testdata/master\"\
+    \nDATA_PATH = \"data/WA_Fn-UseC_-Telco-Customer-Churn.csv\"\nRAW_CHURN_DATA =\
+    \ f\"{DATA_REPO}/{DATA_PATH}\"\n\n# init functions is used to configure function\
+    \ resources and local settings\ndef init_functions(functions: dict, project=None,\
+    \ secrets=None):\n    for f in functions.values():\n        f.apply(mount_v3io())\n\
+    \        \n    functions[\"server\"].set_env(\"INFERENCE_STREAM\", \"users/admin/artifacts/churn/model_stream\"\
     )\n\n    \n@dsl.pipeline(\n    name=\"Demo training pipeline\",\n    description=\"\
     Shows how to use mlrun.\"\n)\ndef kfpipeline():\n    \n    # build our cleaner\
-    \ function (container image)\n    builder = funcs[\"clean-data\"].deploy_step(skip_deployed=True)\
-    \ #False, with_mlrun=False)\n    \n    # run the ingestion function with the new\
-    \ image and params\n    clean = funcs[\"clean-data\"].as_step(\n        name=\"\
-    clean-data\",\n        handler=\"data_clean\",\n        image=builder.outputs[\"\
-    image\"],\n        params={\"file_ext\": \"csv\",\n                \"models_dest\"\
-    : \"models/encoders\"},\n        inputs={\"src\": RAW_CHURN_DATA},\n        outputs=[\"\
-    preproc-colum_map\",\n                 \"preproc-numcat_map\",\n             \
-    \    \"preproc-label_encoders\"\n                 \"cleaned-data\",\n        \
-    \         \"encoded-data\",\n                 \"tenured-data\"])\n\n    # analyze\
-    \ our dataset\n    describe = funcs[\"describe\"].as_step(\n        name=\"summary\"\
-    ,\n        params={\"label_column\"  : \"labels\"},\n        inputs={\"table\"\
-    : clean.outputs[\"encoded-data\"]},\n        outputs={\"histograms\", \n     \
-    \            \"imbalance\",\n                 \"correlation\",\n             \
-    \    \"correlation-matrix\"})\n    \n    # train with hyper-paremeters\n    xgb\
-    \ = funcs[\"classify\"].as_step(\n        name=\"current-state\",\n        params={\"\
-    sample\"                  : -1, \n                \"label_column\"           \
-    \ : \"labels\",\n                \"model_type\"              : \"classifier\"\
-    ,\n                # xgb class initializers (tuning candidates):\n           \
-    \     \"CLASS_tree_method\"       : \"gpu_hist\" if GPUS else \"hist\",\n    \
-    \            \"CLASS_objective\"         : \"binary:logistic\",\n            \
-    \    \"CLASS_n_estimators\"      : 50,\n                \"CLASS_max_depth\"  \
-    \       : 5,\n                \"CLASS_learning_rate\"     : 0.15,\n          \
-    \      \"CLASS_colsample_bylevel\" : 0.7,\n                \"CLASS_colsample_bytree\"\
+    \ function (container image)\n    builder_cleaner = funcs[\"clean-data\"].deploy_step(skip_deployed=True,\
+    \ \n                                                      with_mlrun=False)\n\
+    \    # use mlrun<=0.4.7 only:\n    builder_xgb = funcs[\"classify\"].deploy_step(skip_deployed=True,\
+    \ \n                                                with_mlrun=False)\n    \n\
+    \    # run the ingestion function with the new image and params\n    clean = funcs[\"\
+    clean-data\"].as_step(\n        name=\"clean-data\",\n        handler=\"data_clean\"\
+    ,\n        image=builder_cleaner.outputs[\"image\"],\n        params={\"file_ext\"\
+    : \"csv\",\n                \"models_dest\": \"models/encoders\"},\n        inputs={\"\
+    src\": RAW_CHURN_DATA},\n        outputs=[\"preproc-colum_map\",\n           \
+    \      \"preproc-numcat_map\",\n                 \"preproc-label_encoders\"\n\
+    \                 \"cleaned-data\",\n                 \"encoded-data\",\n    \
+    \             \"tenured-data\"])\n\n    # analyze our dataset\n    describe =\
+    \ funcs[\"describe\"].as_step(\n        name=\"summary\",\n        params={\"\
+    label_column\"  : \"labels\"},\n        inputs={\"table\": clean.outputs[\"encoded-data\"\
+    ]},\n        outputs={\"histograms\", \n                 \"imbalance\",\n    \
+    \             \"correlation\",\n                 \"correlation-matrix\"})\n  \
+    \  \n    # train with hyper-paremeters\n    xgb = funcs[\"classify\"].as_step(\n\
+    \        name=\"current-state\",\n        handler=\"train_model\",\n        image=builder_xgb.outputs[\"\
+    image\"],\n        params={\"sample\"                  : -1, \n              \
+    \  \"label_column\"            : \"labels\",\n                \"model_type\" \
+    \             : \"classifier\",\n                # xgb class initializers (tuning\
+    \ candidates):\n                \"CLASS_tree_method\"       : \"gpu_hist\" if\
+    \ GPUS else \"hist\",\n                \"CLASS_objective\"         : \"binary:logistic\"\
+    ,\n                \"CLASS_n_estimators\"      : 50,\n                \"CLASS_max_depth\"\
+    \         : 5,\n                \"CLASS_learning_rate\"     : 0.15,\n        \
+    \        \"CLASS_colsample_bylevel\" : 0.7,\n                \"CLASS_colsample_bytree\"\
     \  : 0.8,\n                \"CLASS_gamma\"             : 1.0,\n              \
     \  \"CLASS_max_delta_step\"    : 3,\n                \"CLASS_min_child_weight\"\
     \  : 1.0,\n                \"CLASS_reg_lambda\"        : 10.0,\n             \
-    \   \"CLASS_scale_pos_weight\"  : 1.5,\n                \"FIT_verbose\"      \
-    \       : 0,\n                \"CLASS_subsample\"         : 0.9,\n           \
-    \     \"CLASS_booster\"           : \"gbtree\",\n                \"CLASS_random_state\"\
+    \   \"CLASS_scale_pos_weight\"  : 1,\n                \"FIT_verbose\"        \
+    \     : 0,\n                \"CLASS_subsample\"         : 0.9,\n             \
+    \   \"CLASS_booster\"           : \"gbtree\",\n                \"CLASS_random_state\"\
     \      : 1,\n                # encoding:\n                \"encode_cols\"    \
     \    : {\"InternetService\": \"ISP\",\n                                      \
     \  \"Contract\"       : \"Contract\",\n                                      \
@@ -134,22 +138,22 @@ workflows:
     \                \"models_dest\"        : \"models/cox\",\n                \"\
     plots_dest\"         : \"plots\",\n                \"file_ext\"           : \"\
     csv\"\n               },\n        inputs={\"dataset\"   : clean.outputs[\"encoded-data\"\
-    ]},\n        outputs=[\"model\",\n                 \"coxhazard-summary\",\n  \
-    \               \"tenured-test-set\"])\n\n    test_xgb = funcs[\"xgbtest\"].as_step(\n\
+    ]},\n        outputs=[\"cx-model\",\n                 \"coxhazard-summary\",\n\
+    \                 \"tenured-test-set\"])\n\n    test_xgb = funcs[\"xgbtest\"].as_step(\n\
     \        name=\"test classifier\",\n        params={\"label_column\": \"labels\"\
     ,\n                \"plots_dest\"  : \"churn/test/xgb\"},\n        inputs={\"\
     models_path\"  : xgb.outputs[\"model\"],\n                \"test_set\"    : xgb.outputs[\"\
     test-set\"]})\n\n    test_cox = funcs[\"coxtest\"].as_step(\n        name=\"test\
     \ regressor\",\n        params={\"label_column\": \"labels\",\n              \
     \  \"plots_dest\"  : \"churn/test/cox\"},\n        inputs={\"models_path\"  :\
-    \ cox.outputs[\"model\"],\n                \"test_set\"    : cox.outputs[\"tenured-test-set\"\
-    ]})\n\n    # deploy our model as a serverless function\n    deploy_xgb = funcs[\"\
-    server\"].deploy_step(\n        models={\"churn_server_v1\": xgb.outputs[\"model\"\
-    ]})\n    deploy_xgb.after(cox)\n"
+    \ cox.outputs[\"cx-model\"],\n                \"test_set\"    : cox.outputs[\"\
+    tenured-test-set\"]})\n\n    # deploy our model as a serverless function\n   \
+    \ deploy_xgb = funcs[\"server\"].deploy_step(\n        models={\"churn_server_v1\"\
+    : xgb.outputs[\"model\"]})\n    deploy_xgb.after(cox)\n"
 artifacts:
 - key: raw-data
   kind: ''
   iter: 0
   tree: latest
-  target_path: /User/repos/demos/churn/WA_Fn-UseC_-Telco-Customer-Churn.csv
+  target_path: https://raw.githubusercontent.com/yjb-ds/testdata/master/data/WA_Fn-UseC_-Telco-Customer-Churn.csv
   db_key: raw-data
