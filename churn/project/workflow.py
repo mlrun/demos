@@ -4,7 +4,10 @@ from mlrun import mount_v3io
 funcs = {}
 
 GPUS = False
-RAW_CHURN_DATA = "/User/repos/demos/churn/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+
+DATA_REPO = "https://raw.githubusercontent.com/yjb-ds/testdata/master"
+DATA_PATH = "data/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+RAW_CHURN_DATA = f"{DATA_REPO}/{DATA_PATH}"
 
 # init functions is used to configure function resources and local settings
 def init_functions(functions: dict, project=None, secrets=None):
@@ -21,13 +24,17 @@ def init_functions(functions: dict, project=None, secrets=None):
 def kfpipeline():
     
     # build our cleaner function (container image)
-    builder = funcs["clean-data"].deploy_step(skip_deployed=True) #False, with_mlrun=False)
+    builder_cleaner = funcs["clean-data"].deploy_step(skip_deployed=True, 
+                                                      with_mlrun=False)
+    # use mlrun<=0.4.7 only:
+    builder_xgb = funcs["classify"].deploy_step(skip_deployed=True, 
+                                                with_mlrun=False)
     
     # run the ingestion function with the new image and params
     clean = funcs["clean-data"].as_step(
         name="clean-data",
         handler="data_clean",
-        image=builder.outputs["image"],
+        image=builder_cleaner.outputs["image"],
         params={"file_ext": "csv",
                 "models_dest": "models/encoders"},
         inputs={"src": RAW_CHURN_DATA},
@@ -51,6 +58,8 @@ def kfpipeline():
     # train with hyper-paremeters
     xgb = funcs["classify"].as_step(
         name="current-state",
+        handler="train_model",
+        image=builder_xgb.outputs["image"],
         params={"sample"                  : -1, 
                 "label_column"            : "labels",
                 "model_type"              : "classifier",
@@ -66,7 +75,7 @@ def kfpipeline():
                 "CLASS_max_delta_step"    : 3,
                 "CLASS_min_child_weight"  : 1.0,
                 "CLASS_reg_lambda"        : 10.0,
-                "CLASS_scale_pos_weight"  : 1.5,
+                "CLASS_scale_pos_weight"  : 1,
                 "FIT_verbose"             : 0,
                 "CLASS_subsample"         : 0.9,
                 "CLASS_booster"           : "gbtree",
@@ -98,7 +107,7 @@ def kfpipeline():
                 "file_ext"           : "csv"
                },
         inputs={"dataset"   : clean.outputs["encoded-data"]},
-        outputs=["model",
+        outputs=["cx-model",
                  "coxhazard-summary",
                  "tenured-test-set"])
 
@@ -113,7 +122,7 @@ def kfpipeline():
         name="test regressor",
         params={"label_column": "labels",
                 "plots_dest"  : "churn/test/cox"},
-        inputs={"models_path"  : cox.outputs["model"],
+        inputs={"models_path"  : cox.outputs["cx-model"],
                 "test_set"    : cox.outputs["tenured-test-set"]})
 
     # deploy our model as a serverless function
