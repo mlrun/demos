@@ -70,7 +70,7 @@ How can you adapt this project to suit your own needs?
 ## Data Science Tags
 
 - xgboost
-- cox proprortional hazards regression
+- cox proportional hazards regression
 - classifiers<br>
 - survival analysis
 
