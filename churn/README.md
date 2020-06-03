@@ -1,5 +1,15 @@
 # Churn Demo
 
+#### In This Document
+
+- [Overview](#overview)
+- [MLRun and Nuclio](#mlrun-and-nuclio)
+- [Further Development](#further-development)
+- [Data Science Tags](#data-science-tags)
+
+<a id="overview"></a>
+## Overview
+
 It's easy to make a business case for running customer churn analyses (given some relevant data), if you could only spot those scenarios where some measurable intervention might have a high likelihood of generating value.
 From the data-scientist's perspective, making that case starts with some questions, data, and some ideas about how to model that data.
 
@@ -17,9 +27,10 @@ Fortunately, the Telco data set contains the client's contract tenure in months.
 So, a second regressor branch trains a number of survivability models that will enable us to provide estimates of the timing of events leading to churn, and these can be found in **survival-curves** in the pipeline flow chart below.
 (Currently, they only provide information as this notebook is currently in development).
 
+<a id="mlrun-and-nuclio"></a>
 ## MLRun and Nuclio
 
-This churn model highlights how you can use **[MLRun projects](https://github.com/mlrun)**, **[Nuclio functions](https://nuclio.io/)** functions, and **[kubeflow pipelines](https://www.kubeflow.org/)** to set up and deploy a realistic churn model in a production environment.
+This churn model highlights how you can use **[MLRun projects](https://github.com/mlrun)**, **[Nuclio functions](https://nuclio.io/)** functions, and **[Kubeflow Pipelines](https://www.kubeflow.org/)** to set up and deploy a realistic churn model in a production environment.
 Along the way you'll
 
 1. Write custom data encoders: raw data often needs to be processed, some features need to be categorized, other binarized.
@@ -37,6 +48,7 @@ Additionally, you're learn how to
 
 ![pipeline](assets/pipeline-3.png)
 
+<a id="further-development"></a>
 ## Further Development
 
 ### Event Simulator
@@ -54,6 +66,7 @@ Who needs attention? How should we schedule interventions?
 
 How can you adapt this project to suit your own needs?
 
+<a id="data-science-tags"></a>
 ## Data Science Tags
 
 - xgboost
