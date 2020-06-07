@@ -1,23 +1,36 @@
-# Stream Video into iguazio using webcam
+# Stream Video to the Platform Using a Webcam
 
-The following examples demonstrate ingesting video images into iguazio platform using web api 
-from a webcam. 
+The faces-demo client demonstrates ingestion of video images from a webcam to the Iguazio Data Science Platform using web APIs.
 
-clone demos to your laptop
-* git clone https://github.com/mlrun/demos.git [mlrun demos](https://github.com/mlrun/demos) 
+<a id="get-mlrun-demos"></a>
+## Get the MLRun Demos
 
-## go to client path
+Clone the [mlrun/demos](https://github.com/mlrun/demos) repository (Git clone URL &mdash; https://github.com/mlrun/demos.git).
+
+<a id="go-to-client-dir"></a>
+## Go to the Client Directory
+
+```sh
 cd mlrun/demos/faces/client
+```
 
-## configure client init.ini file:
-### edit bold variables
+<a id="config-client-init"></a>
+## Configure the Client Initialization
 
-[app] <br>
-log_level=info <br> 
+Edit the [**config/init.ini**](config/init.ini) client-initialization file to configure the client initialization; replace the `<...>` placeholders to match your specific environment.
 
-[nuclio] <br>
-url = _**nuclio fucntion api**_ <br>
+```ini
+[app]
+log_level=info
 
-## run the client
-python VideoCapture.py
+[nuclio]
+url = <nuclio endpoint>
+```
+
+<a id="run-client"></a>
+## Run the Client
+
+```sh
+python video_capture.py
+```
 
