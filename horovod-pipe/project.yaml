@@ -6,9 +6,7 @@ functions:
     metadata:
       name: utils
       tag: ''
-      hash: b3c95093979d6aab0a78e2060a39d2e989b8fb26
       project: cat-and-dog-servers
-      categories: []
     spec:
       command: ''
       args: []
@@ -35,7 +33,7 @@ functions:
             type: DataItem
             doc: url of archive file
           - name: target_path
-            doc: path within artifact store where extracted files are stored
+            doc: file system path to store extracted files
           - name: refresh
           outputs: []
           lineno: 10
@@ -53,12 +51,12 @@ functions:
           - name: map_filename
             default: categories_map.json
           outputs: []
-          lineno: 37
+          lineno: 36
       description: ''
       build:
-        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCB6aXBmaWxlCmltcG9ydCBqc29uCmZyb20gdGVtcGZpbGUgaW1wb3J0IG1rdGVtcAppbXBvcnQgcGFuZGFzIGFzIHBkCmZyb20gbWxydW4gaW1wb3J0IERhdGFJdGVtCgpkZWYgb3Blbl9hcmNoaXZlKGNvbnRleHQsIAogICAgICAgICAgICAgICAgIGFyY2hpdmVfdXJsOiBEYXRhSXRlbSwKICAgICAgICAgICAgICAgICB0YXJnZXRfcGF0aCwKICAgICAgICAgICAgICAgICByZWZyZXNoPUZhbHNlKToKICAgICIiIk9wZW4gYSBmaWxlL29iamVjdCBhcmNoaXZlIGludG8gYSB0YXJnZXQgZGlyZWN0b3J5CiAgICAKICAgIEN1cnJlbnRseSBzdXBwb3J0cyB6aXAgYW5kIHRhci5negogICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICBmdW5jdGlvbiBleGVjdXRpb24gY29udGV4dAogICAgOnBhcmFtIGFyY2hpdmVfdXJsOiAgdXJsIG9mIGFyY2hpdmUgZmlsZQogICAgOnBhcmFtIHRhcmdldF9wYXRoOiAgcGF0aCB3aXRoaW4gYXJ0aWZhY3Qgc3RvcmUgd2hlcmUgZXh0cmFjdGVkIGZpbGVzCiAgICAgICAgICAgICAgICAgICAgICAgICBhcmUgc3RvcmVkCiAgICA6cGFyYW0ga2V5OiAgICAgICAgICBrZXkgb2YgYXJjaGl2ZSBjb250ZW50cyBpbiBhcnRpZmFjdCBzdG9yZQogICAgIiIiCiAgICBvcy5tYWtlZGlycyh0YXJnZXRfcGF0aCwgZXhpc3Rfb2s9VHJ1ZSkKICAgIAogICAgYXJjaGl2ZV91cmwgPSBhcmNoaXZlX3VybC5sb2NhbCgpCiAgICAKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oJ0V4dHJhY3RpbmcgemlwJykKICAgIHppcF9yZWYgPSB6aXBmaWxlLlppcEZpbGUoYXJjaGl2ZV91cmwsICdyJykKICAgIHppcF9yZWYuZXh0cmFjdGFsbCh0YXJnZXRfcGF0aCkKICAgIHppcF9yZWYuY2xvc2UoKQogICAgCiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnZXh0cmFjdGVkIGFyY2hpdmUgdG8ge3RhcmdldF9wYXRofScpCiAgICBjb250ZXh0LmxvZ19hcnRpZmFjdCgnY29udGVudCcsIHRhcmdldF9wYXRoPXRhcmdldF9wYXRoKQoKICAgIApkZWYgY2F0ZWdvcmllc19tYXBfYnVpbGRlcihjb250ZXh0LAogICAgICAgICAgICAgICAgICAgICAgICAgICBzb3VyY2VfZGlyLAogICAgICAgICAgICAgICAgICAgICAgICAgICBkZl9maWxlbmFtZT0nZmlsZV9jYXRlZ29yaWVzX2RmLmNzdicsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIG1hcF9maWxlbmFtZT0nY2F0ZWdvcmllc19tYXAuanNvbicpOgogICAgIiIiUmVhZCBsYWJlbGVkIGltYWdlcyBmcm9tIGEgZGlyZWN0b3J5IGFuZCBjcmVhdGUgY2F0ZWdvcnkgbWFwICsgZGYKICAgIAogICAgZmlsZW5hbWUgZm9ybWF0OiA8Y2F0ZWdvcnk+Lk5OLmpwZyIiIgogICAgCiAgICBmaWxlbmFtZXMgPSBbZmlsZSBmb3IgZmlsZSBpbiBvcy5saXN0ZGlyKHNvdXJjZV9kaXIpIGlmIGZpbGUuZW5kc3dpdGgoJy5qcGcnKV0KICAgIGNhdGVnb3JpZXMgPSBbXQogICAgICAgIAogICAgZm9yIGZpbGVuYW1lIGluIGZpbGVuYW1lczoKICAgICAgICBjYXRlZ29yeSA9IGZpbGVuYW1lLnNwbGl0KCcuJylbMF0KICAgICAgICBjYXRlZ29yaWVzLmFwcGVuZChjYXRlZ29yeSkKCiAgICBkZiA9IHBkLkRhdGFGcmFtZSh7CiAgICAgICAgJ2ZpbGVuYW1lJzogZmlsZW5hbWVzLAogICAgICAgICdjYXRlZ29yeSc6IGNhdGVnb3JpZXMKICAgIH0pCiAgICBkZlsnY2F0ZWdvcnknXSA9IGRmWydjYXRlZ29yeSddLmFzdHlwZSgnc3RyJykKICAgIAogICAgY2F0ZWdvcmllcyA9IGRmLmNhdGVnb3J5LnVuaXF1ZSgpCiAgICBjYXRlZ29yaWVzID0ge2k6IGNhdGVnb3J5IGZvciBpLCBjYXRlZ29yeSBpbiBlbnVtZXJhdGUoY2F0ZWdvcmllcyl9CiAgICB3aXRoIG9wZW4ob3MucGF0aC5qb2luKGNvbnRleHQuYXJ0aWZhY3RfcGF0aCwgbWFwX2ZpbGVuYW1lKSwgJ3cnKSBhcyBmOgogICAgICAgIGYud3JpdGUoanNvbi5kdW1wcyhjYXRlZ29yaWVzKSkKICAgICAgICAKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oY2F0ZWdvcmllcykKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCdjYXRlZ29yaWVzX21hcCcsIGxvY2FsX3BhdGg9bWFwX2ZpbGVuYW1lKQogICAgY29udGV4dC5sb2dfZGF0YXNldCgnZmlsZV9jYXRlZ29yaWVzJywgZGY9ZGYsIGxvY2FsX3BhdGg9ZGZfZmlsZW5hbWUpCgo=
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCB6aXBmaWxlCmltcG9ydCBqc29uCmZyb20gdGVtcGZpbGUgaW1wb3J0IG1rdGVtcAppbXBvcnQgcGFuZGFzIGFzIHBkCmZyb20gbWxydW4gaW1wb3J0IERhdGFJdGVtCgpkZWYgb3Blbl9hcmNoaXZlKGNvbnRleHQsIAogICAgICAgICAgICAgICAgIGFyY2hpdmVfdXJsOiBEYXRhSXRlbSwKICAgICAgICAgICAgICAgICB0YXJnZXRfcGF0aCwKICAgICAgICAgICAgICAgICByZWZyZXNoPUZhbHNlKToKICAgICIiIk9wZW4gYSBmaWxlL29iamVjdCBhcmNoaXZlIGludG8gYSB0YXJnZXQgZGlyZWN0b3J5CiAgICAKICAgIEN1cnJlbnRseSBzdXBwb3J0cyB6aXAgYW5kIHRhci5negogICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICBmdW5jdGlvbiBleGVjdXRpb24gY29udGV4dAogICAgOnBhcmFtIGFyY2hpdmVfdXJsOiAgdXJsIG9mIGFyY2hpdmUgZmlsZQogICAgOnBhcmFtIHRhcmdldF9wYXRoOiAgZmlsZSBzeXN0ZW0gcGF0aCB0byBzdG9yZSBleHRyYWN0ZWQgZmlsZXMKICAgIDpwYXJhbSBrZXk6ICAgICAgICAgIGtleSBvZiBhcmNoaXZlIGNvbnRlbnRzIGluIGFydGlmYWN0IHN0b3JlCiAgICAiIiIKICAgIG9zLm1ha2VkaXJzKHRhcmdldF9wYXRoLCBleGlzdF9vaz1UcnVlKQogICAgCiAgICBhcmNoaXZlX3VybCA9IGFyY2hpdmVfdXJsLmxvY2FsKCkKICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbygnRXh0cmFjdGluZyB6aXAnKQogICAgemlwX3JlZiA9IHppcGZpbGUuWmlwRmlsZShhcmNoaXZlX3VybCwgJ3InKQogICAgemlwX3JlZi5leHRyYWN0YWxsKHRhcmdldF9wYXRoKQogICAgemlwX3JlZi5jbG9zZSgpCiAgICAKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZidleHRyYWN0ZWQgYXJjaGl2ZSB0byB7dGFyZ2V0X3BhdGh9JykKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCdjb250ZW50JywgdGFyZ2V0X3BhdGg9dGFyZ2V0X3BhdGgpCgogICAgCmRlZiBjYXRlZ29yaWVzX21hcF9idWlsZGVyKGNvbnRleHQsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIHNvdXJjZV9kaXIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIGRmX2ZpbGVuYW1lPSdmaWxlX2NhdGVnb3JpZXNfZGYuY3N2JywKICAgICAgICAgICAgICAgICAgICAgICAgICAgbWFwX2ZpbGVuYW1lPSdjYXRlZ29yaWVzX21hcC5qc29uJyk6CiAgICAiIiJSZWFkIGxhYmVsZWQgaW1hZ2VzIGZyb20gYSBkaXJlY3RvcnkgYW5kIGNyZWF0ZSBjYXRlZ29yeSBtYXAgKyBkZgogICAgCiAgICBmaWxlbmFtZSBmb3JtYXQ6IDxjYXRlZ29yeT4uTk4uanBnIiIiCiAgICAKICAgIGZpbGVuYW1lcyA9IFtmaWxlIGZvciBmaWxlIGluIG9zLmxpc3RkaXIoc291cmNlX2RpcikgaWYgZmlsZS5lbmRzd2l0aCgnLmpwZycpXQogICAgY2F0ZWdvcmllcyA9IFtdCiAgICAgICAgCiAgICBmb3IgZmlsZW5hbWUgaW4gZmlsZW5hbWVzOgogICAgICAgIGNhdGVnb3J5ID0gZmlsZW5hbWUuc3BsaXQoJy4nKVswXQogICAgICAgIGNhdGVnb3JpZXMuYXBwZW5kKGNhdGVnb3J5KQoKICAgIGRmID0gcGQuRGF0YUZyYW1lKHsKICAgICAgICAnZmlsZW5hbWUnOiBmaWxlbmFtZXMsCiAgICAgICAgJ2NhdGVnb3J5JzogY2F0ZWdvcmllcwogICAgfSkKICAgIGRmWydjYXRlZ29yeSddID0gZGZbJ2NhdGVnb3J5J10uYXN0eXBlKCdzdHInKQogICAgCiAgICBjYXRlZ29yaWVzID0gZGYuY2F0ZWdvcnkudW5pcXVlKCkKICAgIGNhdGVnb3JpZXMgPSB7aTogY2F0ZWdvcnkgZm9yIGksIGNhdGVnb3J5IGluIGVudW1lcmF0ZShjYXRlZ29yaWVzKX0KICAgIHdpdGggb3Blbihvcy5wYXRoLmpvaW4oY29udGV4dC5hcnRpZmFjdF9wYXRoLCBtYXBfZmlsZW5hbWUpLCAndycpIGFzIGY6CiAgICAgICAgZi53cml0ZShqc29uLmR1bXBzKGNhdGVnb3JpZXMpKQogICAgICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbyhjYXRlZ29yaWVzKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoJ2NhdGVnb3JpZXNfbWFwJywgbG9jYWxfcGF0aD1tYXBfZmlsZW5hbWUpCiAgICBjb250ZXh0LmxvZ19kYXRhc2V0KCdmaWxlX2NhdGVnb3JpZXMnLCBkZj1kZiwgbG9jYWxfcGF0aD1kZl9maWxlbmFtZSkKCg==
         commands: []
-        code_origin: https://github.com/yjb-ds/demos.git#9fb331affb3b422bedd17ee4aa509e1d8fee30a9
+        code_origin: https://github.com/mlrun/demos.git#ea7de4eff19cc53b3a911a642464ac387ae94fff
 - name: trainer
   spec:
     kind: mpijob
@@ -67,7 +65,7 @@ functions:
       project: cat-and-dog-servers
       categories: []
     spec:
-      command: /User/repos/demos/horovod-pipe/src-tfv2/horovod-training.py
+      command: /User/ml3/demos/horovod-pipe/src-tfv2/horovod-training.py
       args: []
       image: mlrun/ml-models
       env: []
@@ -94,8 +92,8 @@ workflows:
     \              # On Iguazio (Auto-mount /User)\n        # f.apply(mlrun.platforms.mount_pvc())\
     \ # Non-Iguazio mount\n        \n    functions['serving'].set_env('MODEL_CLASS',\
     \ 'TFModel')\n    functions['serving'].set_env('IMAGE_HEIGHT', '128')\n    functions['serving'].set_env('IMAGE_WIDTH',\
-    \ '128')\n    functions['serving'].set_env('ENABLE_EXPLAINER', 'False')\n\n\n\
-    @dsl.pipeline(\n    name='Image classification demo',\n    description='Train\
+    \ '128')\n    functions['serving'].set_env('ENABLE_EXPLAINER', 'False')\n    functions['serving'].spec.min_replicas\
+    \ = 1\n\n\n@dsl.pipeline(\n    name='Image classification demo',\n    description='Train\
     \ an Image Classification TF Algorithm using MLRun'\n)\ndef kfpipeline(\n    \
     \    image_archive='store:///images',\n        images_dir='/User/artifacts/images',\n\
     \        checkpoints_dir='/User/artifacts/models/checkpoints',\n        model_name='cat_vs_dog_tfv1'):\n\
