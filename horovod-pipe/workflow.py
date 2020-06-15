@@ -30,6 +30,7 @@ def init_functions(functions: dict, project=None, secrets=None):
     functions['serving'].set_env('IMAGE_HEIGHT', '128')
     functions['serving'].set_env('IMAGE_WIDTH', '128')
     functions['serving'].set_env('ENABLE_EXPLAINER', 'False')
+    functions['serving'].spec.min_replicas = 1
 
 
 @dsl.pipeline(
