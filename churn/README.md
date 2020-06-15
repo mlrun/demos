@@ -1,4 +1,4 @@
-# Churn Demo &mdash; Real-Time Customer-Churn Prediction (Telco Customer Churn Data Set)
+# Churn Demo: Real-Time Customer-Churn Prediction
 
 This demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 

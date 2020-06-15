@@ -1,4 +1,4 @@
-# scikit-learn Pipeline Demo &mdash; AutoML Pipeline (Iris Data Set)
+# scikit-learn Demo: Full AutoML Pipeline
 
 This demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
 

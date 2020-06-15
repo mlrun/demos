@@ -1,4 +1,4 @@
-# Stream Video to the Platform Using a Webcam
+# Image-Streaming Client
 
 The faces-demo client demonstrates ingestion of video images from a webcam to the Iguazio Data Science Platform using web APIs.
 

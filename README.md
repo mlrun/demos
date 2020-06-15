@@ -1,4 +1,4 @@
-# MLRun Demos &mdash; End-to-End Use-Case Applications
+# MLRun Demos
 
 The mlrun/demos repository provides full end-to-end ML demo use-case applications using MLRun.
 
@@ -6,11 +6,11 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
-- [scikit-learn pipeline demo](#demo-sklearn-pipe) &mdash; AutoML pipeline (Iris data set)
-- [Horovod image-classification demo](#demo-horovd-image-classification) &mdash; distributed training
-- [Faces demo ](#demo-face-recognition)&mdash; real-time image recognition with deep learning
-- [Churn demo ](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
-- [NetOps demo ](#demo-netops)&mdash; predictive network operations/telemetry
+- [scikit-learn demo](#demo-sklearn-pipe) &mdash; full AutoML pipeline (Iris data set)
+- [Horovod image-classification demo](#demo-horovd-image-classification) (distributed training)
+- [Faces demo](#demo-face-recognition)&mdash; real-time image recognition, classification, and tracking with deep learning
+- [Churn demo](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
+- [NetOps demo](#demo-netops)&mdash; predictive network operations/telemetry
 
 <a id="overview"></a>
 ## Overview
@@ -44,7 +44,7 @@ To run the MLRun demos, first do the following:
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
 
 <a id="demo-sklearn-pipe"></a>
-## scikit-learn Pipeline Demo &mdash; AutoML Pipeline (Iris Data Set)
+## scikit-learn Demo: Full AutoML Pipeline
 
 The [**sklearn-pipe**](./sklearn-pipe/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
 
@@ -69,7 +69,7 @@ The output plots can be viewed as static HTML files in the [sklearn-pipe/plots](
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
 <a id="demo-horovd-image-classification"></a>
-## Horovod Image-Classification Demo &mdash; Distributed Training
+## Horovod Image-Classification Demo
 
 The [**horovod-pipe**](horovod-pipe/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
@@ -91,7 +91,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
 
 <a id="demo-face-recognition"></a>
-## Faces Demo &mdash; Real-Time Image Recognition with Deep Learning
+## Faces Demo: Real-Time Image Recognition with Deep Learning
 
 The [**faces**](faces/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
@@ -109,7 +109,7 @@ This comprehensive demonstration includes multiple components:
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
 <a id="demo-churn"></a>
-## Churn Demo &mdash; Real-Time Customer-Churn Prediction (Telco Customer Churn Data Set)
+## Churn Demo: Real-Time Customer-Churn Prediction
 
 The [**chrun**](./churn/README.md) demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 
@@ -128,7 +128,7 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <br><p align="center"><img src="./churn/assets/pipeline-3.png" width="500"/></p><br>
 
 <a id="demo-netops"></a>
-## NetOps Demo &mdash; Predictive Network Operations/Telemetry
+## NetOps Demo: Predictive Network Operations/Telemetry
 <!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
   README link below. -->
 

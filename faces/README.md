@@ -1,4 +1,4 @@
-# Faces Demo &mdash; Real-Time Image Recognition with Deep Learning
+# Faces Demo: Real-Time Image Recognition with Deep Learning
 
 This demo uses [OpenCV](https://opencv.org/), [PyTorch](https://pytorch.org), and [Nuclio](https://nuclio.io/) to demonstrate an end-to-end solution for real-time face recognition over a video stream.
 

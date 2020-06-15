@@ -1,4 +1,4 @@
-# Deployment of a Streamlit Dashboard for Labeling and Browsing Collected Images
+# Deploying a Streamlit Image-Management Dashboard
 
 Perform the following steps to deploy an interactive [Streamlit](Streamlit) dashboard for classifying (labeling) and browsing collected images in your Iguazio Data Science Platform (**"the platform"**) environment:
 
