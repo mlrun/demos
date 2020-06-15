@@ -10,7 +10,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 - [Horovod image-classification demo](#demo-horovd-image-classification) &mdash; distributed training
 - [Faces demo ](#demo-face-recognition)&mdash; real-time image recognition with deep learning
 - [Churn demo ](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
-- [NetOps demo ](#demo-netops)&mdash; predictive network operations/telemetry [WORK IN PROGRESS]
+- [NetOps demo ](#demo-netops)&mdash; predictive network operations/telemetry
 
 <a id="overview"></a>
 ## Overview
@@ -128,13 +128,10 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 
 <a id="demo-netops"></a>
 ## NetOps Demo &mdash; Predictive Network Operations/Telemetry
-<!-- TODO: When the demo is read, edit the description, replace "NetOps" at the
-  start of the description with the name of the demo directory and a link, 
-  remove the TBD note, and remove the [WORK IN PROGRESS] tag in the TOC. -->
+<!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
+  README link below. -->
 
-> **Note:** This demos is currently work in progress.
-
-The NetOps demo demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
+The [NetOps demo](https://github.com/mlrun/demo-network-operations/blob/master/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
 
 The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
 
