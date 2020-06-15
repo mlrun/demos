@@ -62,7 +62,7 @@ To run the demo, download the [**sklearn-project.ipynb**](./sklearn-pipe/sklearn
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
 <a id="demo-sklearn-pipe-pipeline-output"></a>
-### Pipeline Output
+**Pipeline Output**
 
 The output plots can be viewed as static HTML files in the [sklearn-pipe/plots](sklearn-pipe/plots) directory.
 
@@ -86,7 +86,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 <br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
 
 <a id="demo-horovd-image-classification-pipeline-output"></a>
-### Pipeline Output
+**Pipeline Output**
 
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
 
@@ -104,7 +104,7 @@ This comprehensive demonstration includes multiple components:
 - Automated model deployment using [Nuclio](https://nuclio.io/)
 
 <a id="demo-face-recognition-pipeline-output"></a>
-### Pipeline Output
+**Pipeline Output**
 
 <br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
 
@@ -122,7 +122,8 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 5.  Identify the best model for your needs, and deploy it into production as a real-time Nuclio serverless function.
 6.  Test the model server.
 
-### Pipeline Output
+<a id="demo-churn-pipeline-output"></a>
+**Pipeline Output**
 
 <br><p align="center"><img src="./churn/assets/pipeline-3.png" width="500"/></p><br>
 
@@ -137,7 +138,8 @@ The demo is maintained in a separate Git repository and also demonstrates how to
 
 <br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
 
-### Pipeline Output
+<a id="demo-netops-pipeline-output"></a>
+**Pipeline Output**
 
 <br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
 
