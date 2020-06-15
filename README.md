@@ -138,6 +138,8 @@ The NetOps demo demonstrates ingestion of telemetry/Network Operations (NetOps) 
 
 The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
 
+<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
+
 ### Pipeline Output
 
 <br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
