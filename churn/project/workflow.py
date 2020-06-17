@@ -5,8 +5,9 @@ funcs = {}
 
 GPUS = False
 
-DATA_REPO = "https://raw.githubusercontent.com/yjb-ds/testdata/master"
-DATA_PATH = "data/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+# assuming the 
+DATA_REPO = "https://raw.githubusercontent.com/mlrun/demos/master/churn"
+DATA_PATH = "WA_Fn-UseC_-Telco-Customer-Churn.csv"
 RAW_CHURN_DATA = f"{DATA_REPO}/{DATA_PATH}"
 
 # init functions is used to configure function resources and local settings
@@ -23,18 +24,10 @@ def init_functions(functions: dict, project=None, secrets=None):
 )
 def kfpipeline():
     
-    # build our cleaner function (container image)
-    builder_cleaner = funcs["clean-data"].deploy_step(skip_deployed=True, 
-                                                      with_mlrun=False)
-    # use mlrun<=0.4.7 only:
-    builder_xgb = funcs["classify"].deploy_step(skip_deployed=True, 
-                                                with_mlrun=False)
-    
-    # run the ingestion function with the new image and params
+    # encode the data
     clean = funcs["clean-data"].as_step(
         name="clean-data",
         handler="data_clean",
-        image=builder_cleaner.outputs["image"],
         params={"file_ext": "csv",
                 "models_dest": "models/encoders"},
         inputs={"src": RAW_CHURN_DATA},
@@ -42,24 +35,22 @@ def kfpipeline():
                  "preproc-numcat_map",
                  "preproc-label_encoders"
                  "cleaned-data",
-                 "encoded-data",
-                 "tenured-data"])
+                 "encoded-data"])
 
     # analyze our dataset
     describe = funcs["describe"].as_step(
         name="summary",
         params={"label_column"  : "labels"},
         inputs={"table": clean.outputs["encoded-data"]},
-        outputs={"histograms", 
+        outputs=["histograms", 
                  "imbalance",
                  "correlation",
-                 "correlation-matrix"})
+                 "correlation-matrix"])
     
     # train with hyper-paremeters
     xgb = funcs["classify"].as_step(
         name="current-state",
         handler="train_model",
-        image=builder_xgb.outputs["image"],
         params={"sample"                  : -1, 
                 "label_column"            : "labels",
                 "model_type"              : "classifier",
@@ -90,8 +81,7 @@ def kfpipeline():
                 "file_ext"           : "csv"
                },
         inputs={"dataset"   : clean.outputs["encoded-data"]},
-        outputs=["model", 
-                 "test-set"])
+        outputs=["model", "test_set"])
 
     cox = funcs["survive"].as_step(
         name="survival-curves",
@@ -107,22 +97,20 @@ def kfpipeline():
                 "file_ext"           : "csv"
                },
         inputs={"dataset"   : clean.outputs["encoded-data"]},
-        outputs=["cx-model",
-                 "coxhazard-summary",
-                 "tenured-test-set"])
+        outputs=["cx-model", "coxhazard-summary", "tenured-test-set"])
 
     test_xgb = funcs["xgbtest"].as_step(
         name="test classifier",
         params={"label_column": "labels",
                 "plots_dest"  : "churn/test/xgb"},
-        inputs={"models_path"  : xgb.outputs["model"],
-                "test_set"    : xgb.outputs["test-set"]})
+        inputs={"models_path" : xgb.outputs["model"],
+                "test_set"    : xgb.outputs["test_set"]})
 
     test_cox = funcs["coxtest"].as_step(
         name="test regressor",
         params={"label_column": "labels",
                 "plots_dest"  : "churn/test/cox"},
-        inputs={"models_path"  : cox.outputs["cx-model"],
+        inputs={"models_path" : cox.outputs["cx-model"],
                 "test_set"    : cox.outputs["tenured-test-set"]})
 
     # deploy our model as a serverless function
