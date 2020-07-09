@@ -5,11 +5,6 @@ funcs = {}
 
 GPUS = False
 
-# assuming the 
-DATA_REPO = "https://raw.githubusercontent.com/mlrun/demos/master/churn"
-DATA_PATH = "WA_Fn-UseC_-Telco-Customer-Churn.csv"
-RAW_CHURN_DATA = f"{DATA_REPO}/{DATA_PATH}"
-
 # init functions is used to configure function resources and local settings
 def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
@@ -30,22 +25,15 @@ def kfpipeline():
         handler="data_clean",
         params={"file_ext": "csv",
                 "models_dest": "models/encoders"},
-        inputs={"src": RAW_CHURN_DATA},
-        outputs=["preproc-colum_map",
-                 "preproc-numcat_map",
-                 "preproc-label_encoders"
-                 "cleaned-data",
+        inputs={"src": "store:///raw-data"},  # use an artifact from the feature store
+        outputs=["cleaned-data",
                  "encoded-data"])
 
     # analyze our dataset
     describe = funcs["describe"].as_step(
         name="summary",
         params={"label_column"  : "labels"},
-        inputs={"table": clean.outputs["encoded-data"]},
-        outputs=["histograms", 
-                 "imbalance",
-                 "correlation",
-                 "correlation-matrix"])
+        inputs={"table": clean.outputs["encoded-data"]})
     
     # train with hyper-paremeters
     xgb = funcs["classify"].as_step(
@@ -97,17 +85,17 @@ def kfpipeline():
                 "file_ext"           : "csv"
                },
         inputs={"dataset"   : clean.outputs["encoded-data"]},
-        outputs=["cx-model", "coxhazard-summary", "tenured-test-set"])
+        outputs=["cx-model", "tenured-test-set"])
 
     test_xgb = funcs["xgbtest"].as_step(
-        name="test classifier",
+        name="test-classifier",
         params={"label_column": "labels",
                 "plots_dest"  : "churn/test/xgb"},
         inputs={"models_path" : xgb.outputs["model"],
                 "test_set"    : xgb.outputs["test_set"]})
 
     test_cox = funcs["coxtest"].as_step(
-        name="test regressor",
+        name="test-regressor",
         params={"label_column": "labels",
                 "plots_dest"  : "churn/test/cox"},
         inputs={"models_path" : cox.outputs["cx-model"],
