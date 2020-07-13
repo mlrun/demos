@@ -116,8 +116,7 @@ workflows:
     \                   inputs={\n                                         'categories_map':\
     \ label.outputs['categories_map'],\n                                         'file_categories':\
     \ label.outputs['file_categories']},\n                                     outputs=['model'])\n\
-    \    train.container.set_image_pull_policy('Always')\n\n    # deploy the model\
-    \ using nuclio functions\n    deploy = funcs['serving'].deploy_step(models={model_name:\
+    \n    # deploy the model using nuclio functions\n    deploy = funcs['serving'].deploy_step(models={model_name:\
     \ train.outputs['model']})\n"
 artifacts:
 - key: images
