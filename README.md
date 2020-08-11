@@ -7,7 +7,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [scikit-learn demo](#demo-sklearn-pipe) &mdash; full AutoML pipeline (Iris data set)
-- [Horovod demo](#demo-horovd-image-classification) &mdash; image classification with distributed training
+- [Horovod demo](#demo-horovod-image-classification) &mdash; image classification with distributed training
 - [Faces demo](#demo-face-recognition)&mdash; real-time image recognition, classification, and tracking with deep learning
 - [Churn demo](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
 - [NetOps demo](#demo-netops)&mdash; predictive network operations/telemetry
@@ -68,7 +68,7 @@ The output plots can be viewed as static HTML files in the [sklearn-pipe/plots](
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
-<a id="demo-horovd-image-classification"></a>
+<a id="demo-horovod-image-classification"></a>
 ## Horovod Demo: Image Classification with Distributed Training
 
 The [**horovod-pipe**](horovod-pipe/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
@@ -85,7 +85,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 
 <br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
 
-<a id="demo-horovd-image-classification-pipeline-output"></a>
+<a id="demo-horovod-image-classification-pipeline-output"></a>
 **Pipeline Output**
 
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
