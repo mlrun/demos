@@ -6,14 +6,7 @@ import random
 import v3io_frames as v3f
 import importlib.util
 from pickle import dump
-
-MODELS_PATH = '../models/models.py'
-DATA_PATH = 'dataset/'
-ARTIFACTS_PATH = '/Users/aviasulin/PycharmProjects/app-lab/apps/faces/tests/artifacts/'
-FRAMES_URL = 'https://framesd.default-tenant.app.vmdev22.lab.iguazeng.com'
-ENCODING_PATH = "encodings"
-TOKEN = '5db1b7d1-f48f-4798-bed7-3c3d6f0767de'
-
+from functions.params import Params
 
 def read_encodings_table(frames_url, token, container='faces', table='encodings'):
     client = v3f.Client(address=frames_url, token=token, container=container)
@@ -21,7 +14,9 @@ def read_encodings_table(frames_url, token, container='faces', table='encodings'
     return encoding_df
 
 
-def train(context, processed_data, model_name='model.bst', cuda=True):
+def train(context, model_name='model.bst', cuda=True):
+    params = Params()
+    params.set_params_from_context()
     if cuda:
         if torch.cuda.is_available():
             device = torch.device("cuda")
@@ -35,14 +30,8 @@ def train(context, processed_data, model_name='model.bst', cuda=True):
     # prepare data from training
     context.logger.info('Client')
 
-    data_df = read_encodings_table(FRAMES_URL, TOKEN)
+    data_df = read_encodings_table(params.frames_url, params.token)
 
-    # client = v3f.Client(FRAMES_URL, container="faces")
-    # # with open(processed_data.url, 'r') as f:
-    # #     t = f.read()
-    # t = ENCODING_PATH
-    #
-    # data_df = client.read(backend="kv", table=t, reset_index=False, filter='label != -1')
     X = data_df[['c' + str(i).zfill(3) for i in range(128)]].values
     y = data_df['label'].values
 
@@ -55,7 +44,7 @@ def train(context, processed_data, model_name='model.bst', cuda=True):
     hidden_dim = 64
     output_dim = n_classes
 
-    spec = importlib.util.spec_from_file_location('models', MODELS_PATH)
+    spec = importlib.util.spec_from_file_location('models', params.models_path)
     models = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(models)
 
@@ -81,11 +70,11 @@ def train(context, processed_data, model_name='model.bst', cuda=True):
     context.logger.info('Save model')
     # saves and logs model into mlrun context
     dump(model._modules, open(model_name, 'wb'))
-    context.log_artifact('model', src_path=model_name, target_path=ARTIFACTS_PATH+model_name,
+    context.log_artifact('model', src_path=model_name, target_path=params.artifacts_path+model_name,
                          labels={'framework': 'Pytorch-FeedForwardNN'})
     os.remove(model_name)
 
 
 if __name__ == '__main__':
-    ctx = get_or_create_ctx('parquez')
+    ctx = get_or_create_ctx('train model')
     train(ctx, "data")
