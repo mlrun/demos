@@ -8,6 +8,7 @@ import importlib.util
 from pickle import dump
 from functions.params import Params
 
+
 def read_encodings_table(frames_url, token, container='faces', table='encodings'):
     client = v3f.Client(address=frames_url, token=token, container=container)
     encoding_df = client.read(backend="kv", table=table, reset_index=False, filter='label != -1')
@@ -16,7 +17,7 @@ def read_encodings_table(frames_url, token, container='faces', table='encodings'
 
 def train(context, model_name='model.bst', cuda=True):
     params = Params()
-    params.set_params_from_context()
+    params.set_params_from_context(context)
     if cuda:
         if torch.cuda.is_available():
             device = torch.device("cuda")
