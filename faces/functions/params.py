@@ -13,7 +13,10 @@ class Params(object):
         self.token = token
 
     def set_params_from_context(self, context):
+        context.logger.info("setting context params")
         attrs = vars(self)
         for attr in attrs:
             if attr in context.parameters:
                 setattr(self, attr, context.parameters[attr])
+        attrs = vars(self)
+        context.logger.info(attrs)
