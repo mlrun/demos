@@ -20,6 +20,7 @@ from functions.params import Params
 def encode_images(context):
     params = Params()
     params.set_params_from_context(context)
+    context.logger.info(params)
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     context.logger.info(f'Running on device: {device}')
 

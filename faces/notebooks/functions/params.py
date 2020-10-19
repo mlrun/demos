@@ -3,7 +3,7 @@ class Params(object):
                  , data_path='dataset/'
                  , artifacts_path='artifacts/'
                  , models_path='models/models.py'
-                 , frames_url='http://framesd:8081'
+                 , frames_url='framesd:8081'
                  , token='set_token'
                  ):
         self.data_path = data_path
