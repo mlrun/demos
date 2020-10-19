@@ -2,7 +2,7 @@ class Params(object):
     def __init__(self
                  , data_path='dataset/'
                  , artifacts_path='artifacts/'
-                 , models_path='models/models.py'
+                 , models_path='functions/models.py'
                  , frames_url='framesd:8081'
                  , token='set_token'
                  ):
