@@ -70,7 +70,6 @@ def kfpipeline(
                                          'categories_map': label.outputs['categories_map'],
                                          'file_categories': label.outputs['file_categories']},
                                      outputs=['model'])
-    train.container.set_image_pull_policy('Always')
 
     # deploy the model using nuclio functions
     deploy = funcs['serving'].deploy_step(models={model_name: train.outputs['model']})
