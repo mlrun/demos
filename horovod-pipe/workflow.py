@@ -41,7 +41,8 @@ def kfpipeline(
         image_archive='store:///images',
         images_dir='/User/artifacts/images',
         checkpoints_dir='/User/artifacts/models/checkpoints',
-        model_name='cat_vs_dog_tfv1'):
+        model_name='cat_vs_dog_tfv1',
+        epochs=4):
 
     # step 1: download images
     open_archive = funcs['utils'].as_step(name='download',
@@ -60,7 +61,7 @@ def kfpipeline(
 
     # step 3: train the model
     train = funcs['trainer'].as_step(name='train',
-                                     params={'epochs': 4,
+                                     params={'epochs': epochs,
                                              'checkpoints_dir': checkpoints_dir,
                                              'data_path'      : source_dir,
                                              'model_dir'     : 'tfmodels',

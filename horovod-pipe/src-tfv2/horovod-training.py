@@ -45,11 +45,17 @@ hvd.init()
 # if gpus found, pin GPU to be used to process local rank (one GPU per process)
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
+    device = 'GPU:0'
     for gpu in gpus:
         tf.config.experimental.set_memory_growth(gpu, True)
     tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
+    logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
 else:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+    device = 'CPU:0'
+
+print(f'Using device: {device}')
 
 if hvd.rank() == 0:
     mlctx.logger.info('Validating paths:\nData_path:\t{D}\nModel_dir:\t{M}\n'.format(D=DATA_PATH, M=MODEL_DIR))
@@ -102,7 +108,8 @@ model.compile(loss='binary_crossentropy',
               experimental_run_tf_function=False,
               metrics=['accuracy'])
 
-model.summary()
+if hvd.rank() == 0:
+    model.summary()
 
 callbacks = [
     # Horovod: broadcast initial variable states from rank 0 to all other processes.
@@ -197,7 +204,7 @@ if hvd.rank() == 0:
                        history.history['val_loss'][i]])
     summary = mlctx.log_artifact(chart, local_path='training-summary.html', 
                                  artifact_path=model_artifacts)
-    
+
 
     # Save weights
     model.save_weights('model-weights.h5')
