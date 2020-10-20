@@ -78,4 +78,4 @@ def train(context, model_name='model.bst', cuda=True):
 
 if __name__ == '__main__':
     ctx = get_or_create_ctx('train model')
-    train(ctx, "data")
+    train(ctx)
