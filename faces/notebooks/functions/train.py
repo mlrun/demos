@@ -9,9 +9,9 @@ from pickle import dump
 from functions.params import Params
 
 
-def read_encodings_table(frames_url, token, container='faces', table='encodings'):
-    client = v3f.Client(address=frames_url, token=token, container=container)
-    encoding_df = client.read(backend="kv", table=table, reset_index=False, filter='label != -1')
+def read_encodings_table(params):
+    client = v3f.Client(address=params.frames_url, token=params.token, container=params.container)
+    encoding_df = client.read(backend="kv", table=params.encodings_path, reset_index=False, filter='label != -1')
     return encoding_df
 
 
@@ -31,7 +31,7 @@ def train(context, model_name='model.bst', cuda=True):
     # prepare data from training
     context.logger.info('Client')
 
-    data_df = read_encodings_table(params.frames_url, params.token)
+    data_df = read_encodings_table(params)
 
     X = data_df[['c' + str(i).zfill(3) for i in range(128)]].values
     y = data_df['label'].values

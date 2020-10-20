@@ -24,7 +24,7 @@ def encode_images(context):
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     context.logger.info(f'Running on device: {device}')
 
-    client = v3f.Client(params.frames_url, container="faces", token=params.token)
+    client = v3f.Client(params.frames_url, container=params.container, token=params.token)
 
     if not os.path.exists(params.data_path + 'processed'):
         os.makedirs(params.data_path + 'processed')
@@ -108,7 +108,7 @@ def encode_images(context):
     data_df = pd.concat([df_x, df_y, df_details], axis=1)
     data_df['fileName'] = fileNames
 
-    client.write(backend='kv', table='encodings', dfs=data_df,
+    client.write(backend='kv', table=params.encodings_path, dfs=data_df,
                  index_cols=['fileName'])
 
     encoding_path = "encoding"
