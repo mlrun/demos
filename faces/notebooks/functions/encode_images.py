@@ -14,7 +14,7 @@ import datetime
 import random
 import string
 import v3io_frames as v3f
-from notebooks.functions.params import Params
+from functions.params import Params
 
 
 def encode_images(context):
@@ -25,6 +25,9 @@ def encode_images(context):
     context.logger.info(f'Running on device: {device}')
 
     client = v3f.Client(params.frames_url, container=params.container, token=params.token)
+    
+    if not os.path.exists(params.artifacts_path):
+        os.makedirs(params.artifacts_path)    
 
     if not os.path.exists(params.data_path + 'processed'):
         os.makedirs(params.data_path + 'processed')
@@ -64,7 +67,7 @@ def encode_images(context):
     name2idx = idx2name_df.set_index('name')['value'].to_dict()
     # log name to index mapping into mlrun context
     context.logger.info("artifact_path {} + local_path  idx2name.csv".format(context.artifact_path))
-    context.log_artifact(TableArtifact('idx2name', df=idx2name_df), local_path='idx2name.csv')
+    context.log_artifact(TableArtifact('idx2name', df=idx2name_df),artifact_path=params.artifacts_path,  local_path='idx2name.csv')
 
     # generates a list of paths to labeled images
     imagePaths = [f for f in paths.list_images(params.data_path + 'input') if not '.ipynb' in f]
