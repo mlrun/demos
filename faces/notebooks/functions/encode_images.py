@@ -47,7 +47,7 @@ def encode_images(context):
     context.logger.info("index file path : {}".format(idx_file_path))
     if os.path.exists(idx_file_path):
         context.logger.info("index file path exists : {} reading file".format(idx_file_path))
-        idx2name_df = pd.read_csv(idx_file_path)
+        idx2name_df = pd.read_csv(idx_file_path, index_col=0)
     else:
         context.logger.info("index file path does not exists : {} ".format(idx_file_path))
         idx2name_df = pd.DataFrame(columns=['value', 'name'])
@@ -62,7 +62,6 @@ def encode_images(context):
         idx2name_df.loc[i] = {'value': i, 'name': new_classes_names.pop()}
 
     name2idx = idx2name_df.set_index('name')['value'].to_dict()
-
     # log name to index mapping into mlrun context
     context.logger.info("artifact_path {} + local_path  idx2name.csv".format(context.artifact_path))
     context.log_artifact(TableArtifact('idx2name', df=idx2name_df), local_path='idx2name.csv')
@@ -118,7 +117,7 @@ def encode_images(context):
     encoding_path = "encoding"
     # with open('encodings_path.txt', 'w+') as f:
     #     f.write('encodings')
-    context.log_artifact('encodings_path', body = encoding_path)
+    context.log_artifact('encodings_path', body=encoding_path)
     #os.remove('encodings_path.txt')
 
 

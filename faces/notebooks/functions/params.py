@@ -1,12 +1,12 @@
 class Params(object):
     def __init__(self
-                 , data_path='dataset/'
-                 , artifacts_path='artifacts/'
+                 , data_path='faces/dataset/'
+                 , artifacts_path='faces/artifacts/'
                  , models_path='/User/mlrun/demos/faces/notebooks/functions/models.py'
                  , frames_url='framesd:8081'
                  , token='set_token'
-                 , encodings_path = 'encodings'
-                 , container = 'users'
+                 , encodings_path='faces/encodings/'
+                 , container='users'
                  ):
         self.data_path = data_path
         self.artifacts_path = artifacts_path
