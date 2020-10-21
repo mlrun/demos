@@ -14,7 +14,7 @@ import datetime
 import random
 import string
 import v3io_frames as v3f
-from functions.params import Params
+from notebooks.functions.params import Params
 
 
 def encode_images(context):
@@ -44,9 +44,12 @@ def encode_images(context):
         shutil.rmtree(params.data_path + 'input/__MACOSX')
 
     idx_file_path = params.artifacts_path + "idx2name.csv"
+    context.logger.info("index file path : {}".format(idx_file_path))
     if os.path.exists(idx_file_path):
+        context.logger.info("index file path exists : {} reading file".format(idx_file_path))
         idx2name_df = pd.read_csv(idx_file_path)
     else:
+        context.logger.info("index file path does not exists : {} ".format(idx_file_path))
         idx2name_df = pd.DataFrame(columns=['value', 'name'])
 
     # creates a mapping of classes(person's names) to target value
@@ -61,6 +64,7 @@ def encode_images(context):
     name2idx = idx2name_df.set_index('name')['value'].to_dict()
 
     # log name to index mapping into mlrun context
+    context.logger.info("artifact_path {} + local_path  idx2name.csv".format(context.artifact_path))
     context.log_artifact(TableArtifact('idx2name', df=idx2name_df), local_path='idx2name.csv')
 
     # generates a list of paths to labeled images
