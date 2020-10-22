@@ -135,7 +135,7 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
   README link below. -->
 
-The [NetOps demo](https://github.com/mlrun/demo-network-operations/blob/master/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
+The [NetOps demo](network-operations/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
 
 The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
 
