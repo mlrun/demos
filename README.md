@@ -96,7 +96,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 <a id="demo-face-recognition"></a>
 ## Faces Demo: Real-Time Image Recognition with Deep Learning
 
-The [**faces**](faces/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
+The [**faces**](realtime-face-recognition/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
 This comprehensive demonstration includes multiple components:
 
@@ -109,7 +109,7 @@ This comprehensive demonstration includes multiple components:
 <a id="demo-face-recognition-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
+<br><p align="center"><img src="./realtime-face-recognition/workflow.png" width="500"/></p><br>
 
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction

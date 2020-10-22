@@ -85,7 +85,7 @@ def load_images(data_path):
 
 
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True)
+    return client.read(backend="kv", table='iguazio/demos/demos/realtime-face-recognition/artifacts/encodings', reset_index=True)
 
 
 def handler(context, event):

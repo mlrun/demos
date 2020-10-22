@@ -2,7 +2,7 @@
 
 Perform the following steps to deploy an interactive [Streamlit](Streamlit) dashboard for classifying (labeling) and browsing collected images in your Iguazio Data Science Platform (**"the platform"**) environment:
 
-1. On your local computer, edit the [**faces/streamlit/streamlit.yaml**](streamlit.yaml) demo configuration file to replace the two `<ACCESS_KEY>` placeholder instances with a valid access key for your platform environment:
+1. On your local computer, edit the [**realtime-face-recognition/streamlit/streamlit.yaml**](streamlit.yaml) demo configuration file to replace the two `<ACCESS_KEY>` placeholder instances with a valid access key for your platform environment:
 
     ```yaml
     spec:
@@ -26,7 +26,7 @@ Perform the following steps to deploy an interactive [Streamlit](Streamlit) dash
     ```
 
 2. In your platform environment, create a Jupyter Notebook service and then clone the [mlrun/demos](https://github.com/mlrun/demos/) repository (clone URL https://github.com/mlrun/demos.git).
-    Use the clone path **/User/demos/demos**, and ensure that at the end, the **dashboard.py** script exists in the following path &mdash; **/User/demos/demos/faces/streamlit/dashboard.py**.
+    Use the clone path **/User/demos/demos**, and ensure that at the end, the **dashboard.py** script exists in the following path &mdash; **/User/demos/demos/realtime-face-recognition/streamlit/dashboard.py**.
 
     > **Note:** The demo currently requires that you log into the platform as user "iguazio".
 

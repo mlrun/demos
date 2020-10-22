@@ -11,7 +11,7 @@ Clone the [mlrun/demos](https://github.com/mlrun/demos) repository (Git clone UR
 ## Go to the Client Directory
 
 ```sh
-cd mlrun/demos/faces/client
+cd mlrun/demos/realtime-face-recognition/client
 ```
 
 <a id="config-client-init"></a>

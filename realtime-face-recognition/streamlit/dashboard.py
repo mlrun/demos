@@ -15,13 +15,13 @@ def load_images(data_path):
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True, filter="label!=-1")
+    return client.read(backend="kv", table='iguazio/demos/demos/realtime-face-recognition/artifacts/encodings', reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
     client = v3f.Client("framesd:8081", container="users")
-    data_path = '/User/demos/demos/faces/dataset/'
-    artifact_path = 'User/demos/demos/faces/artifacts/'
+    data_path = '/User/demos/demos/realtime-face-recognition/dataset/'
+    artifact_path = 'User/demos/demos/realtime-face-recognition/artifacts/'
     classes_url = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_url)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
