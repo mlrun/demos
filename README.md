@@ -4,13 +4,16 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 
 #### In This Document
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [scikit-learn demo](#demo-scikit-learn-pipeline) &mdash; full AutoML pipeline (Iris data set)
-- [Horovod demo](#demo-horovd-image-classification) &mdash; image classification with distributed training
-- [Faces demo](#demo-face-recognition)&mdash; real-time image recognition, classification, and tracking with deep learning
-- [Churn demo](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
-- [NetOps demo](#demo-netops)&mdash; predictive network operations/telemetry
+- [MLRun Demos](#mlrun-demos)
+      - [In This Document](#in-this-document)
+  - [Overview](#overview)
+    - [General ML Workflow](#general-ml-workflow)
+  - [Prerequisites](#prerequisites)
+  - [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
+  - [Horovod Demo: Image Classification with Distributed Training](#horovod-demo-image-classification-with-distributed-training)
+  - [Faces Demo: Real-Time Image Recognition with Deep Learning](#faces-demo-real-time-image-recognition-with-deep-learning)
+  - [Churn Demo: Real-Time Customer-Churn Prediction](#churn-demo-real-time-customer-churn-prediction)
+  - [NetOps Demo: Predictive Network Operations/Telemetry](#netops-demo-predictive-network-operationstelemetry)
 
 <a id="overview"></a>
 ## Overview
@@ -71,7 +74,7 @@ The output plots can be viewed as static HTML files in the [scikit-learn-pipelin
 <a id="demo-horovd-image-classification"></a>
 ## Horovod Demo: Image Classification with Distributed Training
 
-The [**horovod-pipe**](horovod-pipe/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
+The [**image-classification-with-distributed-training**](image-classification-with-distributed-training/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
 The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 

@@ -12,10 +12,10 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 > **Note:** The demo supports both TensorFlow versions 1 and 2.
 > There's one shared notebook and two code files &mdash; one for each TensorFlow version.
 
-<br><p align="center"><img src="/docs/hvd-flow.png" width="600"/></p><br>
+<br><p align="center"><img src="../docs/hvd-flow.png" width="600"/></p><br>
 
 <a id="pipeline-output"></a>
 ## Pipeline Output
 
-<br><p align="center"><img src="/docs/hvd-pipe.png" width="500"/></p><br>
+<br><p align="center"><img src="../docs/hvd-pipe.png" width="500"/></p><br>
 

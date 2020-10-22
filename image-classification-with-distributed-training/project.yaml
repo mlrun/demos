@@ -73,7 +73,7 @@ functions:
       project: cat-and-dog-servers
       categories: []
     spec:
-      command: /User/mlrun-demos/demos/horovod-pipe/src-tfv2/horovod-training.py
+      command: /User/mlrun-demos/demos/image-classification-with-distributed-training/src-tfv2/horovod-training.py
       args: []
       image: mlrun/ml-models-gpu
       env: []
