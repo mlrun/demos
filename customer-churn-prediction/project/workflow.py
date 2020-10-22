@@ -10,7 +10,7 @@ def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
         f.apply(mount_v3io())
         
-    functions["server"].set_env("INFERENCE_STREAM", "users/admin/artifacts/churn/model_stream")
+    functions["server"].set_env("INFERENCE_STREAM", "users/admin/artifacts/customer-churn-prediction/model_stream")
 
     
 @dsl.pipeline(
@@ -90,14 +90,14 @@ def kfpipeline():
     test_xgb = funcs["xgbtest"].as_step(
         name="test-classifier",
         params={"label_column": "labels",
-                "plots_dest"  : "churn/test/xgb"},
+                "plots_dest"  : "customer-churn-prediction/test/xgb"},
         inputs={"models_path" : xgb.outputs["model"],
                 "test_set"    : xgb.outputs["test_set"]})
 
     test_cox = funcs["coxtest"].as_step(
         name="test-regressor",
         params={"label_column": "labels",
-                "plots_dest"  : "churn/test/cox"},
+                "plots_dest"  : "customer-churn-prediction/test/cox"},
         inputs={"models_path" : cox.outputs["cx-model"],
                 "test_set"    : cox.outputs["tenured-test-set"]})
 
