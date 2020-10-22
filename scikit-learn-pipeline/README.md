@@ -15,12 +15,12 @@ See the [**sklearn-project.ipynb**](./sklearn-project.ipynb) notebook for detail
 <br/>
 To run the demo, download this notebook into an empty directory and execute the cells sequentially.
 
-<br><p align="center"><img src="/docs/trees.png" width="500"/></p><br>
+<br><p align="center"><img src="../docs/trees.png" width="500"/></p><br>
 
 <a id="pipeline-output"></a>
 ## Pipeline Output
 
 The output plots can be viewed as static HTML files in the [**plots**](./plots) directory.
 
-<br><p align="center"><img src="/docs/skpipe.png" width="500"/></p><br>
+<br><p align="center"><img src="../docs/skpipe.png" width="500"/></p><br>
 
