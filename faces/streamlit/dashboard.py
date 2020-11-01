@@ -9,27 +9,30 @@ import shutil
 import datetime
 
 
-def load_images(data_path):
-    return [f for f in paths.list_images(data_path) if '.ipynb' not in f]
+def load_images(images_path):
+    return [f for f in paths.list_images(images_path) if '.ipynb' not in f]
 
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/faces/artifacts/encodings', reset_index=True, filter="label!=-1")
+    return client.read(backend="kv", table='avia/faces/encodings', reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
-    client = v3f.Client("framesd:8081", container="users")
-    data_path = '/User/demos/demos/faces/dataset/'
-    artifact_path = 'User/demos/demos/faces/artifacts/'
-    classes_url = artifact_path + 'idx2name.csv'
-    classes_df = pd.read_csv(classes_url)
+    frames_uri = os.environ.get('FRAMES_URL')
+    container = os.getenv('CONTAINER', 'users')
+    cwd = os.getcwd()
+    client = v3f.Client(frames_uri, container=container)
+    data_path = '../dataset/'
+    artifact_path = data_path+'artifacts/'
+    classes_path = artifact_path + 'idx2name.csv'
+    classes_df = pd.read_csv(classes_path)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
 
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
     if page == 'Label Unknown Images':
-
-        images = load_images(data_path + 'label_pending')
+        label_path = data_path + 'label_pending'
+        images = load_images(label_path)
         st.title('Label Unknown Images')
 
         # generates list of valid labeling options
@@ -47,7 +50,7 @@ if __name__ == '__main__':
             st.subheader('Do you know this person?')
             plt.imshow(rgb_img)
             plt.axis('off')
-            st.pyplot()
+            st.pyplot(plt)
 
             selected_label = st.selectbox(label='Select label for the image', options=options, key=0)
 
@@ -93,4 +96,4 @@ if __name__ == '__main__':
         rgb_kv_img = cv2.cvtColor(kv_img, cv2.COLOR_BGR2RGB)
         plt.imshow(rgb_kv_img)
         plt.axis('off')
-        st.pyplot()
+        st.pyplot(plt)

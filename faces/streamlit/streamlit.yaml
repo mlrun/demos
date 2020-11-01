@@ -21,6 +21,12 @@ spec:
         env:
         - name: "V3IO_ACCESS_KEY"
           value: <ACCESS_KEY>
+        - name: "FRAMES_URI"
+          value: <FRAMES_URI>
+        - name: "KV_TABLE_PATH"
+          value: "faces/encodings"
+        - name: "CONTAINER"
+          value: "users"
         ports:
         - containerPort: 8501
         command: ["streamlit", "run", "/User/demos/demos/faces/streamlit/dashboard.py" ]
@@ -34,7 +40,7 @@ spec:
           options:
             accessKey: <ACCESS_KEY>
             container: users
-            subPath: /iguazio
+            subPath: /<USER_NAME>
         name: fs
 ---
 kind: Service
