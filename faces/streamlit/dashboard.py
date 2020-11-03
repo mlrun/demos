@@ -7,7 +7,7 @@ import v3io_frames as v3f
 import os
 import shutil
 import datetime
-
+from logger import Logger
 
 def load_images(images_path):
     return [f for f in paths.list_images(images_path) if '.ipynb' not in f]
@@ -19,10 +19,13 @@ def load_enc_df():
 
 
 if __name__ == '__main__':
-    frames_uri = os.environ.get('FRAMES_URL')
+    logger = Logger()
+    frames_uri = os.environ.get('FRAMES_URI')
+    logger.info("frames uri: {}".format(frames_uri))
     container = os.getenv('CONTAINER', 'users')
+    token = os.getenv('V3IO_ACCESS_KEY')
     cwd = os.getcwd()
-    client = v3f.Client(frames_uri, container=container)
+    client = v3f.Client(frames_uri, token=token, container=container)
     data_path = '../dataset/'
     artifact_path = data_path+'artifacts/'
     classes_path = artifact_path + 'idx2name.csv'
