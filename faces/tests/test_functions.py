@@ -4,10 +4,11 @@ from conftest import (
 from mlrun import NewTask, run_local, code_to_function
 from mlrun import NewTask, get_run_db, new_function
 
-base_spec = NewTask(params={'artifacts_path': 'faces/artifacts',
+base_spec = NewTask(params={'artifacts_path': 'faces/artifacts/',
                             'frames_url': "https://framesd.default-tenant.app.vmdev22.lab.iguazeng.com",
-                            'token': '5db1b7d1-f48f-4798-bed7-3c3d6f0767de',
-                            'models_path': '../notebooks/functions/models.py'},
+                            'token': '4c76b197-713f-4e2f-8d72-48a46b2c053b',
+                            'models_path': '../notebooks/functions/models.py',
+                            'encodings_path': 'avia/encodings7'},
                     out_path=out_path
                     )
 
