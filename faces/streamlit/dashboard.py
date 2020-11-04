@@ -25,8 +25,9 @@ if __name__ == '__main__':
     token = os.getenv('V3IO_ACCESS_KEY')
     logger.info(os.environ.items())
     client = v3f.Client(frames_uri, token=token, container=container)
-    data_path = '/User/faces/dataset/'
-    artifact_path = data_path+'artifacts/'
+    base_path = '/User/faces/'
+    data_path = base_path + 'dataset/'
+    artifact_path = base_path+'artifacts/'
     classes_path = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_path)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
