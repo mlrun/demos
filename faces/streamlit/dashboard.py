@@ -21,12 +21,11 @@ def load_enc_df():
 if __name__ == '__main__':
     logger = Logger()
     frames_uri = os.environ.get('FRAMES_URI')
-    logger.info("frames uri: {}".format(frames_uri))
     container = os.getenv('CONTAINER', 'users')
     token = os.getenv('V3IO_ACCESS_KEY')
-    cwd = os.getcwd()
+    logger.info(os.environ.items())
     client = v3f.Client(frames_uri, token=token, container=container)
-    data_path = '../dataset/'
+    data_path = '/User/faces/dataset/'
     artifact_path = data_path+'artifacts/'
     classes_path = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_path)
