@@ -1,0 +1,139 @@
+name: cat-and-dog-servers
+functions:
+- name: utils
+  spec:
+    kind: job
+    metadata:
+      name: utils
+      tag: ''
+      project: cat-and-dog-servers
+    spec:
+      command: ''
+      args: []
+      image: mlrun/mlrun
+      env:
+      - name: V3IO_API
+        value: ''
+      - name: V3IO_USERNAME
+        value: ''
+      - name: V3IO_ACCESS_KEY
+        value: ''
+      default_handler: ''
+      entry_points:
+        open_archive:
+          name: open_archive
+          doc: 'Open a file/object archive into a target directory
+
+
+            Currently supports zip and tar.gz'
+          parameters:
+          - name: context
+            doc: function execution context
+            default: ''
+          - name: archive_url
+            type: DataItem
+            doc: url of archive file
+            default: ''
+          - name: target_path
+            doc: file system path to store extracted files
+            default: ''
+          - name: refresh
+            default: false
+          outputs:
+          - default: ''
+          lineno: 10
+        categories_map_builder:
+          name: categories_map_builder
+          doc: 'Read labeled images from a directory and create category map + df
+
+
+            filename format: <category>.NN.jpg'
+          parameters:
+          - name: context
+            default: ''
+          - name: source_dir
+            default: ''
+          - name: df_filename
+            default: file_categories_df.csv
+          - name: map_filename
+            default: categories_map.json
+          outputs:
+          - default: ''
+          lineno: 36
+      description: ''
+      build:
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCB6aXBmaWxlCmltcG9ydCBqc29uCmZyb20gdGVtcGZpbGUgaW1wb3J0IG1rdGVtcAppbXBvcnQgcGFuZGFzIGFzIHBkCmZyb20gbWxydW4gaW1wb3J0IERhdGFJdGVtCgpkZWYgb3Blbl9hcmNoaXZlKGNvbnRleHQsIAogICAgICAgICAgICAgICAgIGFyY2hpdmVfdXJsOiBEYXRhSXRlbSwKICAgICAgICAgICAgICAgICB0YXJnZXRfcGF0aCwKICAgICAgICAgICAgICAgICByZWZyZXNoPUZhbHNlKToKICAgICIiIk9wZW4gYSBmaWxlL29iamVjdCBhcmNoaXZlIGludG8gYSB0YXJnZXQgZGlyZWN0b3J5CiAgICAKICAgIEN1cnJlbnRseSBzdXBwb3J0cyB6aXAgYW5kIHRhci5negogICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICBmdW5jdGlvbiBleGVjdXRpb24gY29udGV4dAogICAgOnBhcmFtIGFyY2hpdmVfdXJsOiAgdXJsIG9mIGFyY2hpdmUgZmlsZQogICAgOnBhcmFtIHRhcmdldF9wYXRoOiAgZmlsZSBzeXN0ZW0gcGF0aCB0byBzdG9yZSBleHRyYWN0ZWQgZmlsZXMKICAgIDpwYXJhbSBrZXk6ICAgICAgICAgIGtleSBvZiBhcmNoaXZlIGNvbnRlbnRzIGluIGFydGlmYWN0IHN0b3JlCiAgICAiIiIKICAgIG9zLm1ha2VkaXJzKHRhcmdldF9wYXRoLCBleGlzdF9vaz1UcnVlKQogICAgCiAgICBhcmNoaXZlX3VybCA9IGFyY2hpdmVfdXJsLmxvY2FsKCkKICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbygnRXh0cmFjdGluZyB6aXAnKQogICAgemlwX3JlZiA9IHppcGZpbGUuWmlwRmlsZShhcmNoaXZlX3VybCwgJ3InKQogICAgemlwX3JlZi5leHRyYWN0YWxsKHRhcmdldF9wYXRoKQogICAgemlwX3JlZi5jbG9zZSgpCiAgICAKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZidleHRyYWN0ZWQgYXJjaGl2ZSB0byB7dGFyZ2V0X3BhdGh9JykKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCdjb250ZW50JywgdGFyZ2V0X3BhdGg9dGFyZ2V0X3BhdGgpCgogICAgCmRlZiBjYXRlZ29yaWVzX21hcF9idWlsZGVyKGNvbnRleHQsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIHNvdXJjZV9kaXIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIGRmX2ZpbGVuYW1lPSdmaWxlX2NhdGVnb3JpZXNfZGYuY3N2JywKICAgICAgICAgICAgICAgICAgICAgICAgICAgbWFwX2ZpbGVuYW1lPSdjYXRlZ29yaWVzX21hcC5qc29uJyk6CiAgICAiIiJSZWFkIGxhYmVsZWQgaW1hZ2VzIGZyb20gYSBkaXJlY3RvcnkgYW5kIGNyZWF0ZSBjYXRlZ29yeSBtYXAgKyBkZgogICAgCiAgICBmaWxlbmFtZSBmb3JtYXQ6IDxjYXRlZ29yeT4uTk4uanBnIiIiCiAgICAKICAgIGZpbGVuYW1lcyA9IFtmaWxlIGZvciBmaWxlIGluIG9zLmxpc3RkaXIoc291cmNlX2RpcikgaWYgZmlsZS5lbmRzd2l0aCgnLmpwZycpXQogICAgY2F0ZWdvcmllcyA9IFtdCiAgICAgICAgCiAgICBmb3IgZmlsZW5hbWUgaW4gZmlsZW5hbWVzOgogICAgICAgIGNhdGVnb3J5ID0gZmlsZW5hbWUuc3BsaXQoJy4nKVswXQogICAgICAgIGNhdGVnb3JpZXMuYXBwZW5kKGNhdGVnb3J5KQoKICAgIGRmID0gcGQuRGF0YUZyYW1lKHsKICAgICAgICAnZmlsZW5hbWUnOiBmaWxlbmFtZXMsCiAgICAgICAgJ2NhdGVnb3J5JzogY2F0ZWdvcmllcwogICAgfSkKICAgIGRmWydjYXRlZ29yeSddID0gZGZbJ2NhdGVnb3J5J10uYXN0eXBlKCdzdHInKQogICAgCiAgICBjYXRlZ29yaWVzID0gZGYuY2F0ZWdvcnkudW5pcXVlKCkKICAgIGNhdGVnb3JpZXMgPSB7aTogY2F0ZWdvcnkgZm9yIGksIGNhdGVnb3J5IGluIGVudW1lcmF0ZShjYXRlZ29yaWVzKX0KICAgIHdpdGggb3Blbihvcy5wYXRoLmpvaW4oY29udGV4dC5hcnRpZmFjdF9wYXRoLCBtYXBfZmlsZW5hbWUpLCAndycpIGFzIGY6CiAgICAgICAgZi53cml0ZShqc29uLmR1bXBzKGNhdGVnb3JpZXMpKQogICAgICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbyhjYXRlZ29yaWVzKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoJ2NhdGVnb3JpZXNfbWFwJywgbG9jYWxfcGF0aD1tYXBfZmlsZW5hbWUpCiAgICBjb250ZXh0LmxvZ19kYXRhc2V0KCdmaWxlX2NhdGVnb3JpZXMnLCBkZj1kZiwgbG9jYWxfcGF0aD1kZl9maWxlbmFtZSkKCg==
+        commands: []
+        code_origin: https://github.com/mlrun/demos#18732b7d19229fe2f47f536e4af3bf666c78bf30
+- name: trainer
+  spec:
+    kind: mpijob
+    metadata:
+      name: trainer
+      project: cat-and-dog-servers
+      categories: []
+    spec:
+      command: /User/mlrun-demos/demos/image-classification-with-distributed-training/src-tfv2/horovod-training.py
+      args: []
+      image: mlrun/ml-models-gpu
+      env: []
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+      description: ''
+      replicas: 2
+      build:
+        commands: []
+- url: hub://tf2_serving
+  name: serving
+workflows:
+- name: main
+  code: "from kfp import dsl\nfrom mlrun import mount_v3io\n\nfuncs = {}\n\n\ndef\
+    \ init_functions(functions: dict, project=None, secrets=None):\n    '''\n    This\
+    \ function will run before running the project.\n    It allows us to add our specific\
+    \ system configurations to the functions\n    like mounts or secrets if needed.\n\
+    \n    In this case we will add Iguazio's user mount to our functions using the\n\
+    \    `mount_v3io()` function to automatically set the mount with the needed\n\
+    \    variables taken from the environment. \n    * mount_v3io can be replaced\
+    \ with mlrun.platforms.mount_pvc() for \n    non-iguazio mount\n\n    @param functions:\
+    \ <function_name: function_yaml> dict of functions in the\n                  \
+    \      workflow\n    @param project: project object\n    @param secrets: secrets\
+    \ required for the functions for s3 connections and\n                    such\n\
+    \    '''\n    for f in functions.values():\n        f.apply(mount_v3io())    \
+    \              # On Iguazio (Auto-mount /User)\n        # f.apply(mlrun.platforms.mount_pvc())\
+    \ # Non-Iguazio mount\n        \n    functions['serving'].set_env('MODEL_CLASS',\
+    \ 'TFModel')\n    functions['serving'].set_env('IMAGE_HEIGHT', '128')\n    functions['serving'].set_env('IMAGE_WIDTH',\
+    \ '128')\n    functions['serving'].set_env('ENABLE_EXPLAINER', 'False')\n    functions['serving'].spec.min_replicas\
+    \ = 1\n\n\n@dsl.pipeline(\n    name='Image classification demo',\n    description='Train\
+    \ an Image Classification TF Algorithm using MLRun'\n)\ndef kfpipeline(\n    \
+    \    image_archive='store:///images',\n        images_dir='/User/artifacts/images',\n\
+    \        checkpoints_dir='/User/artifacts/models/checkpoints',\n        model_name='cat_vs_dog_tfv1',\n\
+    \        epochs=4):\n\n    # step 1: download images\n    open_archive = funcs['utils'].as_step(name='download',\n\
+    \                                          handler='open_archive',\n         \
+    \                                 params={'target_path': images_dir},\n      \
+    \                                    inputs={'archive_url': image_archive},\n\
+    \                                          outputs=['content'])\n\n    # step\
+    \ 2: label images\n    source_dir = str(open_archive.outputs['content']) + '/cats_n_dogs'\n\
+    \    label = funcs['utils'].as_step(name='label',\n                          \
+    \         handler='categories_map_builder',\n                                \
+    \   params={'source_dir': source_dir},\n                                   outputs=['categories_map',\n\
+    \                                            'file_categories'])\n\n    # step\
+    \ 3: train the model\n    train = funcs['trainer'].as_step(name='train',\n   \
+    \                                  params={'epochs': epochs,\n               \
+    \                              'checkpoints_dir': checkpoints_dir,\n         \
+    \                                    'data_path'      : source_dir,\n        \
+    \                                     'model_dir'     : 'tfmodels',\n        \
+    \                                     'batch_size'     : 256},\n             \
+    \                        inputs={\n                                         'categories_map':\
+    \ label.outputs['categories_map'],\n                                         'file_categories':\
+    \ label.outputs['file_categories']},\n                                     outputs=['model'])\n\
+    \n    # deploy the model using nuclio functions\n    deploy = funcs['serving'].deploy_step(models={model_name:\
+    \ train.outputs['model']})\n"
+artifacts:
+- key: images
+  kind: ''
+  iter: 0
+  tree: latest
+  target_path: http://iguazio-sample-data.s3.amazonaws.com/catsndogs.zip
+  db_key: images
+artifact_path: /User/artifacts

@@ -1,0 +1,137 @@
+kind: remote
+metadata:
+  name: nuclio-preprocessor
+  tag: ''
+  hash: dfe9e88bee7eddafd59d09cadf84d5594a5c9d05
+  project: network-operations
+spec:
+  command: ''
+  args: []
+  image: ''
+  entry_points:
+    get_data_tsdb:
+      name: get_data_tsdb
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 12
+    get_data_parquet:
+      name: get_data_parquet
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 18
+    save_to_tsdb:
+      name: save_to_tsdb
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: features
+        type: DataFrame
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 27
+    save_to_parquet:
+      name: save_to_parquet
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: df
+        type: DataFrame
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 30
+    init_context:
+      name: init_context
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 45
+    handler:
+      name: handler
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: event
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 99
+  description: ''
+  min_replicas: 1
+  max_replicas: 4
+  env:
+  - name: V3IO_API
+    value: ''
+  - name: V3IO_USERNAME
+    value: ''
+  - name: V3IO_ACCESS_KEY
+    value: ''
+  config:
+    spec.triggers.cron:
+      kind: cron
+      attributes:
+        interval: 1m
+  base_spec:
+    apiVersion: nuclio.io/v1
+    kind: Function
+    metadata:
+      annotations:
+        nuclio.io/generated_by: function generated from 27-07-2020 by admin
+      labels: {}
+      name: nuclio-preprocessor
+    spec:
+      build:
+        commands: []
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCBwYW5kYXMgYXMgcGQKZnJvbSBtbHJ1bi5kYXRhc3RvcmUgaW1wb3J0IERhdGFJdGVtCmltcG9ydCBhc3QKCmZyb20gdHlwaW5nIGltcG9ydCBVbmlvbgpmcm9tIG1scnVuIGltcG9ydCBtbGNvbmYsIGltcG9ydF9mdW5jdGlvbiwgbW91bnRfdjNpbywgTmV3VGFzaywgZnVuY3Rpb25fdG9fbW9kdWxlLCBnZXRfb3JfY3JlYXRlX2N0eApmcm9tIG1scnVuLnJ1biBpbXBvcnQgZ2V0X2RhdGFpdGVtCgpkZWYgZ2V0X2RhdGFfdHNkYihjb250ZXh0KToKICAgIGRmID0gY29udGV4dC52M2YucmVhZChiYWNrZW5kPSd0c2RiJywgcXVlcnk9ZidzZWxlY3QgY3B1X3V0aWxpemF0aW9uLCBsYXRlbmN5LCBwYWNrZXRfbG9zcywgdGhyb3VnaHB1dCwgaXNfZXJyb3IgZnJvbSB7Y29udGV4dC5tZXRyaWNzX3RhYmxlfScsCiAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhcnQ9Zidub3ctMmgnLCBlbmQ9J25vdycsIG11bHRpX2luZGV4PVRydWUpCiAgICBkZiA9IGZvcm1hdF9kZl9mcm9tX3RzZGIoY29udGV4dCwgZGYpCiAgICByZXR1cm4gZGYKCmRlZiBnZXRfZGF0YV9wYXJxdWV0KGNvbnRleHQpOgogICAgbXBhdGggPSBbb3MucGF0aC5qb2luKGNvbnRleHQubWV0cmljc190YWJsZSwgZmlsZSkgZm9yIGZpbGUgaW4gb3MubGlzdGRpcihjb250ZXh0Lm1ldHJpY3NfdGFibGUpIGlmIGZpbGUuZW5kc3dpdGgoKCdwYXJxdWV0JywgJ3BxJykpXQogICAgZmlsZXNfYnlfdXBkYXRlZCA9IHNvcnRlZChtcGF0aCwga2V5PW9zLnBhdGguZ2V0bXRpbWUsIHJldmVyc2U9VHJ1ZSkKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZmlsZXNfYnlfdXBkYXRlZCkKICAgIGxhdGVzdCA9IGZpbGVzX2J5X3VwZGF0ZWRbOmNvbnRleHQuZmlsZXNfdG9fc2VsZWN0XQogICAgY29udGV4dC5sb2dnZXIuaW5mbyhmJ0FnZ3JlZ2F0aW5nIHtsYXRlc3R9JykKICAgIGlucHV0X2RmID0gcGQuY29uY2F0KFtwZC5yZWFkX3BhcnF1ZXQoZGYpIGZvciBkZiBpbiBsYXRlc3RdKQogICAgcmV0dXJuIGlucHV0X2RmCgpkZWYgc2F2ZV90b190c2RiKGNvbnRleHQsIGZlYXR1cmVzOiBwZC5EYXRhRnJhbWUpOiAgIAogICAgY29udGV4dC52M2Yud3JpdGUoJ3RzZGInLCBjb250ZXh0LmZlYXR1cmVzX3RhYmxlLCBmZWF0dXJlcykKCmRlZiBzYXZlX3RvX3BhcnF1ZXQoY29udGV4dCwgZGY6IHBkLkRhdGFGcmFtZSk6CiAgICBwcmludCgnU2F2aW5nIGZlYXR1cmVzIHRvIFBhcnF1ZXQnKQogICAgCiAgICBkZiA9IGRmLnJlc2V0X2luZGV4KCkKICAgIGRmWyd0aW1lc3RhbXAnXSA9IGRmLmxvY1s6LCAndGltZXN0YW1wJ10uYXN0eXBlKCdkYXRldGltZTY0W21zXScpCiAgICAKICAgIGRmID0gZGYuc2V0X2luZGV4KGNvbnRleHQua2V5cykKICAgIAogICAgZmlyc3RfdGltZXN0YW1wID0gZGYuaW5kZXhbMF1bMF0uc3RyZnRpbWUoJyVZJW0lZFQlSCVNJVMnKQogICAgbGFzdF90aW1lc3RhbXAgPSBkZi5pbmRleFstMV1bMF0uc3RyZnRpbWUoJyVZJW0lZFQlSCVNJVMnKQogICAgZmlsZW5hbWUgPSBmaXJzdF90aW1lc3RhbXAgKyAnLScgKyBsYXN0X3RpbWVzdGFtcCArICcucGFycXVldCcKICAgIGZpbGVwYXRoID0gb3MucGF0aC5qb2luKGNvbnRleHQuZmVhdHVyZXNfdGFibGUsIGZpbGVuYW1lKQogICAgd2l0aCBvcGVuKGZpbGVwYXRoLCAnd2IrJykgYXMgZjoKICAgICAgICBkZi50b19wYXJxdWV0KGYpCgpkZWYgaW5pdF9jb250ZXh0KGNvbnRleHQpOgogICAgCiAgICBtbGNvbmYuZGJwYXRoID0gJ2h0dHA6Ly9tbHJ1bi1hcGk6ODA4MCcKICAgIAogICAgYWdncmVnYXRlX2ZuID0gaW1wb3J0X2Z1bmN0aW9uKG9zLmdldGVudignYWdncmVnYXRlX2ZuX3VybCcsICdodWI6Ly9hZ2dyZWdhdGUnKSkKICAgIG1vZCA9IGZ1bmN0aW9uX3RvX21vZHVsZShhZ2dyZWdhdGVfZm4pCiAgICBzZXRhdHRyKGNvbnRleHQsICdhZ2dyZWdhdGUnLCBtb2QuYWdncmVnYXRlKQogICAgCiAgICBhZ19jb250ZXh0ID0gZ2V0X29yX2NyZWF0ZV9jdHgoJ2FnZ3JlZ2F0ZScpCiAgICBzZXRhdHRyKGNvbnRleHQsICdtbHJ1bl9jdHgnLCBhZ19jb250ZXh0KQogICAgCiAgICBzZXRhdHRyKGNvbnRleHQsICdtZXRyaWNzX3RhYmxlJywgb3MuZ2V0ZW52KCdNRVRSSUNTX1RBQkxFJywgJ25ldG9wc19tZXRyaWNzJykpCiAgICBzZXRhdHRyKGNvbnRleHQsICdmZWF0dXJlc190YWJsZScsIG9zLmdldGVudignRkVBVFVSRVNfVEFCTEUnLCAnbmV0b3BzX2ZlYXR1cmVzJykpCiAgICBzZXRhdHRyKGNvbnRleHQsICdrZXlzJywgb3MuZ2V0ZW52KCdrZXlzJywgJycpLnNwbGl0KCcsJykpCiAgICBzZXRhdHRyKGNvbnRleHQsICdtZXRyaWNzJywgYXN0LmxpdGVyYWxfZXZhbChvcy5nZXRlbnYoJ21ldHJpY3MnLCAnJykpKQogICAgc2V0YXR0cihjb250ZXh0LCAnbWV0cmljX2FnZ3MnLCBhc3QubGl0ZXJhbF9ldmFsKG9zLmdldGVudignbWV0cmljX2FnZ3MnLCAnJykpKQogICAgc2V0YXR0cihjb250ZXh0LCAnc3VmZml4Jywgb3MuZ2V0ZW52KCdzdWZmaXgnLCAnX2FnZycpKQogICAgc2V0YXR0cihjb250ZXh0LCAnd2luZG93JywgaW50KG9zLmdldGVudignd2luZG93JywgJzMnKSkpCiAgICBzZXRhdHRyKGNvbnRleHQsICdjZW50ZXInLCBib29sKGludChvcy5nZXRlbnYoJ2NlbnRlcicsICcwJykpKSkKICAgIHNldGF0dHIoY29udGV4dCwgJ2lucGxhY2UnLCBib29sKGludChvcy5nZXRlbnYoJ2lucGxhY2UnLCAnMCcpKSkpCiAgICBzZXRhdHRyKGNvbnRleHQsICdkcm9wX25hJywgYm9vbChpbnQob3MuZ2V0ZW52KCdkcm9wX25hJywgJzEnKSkpKQogICAgc2V0YXR0cihjb250ZXh0LCAnZmlsZXNfdG9fc2VsZWN0JywgaW50KG9zLmdldGVudignZmlsZXNfdG9fc2VsZWN0JywgMSkpKQogICAgCiAgICBzYW1wbGVfZGF0YXNldCA9IGdldF9kYXRhaXRlbShvcy5lbnZpcm9uWydiYXNlX2RhdGFzZXQnXSkuYXNfZGYoKQogICAgc2VsZWN0ZWRfZmVhdHVyZXMgPSBbY29sIGZvciBjb2wgaW4gbGlzdChzYW1wbGVfZGF0YXNldC5jb2x1bW5zKSBpZiBjb2wgIT0gb3MuZ2V0ZW52KCdsYWJlbF9jb2wnLCAnJyldCiAgICBhZ2dyZWdhdGVkX2ZlYXR1cmVzID0gW2ZlYXR1cmUuc3BsaXQoJ18nKVs6LTFdIGZvciBmZWF0dXJlIGluIHNlbGVjdGVkX2ZlYXR1cmVzIGlmIGZlYXR1cmUuZW5kc3dpdGgoY29udGV4dC5zdWZmaXgpXQogICAgYmFzZV9mZWF0dXJlcyA9IHNldChbZlswXSBmb3IgZiBpbiBhZ2dyZWdhdGVkX2ZlYXR1cmVzXSkKICAgIGFnZ3JlZ2F0aW9ucyA9IHNldChbZlsxXSBmb3IgZiBpbiBhZ2dyZWdhdGVkX2ZlYXR1cmVzXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ2ZlYXR1cmVzJywgc2VsZWN0ZWRfZmVhdHVyZXMpCiAgICBzZXRhdHRyKGNvbnRleHQsICdiYXNlX2ZlYXR1cmVzJywgYmFzZV9mZWF0dXJlcykKICAgIHNldGF0dHIoY29udGV4dCwgJ2FnZ3JlZ2F0aW9ucycsIGFnZ3JlZ2F0aW9ucykKICAgIAogICAgCiAgICAKICAgIGlzX3NhdmVfdG9fdHNkYiA9IGJvb2woaW50KG9zLmdldGVudignc2F2ZV90b190c2RiJywgJzAnKSkpCiAgICBpZiBpc19zYXZlX3RvX3RzZGI6CiAgICAgICAgdjNpb19jbGllbnQgPSB2M2YuQ2xpZW50KGFkZHJlc3M9J2ZyYW1lc2Q6ODA4MScsIGNvbnRhaW5lcj0nYmlnZGF0YScpCiAgICAgICAgc2V0YXR0cihjb250ZXh0LCAndjNmJywgdjNpb19jbGllbnQpCiAgICAgICAgCiAgICAgICAgY29udGV4dC52M2YuY3JlYXRlKCd0c2RiJywgY29udGV4dC5mZWF0dXJlc190YWJsZSwgYXR0cnM9eydyYXRlJzogJzEvcyd9LCBpZl9leGlzdHM9MSkKICAgICAgICAKICAgICAgICBzZXRhdHRyKGNvbnRleHQsICdyZWFkJywgZ2V0X2RhdGFfdHNkYikKICAgICAgICAKICAgICAgICBzZXRhdHRyKGNvbnRleHQsICd3cml0ZScsIHNhdmVfdG9fdHNkYikKICAgICAgICAKICAgIGVsc2U6CiAgICAgICAgZmlsZXBhdGggPSBvcy5wYXRoLmpvaW4oY29udGV4dC5mZWF0dXJlc190YWJsZSkKICAgICAgICBpZiBub3Qgb3MucGF0aC5leGlzdHMoZmlsZXBhdGgpOgogICAgICAgICAgICBvcy5tYWtlZGlycyhmaWxlcGF0aCkKICAgICAgICAgICAgCiAgICAgICAgc2V0YXR0cihjb250ZXh0LCAncmVhZCcsIGdldF9kYXRhX3BhcnF1ZXQpCiAgICAgICAgCiAgICAgICAgc2V0YXR0cihjb250ZXh0LCAnd3JpdGUnLCBzYXZlX3RvX3BhcnF1ZXQpCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICAKICAgIGRmID0gY29udGV4dC5yZWFkKGNvbnRleHQpCiAgICAKICAgIHJlcyA9IGNvbnRleHQuYWdncmVnYXRlKGNvbnRleHQ9Y29udGV4dC5tbHJ1bl9jdHgsCiAgICAgICAgICAgICAgZGZfYXJ0aWZhY3Q9ZGYsCiAgICAgICAgICAgICAgc2F2ZV90bz1jb250ZXh0LmZlYXR1cmVzX3RhYmxlLCAKICAgICAgICAgICAgICBrZXlzPWNvbnRleHQua2V5cywgCiAgICAgICAgICAgICAgbWV0cmljcz1jb250ZXh0Lm1ldHJpY3MsIAogICAgICAgICAgICAgIG1ldHJpY19hZ2dzPWNvbnRleHQubWV0cmljX2FnZ3MsIAogICAgICAgICAgICAgIHN1ZmZpeD1jb250ZXh0LnN1ZmZpeCwgCiAgICAgICAgICAgICAgd2luZG93PWNvbnRleHQud2luZG93LCAKICAgICAgICAgICAgICBjZW50ZXI9Y29udGV4dC5jZW50ZXIsIAogICAgICAgICAgICAgIGlucGxhY2U9Y29udGV4dC5pbnBsYWNlLAogICAgICAgICAgICAgIGRyb3BfbmE9Y29udGV4dC5kcm9wX25hKQogICAgCiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYncmVzLmNvbHVtbnM6IHtyZXMuY29sdW1uc30nKQogICAgY29udGV4dC5sb2dnZXIuaW5mbyhmJ2NvbnRleHQuY29sdW1uczoge2NvbnRleHQuZmVhdHVyZXN9JykKICAgIHJlcyA9IHJlc1tjb250ZXh0LmZlYXR1cmVzXQogICAgCiAgICBjb250ZXh0LndyaXRlKGNvbnRleHQsIHJlcykKCg==
+        noBaseImagesPull: true
+        baseImage: mlrun/ml-models
+      env:
+      - name: aggregate_fn_url
+        value: /User/functions/aggregate/function.yaml
+      - name: METRICS_TABLE
+        value: /User/demos/network-operations/data
+      - name: FEATURES_TABLE
+        value: /User/demos/network-operations/features
+      - name: base_dataset
+        value: /User/demos/network-operations/artifacts/selected_features.parquet
+      - name: keys
+        value: timestamp,company,data_center,device
+      - name: metrics
+        value: '["cpu_utilization", "throughput", "packet_loss", "latency"]'
+      - name: metric_aggs
+        value: '["mean", "sum", "std", "var", "min", "max", "median"]'
+      - name: suffix
+        value: daily
+      - name: window
+        value: '3'
+      - name: center
+        value: '0'
+      - name: inplace
+        value: '0'
+      - name: drop_na
+        value: '1'
+      - name: files_to_select
+        value: '1'
+      - name: label_col
+        value: is_error
+      - name: is_save_to_tsdb
+        value: '0'
+      handler: preprocessor:handler
+      runtime: python:3.6
+      volumes: []
+  source: ''
