@@ -4,13 +4,16 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 
 #### In This Document
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [scikit-learn demo](#demo-sklearn-pipe) &mdash; full AutoML pipeline (Iris data set)
-- [Horovod demo](#demo-horovd-image-classification) &mdash; image classification with distributed training
-- [Faces demo](#demo-face-recognition)&mdash; real-time image recognition, classification, and tracking with deep learning
-- [Churn demo](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
-- [NetOps demo](#demo-netops)&mdash; predictive network operations/telemetry
+- [MLRun Demos](#mlrun-demos)
+      - [In This Document](#in-this-document)
+  - [Overview](#overview)
+    - [General ML Workflow](#general-ml-workflow)
+  - [Prerequisites](#prerequisites)
+  - [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
+  - [Horovod Demo: Image Classification with Distributed Training](#horovod-demo-image-classification-with-distributed-training)
+  - [Faces Demo: Real-Time Image Recognition with Deep Learning](#faces-demo-real-time-image-recognition-with-deep-learning)
+  - [Churn Demo: Real-Time Customer-Churn Prediction](#churn-demo-real-time-customer-churn-prediction)
+  - [NetOps Demo: Predictive Network Operations/Telemetry](#netops-demo-predictive-network-operationstelemetry)
 
 <a id="overview"></a>
 ## Overview
@@ -43,10 +46,10 @@ To run the MLRun demos, first do the following:
   See the instructions in the [MLRun documentation](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
 
-<a id="demo-sklearn-pipe"></a>
+<a id="demo-scikit-learn-pipeline"></a>
 ## scikit-learn Demo: Full AutoML Pipeline
 
-The [**sklearn-pipe**](./sklearn-pipe/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
+The [**scikit-learn-pipeline**](./scikit-learn-pipeline/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
 
 The combined CI/data/ML pipeline includes the following steps:
 
@@ -57,21 +60,21 @@ The combined CI/data/ML pipeline includes the following steps:
 - Deploy the model as a real-time serverless function.
 - Test the serverless function's REST API with a test data set.
 
-To run the demo, download the [**sklearn-project.ipynb**](./sklearn-pipe/sklearn-project.ipynb) notebook into an empty directory and execute the cells sequentially.
+To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and execute the cells sequentially.
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
-<a id="demo-sklearn-pipe-pipeline-output"></a>
+<a id="demo-scikit-learn-pipeline-pipeline-output"></a>
 **Pipeline Output**
 
-The output plots can be viewed as static HTML files in the [sklearn-pipe/plots](sklearn-pipe/plots) directory.
+The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
 <a id="demo-horovd-image-classification"></a>
 ## Horovod Demo: Image Classification with Distributed Training
 
-The [**horovod-pipe**](horovod-pipe/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
+The [**image-classification-with-distributed-training**](image-classification-with-distributed-training/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
 The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 
@@ -93,7 +96,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 <a id="demo-face-recognition"></a>
 ## Faces Demo: Real-Time Image Recognition with Deep Learning
 
-The [**faces**](faces/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
+The [**faces**](realtime-face-recognition/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
 This comprehensive demonstration includes multiple components:
 
@@ -106,12 +109,12 @@ This comprehensive demonstration includes multiple components:
 <a id="demo-face-recognition-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
+<br><p align="center"><img src="./realtime-face-recognition/workflow.png" width="500"/></p><br>
 
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction
 
-The [**chrun**](./churn/README.md) demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
+The [**chrun**](./customer-churn-prediction/README.md) demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 
 The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 
@@ -125,14 +128,14 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <a id="demo-churn-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./churn/assets/pipeline-3.png" width="500"/></p><br>
+<br><p align="center"><img src="./customer-churn-prediction/assets/pipeline-3.png" width="500"/></p><br>
 
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
 <!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
   README link below. -->
 
-The [NetOps demo](https://github.com/mlrun/demo-network-operations/blob/master/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
+The [NetOps demo](network-operations/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
 
 The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
 
