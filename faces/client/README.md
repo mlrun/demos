@@ -18,6 +18,7 @@ cd mlrun/demos/faces/client
 ## Configure the Client Initialization
 
 Edit the [**config/init.ini**](config/init.ini) client-initialization file to configure the client initialization; replace the `<...>` placeholders to match your specific environment.
+set the nuclio endpoint into nuclio-api-serving-function
 
 ```ini
 [app]
