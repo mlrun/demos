@@ -6,6 +6,7 @@ This demo demonstrates analyses of customer-churn data using the Kaggle [Telco C
 
 - [Overview](#overview)
 - [MLRun and Nuclio](#mlrun-and-nuclio)
+- [Pipeline Output](#pipeline-output)
 - [Further Development](#further-development)
 - [Data Science Tags](#data-science-tags)
 

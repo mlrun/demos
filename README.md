@@ -4,16 +4,14 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 
 #### In This Document
 
-- [MLRun Demos](#mlrun-demos)
-      - [In This Document](#in-this-document)
-  - [Overview](#overview)
-    - [General ML Workflow](#general-ml-workflow)
-  - [Prerequisites](#prerequisites)
-  - [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
-  - [Horovod Demo: Image Classification with Distributed Training](#horovod-demo-image-classification-with-distributed-training)
-  - [Faces Demo: Real-Time Image Recognition with Deep Learning](#faces-demo-real-time-image-recognition-with-deep-learning)
-  - [Churn Demo: Real-Time Customer-Churn Prediction](#churn-demo-real-time-customer-churn-prediction)
-  - [NetOps Demo: Predictive Network Operations/Telemetry](#netops-demo-predictive-network-operationstelemetry)
+- [Overview](#overview)
+  - [General ML Workflow](#general-ml-workflow)
+- [Prerequisites](#prerequisites)
+- [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
+- [Image Classification with Distributed Training Demo](#demo-image-classification)
+- [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
+- [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
+- [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 
 <a id="overview"></a>
 ## Overview
@@ -46,7 +44,7 @@ To run the MLRun demos, first do the following:
   See the instructions in the [MLRun documentation](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
 
-<a id="demo-scikit-learn-pipeline"></a>
+<a id="demo-scikit-learn"></a>
 ## scikit-learn Demo: Full AutoML Pipeline
 
 The [**scikit-learn-pipeline**](./scikit-learn-pipeline/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
@@ -64,15 +62,15 @@ To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipelin
 
 <br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
 
-<a id="demo-scikit-learn-pipeline-pipeline-output"></a>
+<a id="demo-scikit-learn-pipeline-output"></a>
 **Pipeline Output**
 
 The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
 
 <br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
 
-<a id="demo-horovd-image-classification"></a>
-## Horovod Demo: Image Classification with Distributed Training
+<a id="demo-image-classification"></a>
+## Image Classification with Distributed Training Demo
 
 The [**image-classification-with-distributed-training**](image-classification-with-distributed-training/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
@@ -88,7 +86,7 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 
 <br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
 
-<a id="demo-horovd-image-classification-pipeline-output"></a>
+<a id="demo-image-classification-pipeline-output"></a>
 **Pipeline Output**
 
 <br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
@@ -132,8 +130,6 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
-<!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
-  README link below. -->
 
 The [NetOps demo](network-operations/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
 

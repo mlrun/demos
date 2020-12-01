@@ -1,4 +1,4 @@
-# Horovod Demo: Image Classification with Distributed Training
+# Image Classification with Distributed Training Demo
 
 This demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
