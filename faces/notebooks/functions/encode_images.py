@@ -37,8 +37,8 @@ def encode_images(context):
 
     # If no train images exist in the predefined path we will train the model on a small dataset of movie actresses
     if not os.path.exists(params.data_path + 'input'):
-        os.makedirs(params.data_path + 'input')
-        resp = urlopen('https://iguazio-public.s3.amazonaws.com/roy-actresses/Actresses.zip')
+        os.makedirs(params.data_path + 'input')        
+        resp = urlopen('https://iguazio-public.s3.amazonaws.com/faces-demo/Actresses.zip')
         zip_ref = zipfile.ZipFile(BytesIO(resp.read()), 'r')
         zip_ref.extractall(params.data_path + 'input')
         zip_ref.close()
