@@ -1,6 +1,10 @@
 # Image-Streaming Client
 
-The faces-demo client demonstrates ingestion of video images from a webcam to the Iguazio Data Science Platform using web APIs.
+[Overview](#overview)&nbsp;| [Get the MLrun Demos](#get-mlrun-demos)&nbsp;| [Go to the Client Directory](#go-to-client-dir)&nbsp;| [Configure the Client Initialization](#config-client-init)&nbsp;| [Run the Client](#run-client)
+
+## Overview
+
+The faces-demo client demonstrates ingestion of video images from a webcam to the Iguazio Data Science Platform ("the platform") using web APIs.
 
 <a id="get-mlrun-demos"></a>
 ## Get the MLRun Demos

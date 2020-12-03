@@ -1,23 +1,17 @@
 # Churn Demo: Real-Time Customer-Churn Prediction
 
-This demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
-
-#### In This Document
-
-- [Overview](#overview)
-- [MLRun and Nuclio](#mlrun-and-nuclio)
-- [Pipeline Output](#pipeline-output)
-- [Further Development](#further-development)
-- [Data Science Tags](#data-science-tags)
+[Overview](#overview)&nbsp;| [Demo Flow](#demo-flow)&nbsp;| [Pipeline Output](#pipeline-output)&nbsp;| [Further Development](#further-development)&nbsp;| [Data Science Tags](#data-science-tags)
 
 <a id="overview"></a>
 ## Overview
 
-It's easy to make a business case for running customer-churn analyses (given some relevant data) if you could only spot those scenarios where some measurable intervention might have a high likelihood of generating value.
+This demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
+
+It's easy to make a business case for running customer-churn analyses (given some relevant data), if you could only spot those scenarios where some measurable intervention might have a high likelihood of generating value.
 From the data scientist's perspective, making that case starts with some questions, data, and a few ideas about how to model that data.
 
 The Kaggle Telco Customer Churn data set is a great starting point, enabling you to set up an almost completely generic pipeline with all the core components of a what could eventually become a complex churn prediction and intervention system.
-As a bonus, the same setup could be used to develop a **[predictive maintenance system](https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/may/machine-learning-using-survival-analysis-for-predictive-maintenance)**, or provide a key component in a health care and prevention system.
+As a bonus, the same setup could be used to develop a [**predictive maintenance system**](https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/may/machine-learning-using-survival-analysis-for-predictive-maintenance), or provide a key component in a health care and prevention system.
 
 Churn can initially be approached as a binary classification problem.
 You start with one or more static feature tables and estimate a prediction function.
@@ -30,18 +24,18 @@ Fortunately, the Telco Customer Churn data set contains the client's contract te
 So, a second regressor branch trains a number of survivability models that enable you to provide estimates of the timing of events leading to churn (**"survival-curves"** in the [demo pipeline's  flow chart](#pipeline-output)).
 (Currently, this is the only provided information, as this notebook is still in development.)
 
-<a id="mlrun-and-nuclio"></a>
-## MLRun and Nuclio
+<a id="demo-flow"></a>
+## Demo Flow
 
-This churn model highlights how you can use **[MLRun projects](https://github.com/mlrun)**, **[Nuclio functions](https://nuclio.io/)** functions, and **[Kubeflow Pipelines](https://www.kubeflow.org/)** to set up and deploy a realistic churn model in a production environment.
+The demo's churn-model implementation highlights how you can use [MLRun projects](https://github.com/mlrun), [Nuclio functions](https://nuclio.io/), and [Kubeflow Pipelines](https://www.kubeflow.org/) to set up and deploy a realistic churn model in a production environment.
 Along the way you'll
 
-1.  Write custom data encoders for processing raw data and categorizing or "binarizing" various features.
-2.  Summarize the data, examining parameters such as class balance and variable distributions.
-3.  Define parameters and hyperparameters for a generic XGBoost training function.
-4.  Train and test several models using XGBoost.
-5.  Identify the best model for your needs, and deploy it into production as a real-time Nuclio serverless function.
-6.  Test the model server.
+1.  **Write custom data encoders** for processing raw data and categorizing or "binarizing" various features.
+2.  **Summarize the data**, examining parameters such as class balance and variable distributions.
+3.  **Define parameters and hyperparameters for a generic XGBoost training function**.
+4.  **Train and test several models** using XGBoost.
+5.  **Identify the best model** for your needs, **and deploy it into production** as a real-time Nuclio serverless function.
+6.  **Test the model server**.
 
 Additionally, you're learn how
 
@@ -49,11 +43,12 @@ Additionally, you're learn how
 - Results can be compared.
 - GitHub can help streamline &mdash; and most importantly, document and version &mdash; your entire process.
 
-
 <a id="pipeline-output"></a>
 ## Pipeline Output
 
-![pipeline](assets/pipeline-3.png)
+The following image illustrates the generated pipeline:
+
+<p><img src="./assets/pipeline-3.png" alt="Pipeline output"/></p>
 
 <a id="further-development"></a>
 ## Further Development

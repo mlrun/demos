@@ -32,7 +32,7 @@ You can also modify the code to work with any shared file storage by replacing t
 
 The provided demos implement some or all of the ML workflow steps illustrated in the following image:
 
-<br><p align="center"><img src="./docs/mlrun-pipeline.png" width="800"/></p><br>
+<p><img src="./docs/mlrun-pipeline.png" alt="ML workflow" width="800"/></p>
 
 <a id="prerequisites"></a>
 ## Prerequisites
@@ -58,16 +58,16 @@ The combined CI/data/ML pipeline includes the following steps:
 - Deploy the model as a real-time serverless function.
 - Test the serverless function's REST API with a test data set.
 
-To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and execute the cells sequentially.
+To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and run the code cells according to the instructions in the notebook.
 
-<br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
+<p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
 
 <a id="demo-scikit-learn-pipeline-output"></a>
 **Pipeline Output**
 
 The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
 
-<br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
+<p><img src="./docs/skpipe.png" alt="scikit-learn pipeline output" width="500"/></p>
 
 <a id="demo-image-classification"></a>
 ## Image Classification with Distributed Training Demo
@@ -76,20 +76,20 @@ The [**image-classification-with-distributed-training**](image-classification-wi
 
 The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 
-1. **Download**: Import an image archive from AWS S3 to your cluster's data store.
-2. **Label**: Tag the images based on their name structure.
-3. **Training**: Perform distributed training using TensorFlow, Keras, and Horovod.
-4. **Inference**: Automate deployment of a Nuclio model-serving function.
+1. **Download** &mdash; import an image archive from AWS S3 to your cluster's data store.
+2. **Label** &mdash; tag the images based on their name structure.
+3. **Training** &mdash; perform distributed training using TensorFlow, Keras, and Horovod.
+4. **Inference** &mdash; automate deployment of a Nuclio model-serving function.
 
 > **Note:** The demo supports both TensorFlow versions 1 and 2.
 > There's one shared notebook and two code files &mdash; one for each TensorFlow version.
 
-<br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
+<p><img src="./docs/hvd-flow.png" alt="Image-classification demo workflow" width="600"/></p>
 
 <a id="demo-image-classification-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
+<p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
 
 <a id="demo-face-recognition"></a>
 ## Faces Demo: Real-Time Image Recognition with Deep Learning
@@ -107,7 +107,7 @@ This comprehensive demonstration includes multiple components:
 <a id="demo-face-recognition-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./realtime-face-recognition/workflow.png" width="500"/></p><br>
+<p><img src="./realtime-face-recognition/workflow.png" alt="Face-recognition pipeline output" width="500"/></p>
 
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction
@@ -126,7 +126,7 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <a id="demo-churn-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./customer-churn-prediction/assets/pipeline-3.png" width="500"/></p><br>
+<p><img src="./customer-churn-prediction/assets/pipeline-3.png" alt="Cutomer-churn pipeline output" width="500"/></p>
 
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
@@ -135,10 +135,10 @@ The [NetOps demo](network-operations/README.md) demonstrates ingestion of teleme
 
 The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
 
-<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
+<p><img src="./docs/netops-metrics.png" alt="NetOps demo workflow" width="500"/></p>
 
 <a id="demo-netops-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
+<p><img src="./docs/netops-pipe.png" alt="NetOps pipeline output" width="500"/></p>
 
