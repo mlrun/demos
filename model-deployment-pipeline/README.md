@@ -21,8 +21,13 @@ These steps are covered by the following pipeline:
 - [**1. Data generator**](functions/data-generator.ipynb) — Generates events for the training and serving and Create an enrichment table (lookup values). 
 - [**2. Event handler**](functions/event-handler.ipynb) - Receive data from the input. This is a common input stream for all the data. This way, one can easily replace the event source data (in this case we have a data generator) without affecting the rest of this flow. It also store all incoming data to parquet files.
 - [**3. Stream to features**](functions/stream-to-features.ipynb) - Enrich the stream using the enrichment table and Update aggregation features using the incoming event handler.
-- [**4. Serving**](https://github.com/mlrun/functions/tree/master/model_server) - Serve the model and process the data from the enriched stream and aggregation features.
-- [**5. Inference logger**](functions/event-handler.ipynb) - We use the same event handler function from above but only its capability to store incoming data to parquet files.
+- **4. Optional model training steps -**
+ - [**4.1 Get Data Snapshot**](https://github.com/mlrun/functions/tree/master/describe) - Takes a snapshot of the feature table for training.
+  - [**4.2 Describe the Dataset**](functions/get-data-snapshot.ipynb) - Runs common analysis on the datasets and produces plots suche as histogram, feature importance, corollation and more.
+  - [**4.3 Training**](https://github.com/mlrun/functions/tree/master/sklearn_classifier) - Runing training with multiple classification models.
+  - [**4.4 Testing**](https://github.com/mlrun/functions/tree/master/test_classifier) - Testing the best performing model.
+- [**5. Serving**](https://github.com/mlrun/functions/tree/master/model_server) - Serve the model and process the data from the enriched stream and aggregation features.
+- [**6. Inference logger**](functions/event-handler.ipynb) - We use the same event handler function from above but only its capability to store incoming data to parquet files.
 
 This demo comes with a pre-trained model using the base features, enrichment data and derived features, calculated using the same generated data. You can retrain the model or train a new model by opening and running the  [**optional training notebook**](functions/optional-training.ipynb). You will need to ensure enough data is collected via the streams to the data storage in order to train a new model.
 
