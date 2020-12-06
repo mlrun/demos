@@ -84,6 +84,9 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 > **Note:** The demo supports both TensorFlow versions 1 and 2.
 > There's one shared notebook and two code files &mdash; one for each TensorFlow version.
 
+<a id="demo-image-classification-demo-flow"></a>
+**Demo Workflow**
+
 <p><img src="./docs/hvd-flow.png" alt="Image-classification demo workflow" width="600"/></p>
 
 <a id="demo-image-classification-pipeline-output"></a>
@@ -104,8 +107,8 @@ This comprehensive demonstration includes multiple components:
 - Model training using [PyTorch](https://pytorch.org).
 - Automated model deployment using [Nuclio](https://nuclio.io/)
 
-<a id="demo-face-recognition-pipeline-output"></a>
-**Pipeline Output**
+<a id="demo-face-recognition-demo-flow"></a>
+**Demo Workflow**
 
 <p><img src="./realtime-face-recognition/workflow.png" alt="Face-recognition pipeline output" width="500"/></p>
 
@@ -131,11 +134,24 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
 
-The [NetOps demo](network-operations/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
+The [NetOps demo](network-operations/README.md) demo demonstrates how to build an automated ML pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
+The demo implements both model training and inference, including model monitoring and concept-drift detection.
+The demo simulates telemetry network data for running the pipeline.
 
-The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
+The demo demonstrates how to
 
-<p><img src="./docs/netops-metrics.png" alt="NetOps demo workflow" width="500"/></p>
+- Manage MLRun projects.
+- Use GitHub as a source for functions to use in pipeline workflows.
+- Use MLRun logging to track results and artifacts.
+- Use MLRun to run a [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) pipeline.
+- Deploy a live-endpoints production pipeline.
+- Deploy a concept-drift pipeline.
+
+The demo implements three pipelines:
+
+- **Training pipeline** &mdash; ingestion of telemetry data, exploratory data analysis, data preparation (aggregation), feature selection, and model training and testing.
+- **Production-deployment pipeline** &mdash; automated model deployment.
+- **Concept-drift pipeline** &mdash; streaming of concept-drift detectors using a live Nuclio endpoint, and application of multiple drift-magnitude metrics to asses the drift between a base data set and the latest data.
 
 <a id="demo-netops-pipeline-output"></a>
 **Pipeline Output**
