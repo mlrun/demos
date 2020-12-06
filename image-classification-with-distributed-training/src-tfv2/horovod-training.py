@@ -1,43 +1,43 @@
 import os
 import pandas as pd
+import timeit
+import numpy as np
 
 import tensorflow as tf
 
 import horovod.tensorflow.keras as hvd
 
-# to deprecate, use mlrun.mlutils.models and make this model a parameter instead:
-from tensorflow.keras.applications import EfficientNetB7
-
 from tensorflow.keras.layers import Flatten, Dense
 from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.optimizers import Adadelta, SGD
+from tensorflow.keras.optimizers import Adadelta, SGD, Adam
 from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 from sklearn.model_selection import train_test_split
 
 from mlrun import get_or_create_ctx
 from mlrun.artifacts import ChartArtifact
+from glob import glob
 
 # Acquire MLRun context and parameters:
-mlctx      = get_or_create_ctx('horovod-trainer')
-DATA_PATH       = mlctx.get_param('data_path')
+mlctx           = get_or_create_ctx('horovod-trainer')
+train_dir       = mlctx.get_param('train_path')
+val_dir         = mlctx.get_param('val_path')
 MODEL_DIR       = mlctx.get_param('model_dir', 'models')
 CHECKPOINTS_DIR = mlctx.get_param('checkpoints_dir')
-IMAGE_WIDTH     = mlctx.get_param('image_width', 128)
-IMAGE_HEIGHT    = mlctx.get_param('image_height', 128)
+IMAGE_WIDTH     = mlctx.get_param('image_width', 224)
+IMAGE_HEIGHT    = mlctx.get_param('image_height', 224)
 IMAGE_CHANNELS  = mlctx.get_param('image_channels', 3)  # RGB color
 IMAGE_SIZE      = (IMAGE_WIDTH, IMAGE_HEIGHT)
 IMAGE_SHAPE     = (IMAGE_WIDTH, IMAGE_HEIGHT, IMAGE_CHANNELS)
 EPOCHS          = mlctx.get_param('epochs', 1)
 BATCH_SIZE      = mlctx.get_param('batch_size', 16)
+PREFETCH_STEPS  = mlctx.get_param('prefetch_steps', 3)
+LEARNING_RATE   = mlctx.get_param('learning_rate', 1)
 # RANDOM_STATE must be a parameter for reproducibility:
 RANDOM_STATE    = mlctx.get_param('random_state', 1)
 TEST_SIZE       = mlctx.get_param('test_size', 0.2)
-
-# kubeflow outputs/inputs
-categories_map  = str(mlctx.get_input('categories_map').get())
-df              = pd.read_csv(str(mlctx.get_input('file_categories')))
 
 # Horovod: initialize Horovod.
 hvd.init()
@@ -57,32 +57,8 @@ else:
 
 print(f'Using device: {device}')
 
-if hvd.rank() == 0:
-    mlctx.logger.info('Validating paths:\nData_path:\t{D}\nModel_dir:\t{M}\n'.format(D=DATA_PATH, M=MODEL_DIR))
-    mlctx.logger.info('Categories map:{cm}'.format(cm=categories_map))
-    mlctx.logger.info('Got {d} files in {D}'.format(d=df.shape[0], D=DATA_PATH))
-    mlctx.logger.info('Training data has {s} samples'.format(s=df.size))
-    mlctx.logger.info(df.category.value_counts())
-
-# artifact folders (deprecate these)
-os.makedirs(DATA_PATH, exist_ok=True)
-os.makedirs(CHECKPOINTS_DIR, exist_ok=True)
-
-#
-# Training
-#
-
-# Prepare, test, and train the data
-train_df, validate_df = train_test_split(df, test_size=TEST_SIZE, random_state=RANDOM_STATE)
-train_df = train_df.reset_index(drop=True)
-validate_df = validate_df.reset_index(drop=True)
-train_df['category'] = train_df['category'].astype('str')
-validate_df['category'] = validate_df['category'].astype('str')
-total_train = train_df.shape[0]
-total_validate = validate_df.shape[0]
-
 # load model
-model = EfficientNetB7(include_top=False, input_shape=IMAGE_SHAPE)
+model = tf.keras.applications.ResNet50V2(include_top=False, input_shape=IMAGE_SHAPE)
 
 # mark loaded layers as not trainable
 for layer in model.layers:
@@ -97,8 +73,7 @@ output = Dense(1, activation='sigmoid')(class1)
 model = Model(inputs=model.inputs, outputs=output)
 
 # Horovod: adjust learning rate based on number of GPUs.
-# opt = SGD(lr=0.001, momentum=0.9)
-opt = Adadelta(lr=1.0 * hvd.size())
+opt = Adadelta(lr=LEARNING_RATE * hvd.size())
 
 # Horovod: add Horovod Distributed Optimizer.
 opt = hvd.DistributedOptimizer(opt)
@@ -132,55 +107,70 @@ callbacks = [
 ]
 
 # Horovod: save checkpoints only on worker 0 to prevent other workers from corrupting them.
-if hvd.rank() == 0:
-    callbacks.append(ModelCheckpoint(os.path.join(CHECKPOINTS_DIR, 'checkpoint-{epoch}.h5')))
+# if hvd.rank() == 0:
+#     callbacks.append(ModelCheckpoint(os.path.join(CHECKPOINTS_DIR, 'checkpoint-{epoch}.h5')))
 
-# Set up ImageDataGenerators to do data augmentation for the training images.
-train_datagen = ImageDataGenerator(
-    rotation_range=15,
-    rescale=1. / 255,
-    shear_range=0.1,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    width_shift_range=0.1,
-    height_shift_range=0.1
-)
-train_datagen.mean = [123.68, 116.779, 103.939]
+# prep data for training using tf.data
+train_files = tf.data.Dataset.list_files(str(train_dir), shuffle=False)
+val_files = tf.data.Dataset.list_files(str(val_dir), shuffle=False)
+class_names = np.array(sorted([dir1 for dir1 in os.listdir(train_dir)]))
 
-train_generator = train_datagen.flow_from_dataframe(
-    train_df,
-    DATA_PATH,
-    x_col='filename',
-    y_col='category',
-    target_size=IMAGE_SIZE,
-    class_mode='binary',
-    batch_size=BATCH_SIZE
-)
+train_num_files=len([file for file in glob(str(train_dir +'/*/*'))])
+val_num_files=len([file for file in glob(str(val_dir +'/*/*'))])
 
-if hvd.rank() == 0:
-    mlctx.logger.info('classes:', train_generator.class_indices)
+#To process the label
+def get_label(file_path):
+    # convert the path to a list of path components separated by sep
+    parts = tf.strings.split(file_path, os.path.sep)
+    # The second to last is the class-directory
+    one_hot = parts[-2] == class_names
+    # Integer encode the label
+    return tf.argmax(tf.cast(one_hot, tf.int32))
 
-validation_datagen = ImageDataGenerator(rescale=1. / 255)
-validation_datagen.mean = [123.68, 116.779, 103.939]
-validation_generator = validation_datagen.flow_from_dataframe(
-    validate_df,
-    DATA_PATH,
-    x_col='filename',
-    y_col='category',
-    target_size=IMAGE_SIZE,
-    class_mode='binary',
-    batch_size=BATCH_SIZE
-)
+# To process the image
+def decode_img(img):
+    # convert the compressed string to a 3D uint8 tensor
+    img = tf.image.decode_jpeg(img, channels=3)
+      # resize the image to the desired size
+    return tf.image.resize(img, [IMAGE_HEIGHT, IMAGE_WIDTH])
+
+# To create the single training of validation example with image and its corresponding label
+def process_TL(file_path):
+    
+    label = get_label(file_path)
+    # load the raw data from the file as a string
+    img = tf.io.read_file(file_path)
+    img = decode_img(img)
+    #img= tf.image.rot90(img)
+    #img=tf.image.flip_up_down(img)
+    #img=tf.image.adjust_brightness(img,delta=0.1)
+    img = preprocess_input(img)
+    
+    return img, label
+
+train_dataset = train_files.interleave(lambda x: tf.data.Dataset.list_files(str(train_dir + '/*/*'), shuffle=True), 
+                                       cycle_length=4).map(process_TL, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+val_dataset = val_files.interleave(lambda x: tf.data.Dataset.list_files(str(val_dir + '/*/*'), shuffle=False), 
+                                   cycle_length=4).map(process_TL, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+# for shuffling and a batch size 32 for batching
+train_dataset = train_dataset.repeat().batch(BATCH_SIZE)  
+val_dataset = val_dataset.batch(BATCH_SIZE)
+
+# prefetch the data for high gpu utilization
+train_dataset = train_dataset.prefetch(buffer_size=PREFETCH_STEPS)
+val_dataset = val_dataset.prefetch(buffer_size=PREFETCH_STEPS)
 
 # Train the model
 history = model.fit(
-    train_generator,
-    steps_per_epoch=total_train // BATCH_SIZE,
+    train_dataset,
+    steps_per_epoch= int((train_num_files)// BATCH_SIZE)// hvd.size(),
     callbacks=callbacks,
     epochs=EPOCHS,
     verbose=1 if hvd.rank() == 0 else 0,
-    validation_data=validation_generator,
-    validation_steps=total_validate // BATCH_SIZE
+    validation_data=val_dataset,
+    validation_steps= int((val_num_files)// BATCH_SIZE)// hvd.size()
 )
 
 # save the model only on worker 0 to prevent failures ("cannot lock file")
@@ -214,6 +204,8 @@ if hvd.rank() == 0:
     # Log results
     mlctx.log_result('loss', float(history.history['loss'][EPOCHS - 1]))
     mlctx.log_result('accuracy', float(history.history['accuracy'][EPOCHS - 1]))
+    mlctx.log_result('val_accuracy', float(history.history['val_accuracy'][EPOCHS - 1]))
+    mlctx.log_result('val_loss', float(history.history['val_loss'][EPOCHS - 1]))
 
     mlctx.log_model('model', artifact_path=model_artifacts, model_file='model.h5',
                     labels={'framework': 'tensorflow'},
@@ -221,5 +213,4 @@ if hvd.rank() == 0:
                         'training-summary': summary,
                         'model-architecture.json': bytes(model.to_json(), encoding='utf8'),
                         'model-weights.h5': weights,
-                        'categories_map': mlctx.get_input('categories_map').url
                     })
