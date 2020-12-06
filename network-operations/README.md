@@ -1,4 +1,4 @@
-# Network-Operations (NetOps) Demo
+# NetOps Demo: Predictive Network Operations/Telemetry
 
 [Overview](#overview)&nbsp;| [Running the Demo](#demo-run)&nbsp;| [Demo Flow](#demo-flow)&nbsp;| [Pipeline Output](#pipeline-output)&nbsp;| [Notebooks and Code](#notebooks-and-code)
 

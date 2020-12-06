@@ -112,7 +112,7 @@ This comprehensive demonstration includes multiple components:
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction
 
-The [**chrun**](./customer-churn-prediction/README.md) demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
+The [**chrun**](./customer-churn-prediction/README.md) demo demonstrates analysis of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 
 The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 

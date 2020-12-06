@@ -5,9 +5,9 @@
 <a id="overview"></a>
 ## Overview
 
-This demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
+This demo demonstrates analysis of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 
-It's easy to make a business case for running customer-churn analyses (given some relevant data), if you could only spot those scenarios where some measurable intervention might have a high likelihood of generating value.
+It's easy to make a business case for running customer-churn analysis (given some relevant data), if you could only spot those scenarios where some measurable intervention might have a high likelihood of generating value.
 From the data scientist's perspective, making that case starts with some questions, data, and a few ideas about how to model that data.
 
 The Kaggle Telco Customer Churn data set is a great starting point, enabling you to set up an almost completely generic pipeline with all the core components of a what could eventually become a complex churn prediction and intervention system.
