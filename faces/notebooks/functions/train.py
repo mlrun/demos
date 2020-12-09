@@ -7,6 +7,7 @@ import v3io_frames as v3f
 import importlib.util
 from pickle import dump
 from functions.params import Params
+from os import path
 
 
 def read_encodings_table(params):
@@ -36,7 +37,7 @@ def train(context, model_name='model.bst', cuda=True):
     X = data_df[['c' + str(i).zfill(3) for i in range(128)]].values
     y = data_df['label'].values
 
-    n_classes = len(set(y))
+    n_classes = len(set(y))+1
 
     X = torch.as_tensor(X, device=device)
     y = torch.tensor(y, device=device).reshape(-1, 1)
@@ -69,9 +70,10 @@ def train(context, model_name='model.bst', cuda=True):
         optimizer.step()
 
     context.logger.info('Save model')
+    model_path = path.join(params.artifacts_path,model_name)
     # saves and logs model into mlrun context
     dump(model._modules, open(model_name, 'wb'))
-    context.log_artifact('model', src_path=model_name, target_path=params.artifacts_path+model_name,
+    context.log_artifact('model', src_path=model_name, target_path=model_path,
                          labels={'framework': 'Pytorch-FeedForwardNN'})
     os.remove(model_name)
 
