@@ -38,6 +38,8 @@ url = <nuclio endpoint>
 python video_capture.py
 ```
 
-get the expected resopnse 
+unless you are a famous actor the expected response from the client is :
+ [{"coords": [75, 889, 259, 706], "name": "unknown", "label": -1, "confidence": 0.3509389671540804, "encoding": [-0.20812971889972687, 0.13344672322273254, ....]}]'
+
 
 
