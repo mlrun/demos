@@ -1,7 +1,15 @@
 # Faces Client
 
+<<<<<<< HEAD:faces/client/README.md
 The faces client uses open-cv to stream images into iguazio platform.
 the client uses the laptop camera to send frames into the pre-deployed nuclio serving function. 
+=======
+[Overview](#overview)&nbsp;| [Get the MLrun Demos](#get-mlrun-demos)&nbsp;| [Go to the Client Directory](#go-to-client-dir)&nbsp;| [Configure the Client Initialization](#config-client-init)&nbsp;| [Run the Client](#run-client)
+
+## Overview
+
+The faces-demo client demonstrates ingestion of video images from a webcam to the Iguazio Data Science Platform ("the platform") using web APIs.
+>>>>>>> upstream/development:realtime-face-recognition/client/README.md
 
 <a id="get-mlrun-demos"></a>
 ## Clone the MLRun Demos
@@ -13,7 +21,7 @@ it is required in order to use your laptop camera and stream its frames into the
 ## Go to the Client Directory
 
 ```sh
-cd mlrun/demos/faces/client
+cd mlrun/demos/realtime-face-recognition/client
 ```
 
 <a id="config-client-init"></a>

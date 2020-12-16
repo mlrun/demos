@@ -198,8 +198,8 @@ def list_to_html_table(lol, table_id, table_head):
 
 def handler(context, event):
 
-    data_path = '/User/demos/demos/faces/dataset/'
-    artifact_path = 'User/demos/demos/faces/artifacts/'
+    data_path = '/User/demos/demos/realtime-face-recognition/dataset/'
+    artifact_path = 'User/demos/demos/realtime-face-recognition/artifacts/'
 
     classes_url = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_url)

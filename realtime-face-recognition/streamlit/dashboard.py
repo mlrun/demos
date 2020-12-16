@@ -15,6 +15,7 @@ def load_images(images_path):
 
 @st.cache
 def load_enc_df():
+<<<<<<< HEAD:faces/streamlit/dashboard.py
     return client.read(backend="kv", table='avia/faces/encodings', reset_index=True, filter="label!=-1")
 
 
@@ -30,6 +31,17 @@ if __name__ == '__main__':
     artifact_path = base_path+'artifacts/'
     classes_path = artifact_path + 'idx2name.csv'
     classes_df = pd.read_csv(classes_path)
+=======
+    return client.read(backend="kv", table='iguazio/demos/demos/realtime-face-recognition/artifacts/encodings', reset_index=True, filter="label!=-1")
+
+
+if __name__ == '__main__':
+    client = v3f.Client("framesd:8081", container="users")
+    data_path = '/User/demos/demos/realtime-face-recognition/dataset/'
+    artifact_path = 'User/demos/demos/realtime-face-recognition/artifacts/'
+    classes_url = artifact_path + 'idx2name.csv'
+    classes_df = pd.read_csv(classes_url)
+>>>>>>> upstream/development:realtime-face-recognition/streamlit/dashboard.py
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
 
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
