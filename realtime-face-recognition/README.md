@@ -44,8 +44,6 @@ The following image illustrates the generated pipeline:
 
 ## Running the demo 
 
-1. open jupyter 
-2. cd demos/faces
-2. run face-recognition notebook &mdash; from a [notebook](notebooks/face-recognition.ipynb).
-3. follow client readme to stream images into the system &mdash; from a [Readme](client/README.md). 
-4. follow streamlit README to deploy strwamlit into the system &mdash; from a [Streamlit](streamlit/README.md).
+1. run face-recognition notebook &mdash; from a [notebook](notebooks/face-recognition.ipynb).
+2. follow client [Readme](client/README.md) to stream images into iguazio platform. 
+4. follow streamlit [Readme](streamlit/README.md) to deploy streamlit into iguazio platform.
