@@ -5,12 +5,14 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 #### In This Document
 
 - [Overview](#overview)
+  - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [scikit-learn demo](#demo-sklearn-pipe) &mdash; full AutoML pipeline (Iris data set)
-- [Horovod demo](#demo-horovd-image-classification) &mdash; image classification with distributed training
-- [Faces demo](#demo-face-recognition)&mdash; real-time image recognition, classification, and tracking with deep learning
-- [Churn demo](#demo-churn)&mdash; real-time customer-churn prediction (Telco Customer Churn data set)
-- [NetOps demo](#demo-netops)&mdash; predictive network operations/telemetry
+- [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
+- [Image Classification with Distributed Training Demo](#demo-image-classification)
+- [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
+- [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
+- [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
+- [Stock-Analysis Demo](#demo-stocks)
 
 <a id="overview"></a>
 ## Overview
@@ -31,7 +33,7 @@ You can also modify the code to work with any shared file storage by replacing t
 
 The provided demos implement some or all of the ML workflow steps illustrated in the following image:
 
-<br><p align="center"><img src="./docs/mlrun-pipeline.png" width="800"/></p><br>
+<p><img src="./docs/mlrun-pipeline.png" alt="ML workflow" width="800"/></p>
 
 <a id="prerequisites"></a>
 ## Prerequisites
@@ -43,10 +45,10 @@ To run the MLRun demos, first do the following:
   See the instructions in the [MLRun documentation](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
 
-<a id="demo-sklearn-pipe"></a>
+<a id="demo-scikit-learn"></a>
 ## scikit-learn Demo: Full AutoML Pipeline
 
-The [**sklearn-pipe**](./sklearn-pipe/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
+The [**scikit-learn-pipeline**](./scikit-learn-pipeline/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
 
 The combined CI/data/ML pipeline includes the following steps:
 
@@ -57,43 +59,46 @@ The combined CI/data/ML pipeline includes the following steps:
 - Deploy the model as a real-time serverless function.
 - Test the serverless function's REST API with a test data set.
 
-To run the demo, download the [**sklearn-project.ipynb**](./sklearn-pipe/sklearn-project.ipynb) notebook into an empty directory and execute the cells sequentially.
+To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and run the code cells according to the instructions in the notebook.
 
-<br><p align="center"><img src="./docs/trees.png" width="500"/></p><br>
+<p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
 
-<a id="demo-sklearn-pipe-pipeline-output"></a>
+<a id="demo-scikit-learn-pipeline-output"></a>
 **Pipeline Output**
 
-The output plots can be viewed as static HTML files in the [sklearn-pipe/plots](sklearn-pipe/plots) directory.
+The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
 
-<br><p align="center"><img src="./docs/skpipe.png" width="500"/></p><br>
+<p><img src="./docs/skpipe.png" alt="scikit-learn pipeline output" width="500"/></p>
 
-<a id="demo-horovd-image-classification"></a>
-## Horovod Demo: Image Classification with Distributed Training
+<a id="demo-image-classification"></a>
+## Image Classification with Distributed Training Demo
 
-The [**horovod-pipe**](horovod-pipe/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
+The [**image-classification-with-distributed-training**](image-classification-with-distributed-training/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
 
 The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 
-1. **Download**: Import an image archive from AWS S3 to your cluster's data store.
-2. **Label**: Tag the images based on their name structure.
-3. **Training**: Perform distributed training using TensorFlow, Keras, and Horovod.
-4. **Inference**: Automate deployment of a Nuclio model-serving function.
+1. **Download** &mdash; import an image archive from AWS S3 to your cluster's data store.
+2. **Label** &mdash; tag the images based on their name structure.
+3. **Training** &mdash; perform distributed training using TensorFlow, Keras, and Horovod.
+4. **Inference** &mdash; automate deployment of a Nuclio model-serving function.
 
 > **Note:** The demo supports both TensorFlow versions 1 and 2.
 > There's one shared notebook and two code files &mdash; one for each TensorFlow version.
 
-<br><p align="center"><img src="./docs/hvd-flow.png" width="600"/></p><br>
+<a id="demo-image-classification-demo-flow"></a>
+**Demo Workflow**
 
-<a id="demo-horovd-image-classification-pipeline-output"></a>
+<p><img src="./docs/hvd-flow.png" alt="Image-classification demo workflow" width="600"/></p>
+
+<a id="demo-image-classification-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./docs/hvd-pipe.png" width="500"/></p><br>
+<p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
 
 <a id="demo-face-recognition"></a>
 ## Faces Demo: Real-Time Image Recognition with Deep Learning
 
-The [**faces**](faces/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
+The [**faces**](realtime-face-recognition/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
 
 This comprehensive demonstration includes multiple components:
 
@@ -103,15 +108,15 @@ This comprehensive demonstration includes multiple components:
 - Model training using [PyTorch](https://pytorch.org).
 - Automated model deployment using [Nuclio](https://nuclio.io/)
 
-<a id="demo-face-recognition-pipeline-output"></a>
-**Pipeline Output**
+<a id="demo-face-recognition-demo-flow"></a>
+**Demo Workflow**
 
-<br><p align="center"><img src="./faces/workflow.png" width="500"/></p><br>
+<p><img src="./realtime-face-recognition/workflow.png" alt="Face-recognition pipeline output" width="500"/></p>
 
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction
 
-The [**chrun**](./churn/README.md) demo demonstrates analyses of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
+The [**chrun**](./customer-churn-prediction/README.md) demo demonstrates analysis of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
 
 The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
 
@@ -125,21 +130,61 @@ The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orc
 <a id="demo-churn-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./churn/assets/pipeline-3.png" width="500"/></p><br>
+<p><img src="./customer-churn-prediction/assets/pipeline-3.png" alt="Cutomer-churn pipeline output" width="500"/></p>
 
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
-<!-- TODO: If and when the demo is moved to the mlrun/demos repo, update the
-  README link below. -->
 
-The [NetOps demo](https://github.com/mlrun/demo-network-operations/blob/master/README.md) demonstrates ingestion of telemetry/Network Operations (NetOps) data from a simulator or live stream, feature exploration, data preparation (aggregation), model training, and automated model deployment.
+The [NetOps demo](network-operations/README.md) demo demonstrates how to build an automated ML pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
+The demo implements both model training and inference, including model monitoring and concept-drift detection.
+The demo simulates telemetry network data for running the pipeline.
 
-The demo is maintained in a separate Git repository and also demonstrates how to manage a project life cycle using Git.
+The demo demonstrates how to
 
-<br><p align="center"><img src="./docs/netops-metrics.png" width="500"/></p><br>
+- Manage MLRun projects.
+- Use GitHub as a source for functions to use in pipeline workflows.
+- Use MLRun logging to track results and artifacts.
+- Use MLRun to run a [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) pipeline.
+- Deploy a live-endpoints production pipeline.
+- Deploy a concept-drift pipeline.
+
+The demo implements three pipelines:
+
+- **Training pipeline** &mdash; ingestion of telemetry data, exploratory data analysis, data preparation (aggregation), feature selection, and model training and testing.
+- **Production-deployment pipeline** &mdash; automated model deployment.
+- **Concept-drift pipeline** &mdash; streaming of concept-drift detectors using a live Nuclio endpoint, and application of multiple drift-magnitude metrics to asses the drift between a base data set and the latest data.
 
 <a id="demo-netops-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
+<p><img src="./docs/netops-pipe.png" alt="NetOps pipeline output" width="500"/></p>
+
+<a id="demo-stocks"></a>
+## Stock-Analysis Demo
+
+This demo tackles a common requirement of running a data-engineering pipeline as part of ML model serving by reading data from external data sources and generating insights using ML models.
+The demo reads stock data from an external source, analyzes the related market news, and visualizes the analyzed data in a Grafana dashboard.
+
+The demo demonstrates how to
+
+- Train a sentiment-analysis model using the Bidirectional Encoder Representations from Transformers ([BERT](https://github.com/google-research/bert)) natural language processing (NLP) technique, and deploy the model.
+- Deploy Python code to a scalable function using [Nuclio](https://nuclio.io/).
+- Integrate with the real-time multi-model data layer of the Iguazio Data Science Platform ("the platform") &mdash; time-series databases (TSDB) and NoSQL (key-value) storage.
+- Leverage machine learning to generate insights.
+- Process streaming data and visualize it on a user-friendly dashboard.
+
+The demo include the following steps:
+
+1.  **Training and validating the model** (BERT Model); can be skipped by downloading a pre-trained model (default).
+2.  **Deploying a sentiment-analysis model server**.
+3.  **Ingesting stock data**.
+4.  **Scraping stock news and analyzing sentiments** to generate sentiment predictions.
+5.  **Deploying a stream viewer** that reads data from the stocks news and sentiments stream and can be used as a Grafana data source.
+6.  **Visualizing the data on a Grafana dashboard**, using the stream viewer as a data source.
+
+<a id="demo-stocks-pipeline-output"></a>
+**Pipeline Output**
+
+<p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
+
 
