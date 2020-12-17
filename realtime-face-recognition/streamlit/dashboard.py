@@ -16,7 +16,7 @@ def load_images(images_path):
 
 @st.cache
 def load_enc_df():
-    return client.read(backend="kv", table='avia/faces/encodings', reset_index=True, filter="label!=-1")
+    return client.read(backend="kv", table='avia/examples/faces/encodings', reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
@@ -26,16 +26,18 @@ if __name__ == '__main__':
     token = os.getenv('V3IO_ACCESS_KEY')
     logger.info(os.environ.items())
     client = v3f.Client(frames_uri, token=token, container=container)
-    base_path = '/User/faces/'
-    data_path = base_path + 'dataset/'
+    base_path = '/User/examples/faces/'
+    data_path = base_path + 'data/'
     artifact_path = base_path+'artifacts/'
     classes_path = artifact_path + 'idx2name.csv'
+    logger.info("classes_path: {}".format(classes_path))
     classes_df = pd.read_csv(classes_path)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
 
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
     if page == 'Label Unknown Images':
         label_path = data_path + 'label_pending'
+        logger.info("label_path: {}".format(data_path + 'label_pending'))
         images = load_images(label_path)
         st.title('Label Unknown Images')
 
