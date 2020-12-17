@@ -15,8 +15,8 @@ def load_images(images_path):
 
 
 @st.cache
-def load_enc_df():
-    return client.read(backend="kv", table='avia/examples/faces/encodings', reset_index=True, filter="label!=-1")
+def load_enc_df(p_kv_table_path):
+    return client.read(backend="kv", table=p_kv_table_path, reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
@@ -24,6 +24,7 @@ if __name__ == '__main__':
     frames_uri = os.environ.get('FRAMES_URI')
     container = os.getenv('CONTAINER', 'users')
     token = os.getenv('V3IO_ACCESS_KEY')
+    kv_table_path = os.getenv('KV_TABLE_PATH')
     logger.info(os.environ.items())
     client = v3f.Client(frames_uri, token=token, container=container)
     base_path = '/User/examples/faces/'
@@ -89,7 +90,7 @@ if __name__ == '__main__':
 
     if page == 'View Collected Images':
         st.title('View Collected Images')
-        enc_df = load_enc_df()
+        enc_df = load_enc_df(kv_table_path)
         view_df = enc_df[['fileName', 'camera', 'time']]
         view_df = view_df.rename(columns={'fileName': 'identifier'})
         view_df['identifier'] = view_df['identifier']
