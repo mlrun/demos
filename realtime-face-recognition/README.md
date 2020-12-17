@@ -42,3 +42,8 @@ The following image illustrates the generated pipeline:
 - [**client/video_capture.py**](client/video_capture.py) &mdash; a client for streaming data to the Iguazio Data Science Platform.
 - [**streamlit/dashboard.py**](streamlit/dashboard.py) &mdash; labeling of unknown images, and model retraining for newly collected data.
 
+## Running the demo 
+
+1. run face-recognition notebook &mdash; from a [notebook](notebooks/face-recognition.ipynb).
+2. follow client [Readme](client/README.md) to stream images into iguazio platform. 
+4. follow streamlit [Readme](streamlit/README.md) to deploy streamlit into iguazio platform.
