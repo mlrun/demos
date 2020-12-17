@@ -25,19 +25,24 @@ def encode_images(context):
     context.logger.info(f'Running on device: {device}')
 
     client = v3f.Client(params.frames_url, container=params.container, token=params.token)
-    
+
     if not os.path.exists(params.artifacts_path):
-        os.makedirs(params.artifacts_path)    
+        os.makedirs(params.artifacts_path)
+        context.logger.info("created dir {}".format(params.artifacts_path))
 
     if not os.path.exists(params.data_path + 'processed'):
         os.makedirs(params.data_path + 'processed')
+        context.logger.info("created dir {}".format(params.data_path + 'processed'))
 
     if not os.path.exists(params.data_path + 'label_pending'):
         os.makedirs(params.data_path + 'label_pending')
+        context.logger.info("created dir {}".format(params.data_path + 'label_pending'))
 
     # If no train images exist in the predefined path we will train the model on a small dataset of movie actresses
     if not os.path.exists(params.data_path + 'input'):
-        os.makedirs(params.data_path + 'input')        
+        os.makedirs(params.data_path + 'input')
+        context.logger.info("created dir {}".format(params.data_path + 'input'))
+        context.logger.info("no input provided dowloading actresses images ......")
         resp = urlopen('https://iguazio-public.s3.amazonaws.com/faces-demo/Actresses.zip')
         zip_ref = zipfile.ZipFile(BytesIO(resp.read()), 'r')
         zip_ref.extractall(params.data_path + 'input')
@@ -67,7 +72,8 @@ def encode_images(context):
     name2idx = idx2name_df.set_index('name')['value'].to_dict()
     # log name to index mapping into mlrun context
     context.logger.info("artifact_path {} + local_path  idx2name.csv".format(context.artifact_path))
-    context.log_artifact(TableArtifact('idx2name', df=idx2name_df),artifact_path=params.artifacts_path,  local_path='idx2name.csv')
+    context.log_artifact(TableArtifact('idx2name', df=idx2name_df), artifact_path=params.artifacts_path,
+                         local_path='idx2name.csv')
 
     # generates a list of paths to labeled images
     imagePaths = [f for f in paths.list_images(params.data_path + 'input') if not '.ipynb' in f]
@@ -121,7 +127,7 @@ def encode_images(context):
     # with open('encodings_path.txt', 'w+') as f:
     #     f.write('encodings')
     context.log_artifact('encodings_path', body=encoding_path)
-    #os.remove('encodings_path.txt')
+    # os.remove('encodings_path.txt')
 
 
 if __name__ == '__main__':
