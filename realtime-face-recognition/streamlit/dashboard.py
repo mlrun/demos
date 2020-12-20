@@ -7,29 +7,39 @@ import v3io_frames as v3f
 import os
 import shutil
 import datetime
+from logger import Logger
 
 
-def load_images(data_path):
-    return [f for f in paths.list_images(data_path) if '.ipynb' not in f]
+def load_images(images_path):
+    return [f for f in paths.list_images(images_path) if '.ipynb' not in f]
 
 
 @st.cache
-def load_enc_df():
-    return client.read(backend="kv", table='iguazio/demos/demos/realtime-face-recognition/artifacts/encodings', reset_index=True, filter="label!=-1")
+def load_enc_df(p_kv_table_path):
+    return client.read(backend="kv", table=p_kv_table_path, reset_index=True, filter="label!=-1")
 
 
 if __name__ == '__main__':
-    client = v3f.Client("framesd:8081", container="users")
-    data_path = '/User/demos/demos/realtime-face-recognition/dataset/'
-    artifact_path = 'User/demos/demos/realtime-face-recognition/artifacts/'
-    classes_url = artifact_path + 'idx2name.csv'
-    classes_df = pd.read_csv(classes_url)
+    logger = Logger()
+    frames_uri = os.environ.get('FRAMES_URI')
+    container = os.getenv('CONTAINER', 'users')
+    token = os.getenv('V3IO_ACCESS_KEY')
+    kv_table_path = os.getenv('KV_TABLE_PATH')
+    logger.info(os.environ.items())
+    client = v3f.Client(frames_uri, token=token, container=container)
+    base_path = '/User/examples/faces/'
+    data_path = base_path + 'data/'
+    artifact_path = base_path+'artifacts/'
+    classes_path = artifact_path + 'idx2name.csv'
+    logger.info("classes_path: {}".format(classes_path))
+    classes_df = pd.read_csv(classes_path)
     known_classes = [n.replace('_', ' ') for n in classes_df['name'].values]
 
     page = st.sidebar.selectbox('Choose option', ['Label Unknown Images', 'View Collected Images'], key=1)
     if page == 'Label Unknown Images':
-
-        images = load_images(data_path + 'label_pending')
+        label_path = data_path + 'label_pending'
+        logger.info("label_path: {}".format(data_path + 'label_pending'))
+        images = load_images(label_path)
         st.title('Label Unknown Images')
 
         # generates list of valid labeling options
@@ -47,7 +57,7 @@ if __name__ == '__main__':
             st.subheader('Do you know this person?')
             plt.imshow(rgb_img)
             plt.axis('off')
-            st.pyplot()
+            st.pyplot(plt)
 
             selected_label = st.selectbox(label='Select label for the image', options=options, key=0)
 
@@ -80,7 +90,7 @@ if __name__ == '__main__':
 
     if page == 'View Collected Images':
         st.title('View Collected Images')
-        enc_df = load_enc_df()
+        enc_df = load_enc_df(kv_table_path)
         view_df = enc_df[['fileName', 'camera', 'time']]
         view_df = view_df.rename(columns={'fileName': 'identifier'})
         view_df['identifier'] = view_df['identifier']
@@ -93,4 +103,4 @@ if __name__ == '__main__':
         rgb_kv_img = cv2.cvtColor(kv_img, cv2.COLOR_BGR2RGB)
         plt.imshow(rgb_kv_img)
         plt.axis('off')
-        st.pyplot()
+        st.pyplot(plt)
