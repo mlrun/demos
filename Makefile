@@ -25,6 +25,6 @@ endif
 		else \
 			echo "Creating new branch: $$BRANCH_NAME"; \
 			git checkout --orphan $$BRANCH_NAME; \
-	fi \
+	fi; \
 	git commit -m "Adding $(MLRUN_TAG) tag contents"; \
 	git push origin $$BRANCH_NAME
