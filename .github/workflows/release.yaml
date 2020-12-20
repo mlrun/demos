@@ -1,0 +1,20 @@
+name: Build
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  push-to-release-branch:
+    name: Push source to release branch
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Push to release branch
+      run: |
+        export tag=$(echo ${GITHUB_REF#refs/heads/releases/})
+        export tag_match_pattern=$(echo "$tag" | grep -E "^[0-9]+\.[0-9]+\.x$")
+        export tag_suffix=$(echo ${tag:0:$((${#tag}-1))}x)
+        export branch_name=$(echo release/$tag_suffix)
+        git push origin $branch_name
