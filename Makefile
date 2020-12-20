@@ -17,7 +17,7 @@ endif
 	BRANCH_NAME=$$(echo release/$$TAG_SUFFIX); \
 	git fetch origin $$BRANCH_NAME || EXIT_CODE=$$?; \
 	echo $$EXIT_CODE; \
-	if [ $$EXIT_CODE -eq 0 ]; \
+	if [ "$$EXIT_CODE" = "0" ]; \
 		then \
 			echo "Branch $$BRANCH_NAME exists. Adding changes"; \
 			git checkout $$BRANCH_NAME; \
