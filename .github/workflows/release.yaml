@@ -21,4 +21,5 @@ jobs:
       run: |
         export tag=$(echo ${GITHUB_REF#refs/tags/})
         git config user.name "mlrun-iguazio"
+        git config user.email "mlrun.iguazio@gmail.com"
         MLRUN_TAG=$tag make release
