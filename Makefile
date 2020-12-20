@@ -21,7 +21,8 @@ endif
 		then \
 			echo "Branch $$BRANCH_NAME exists. Adding changes"; \
 			git checkout $$BRANCH_NAME; \
-			git merge --squash $(MLRUN_TAG); \
+			git checkout $(MLRUN_TAG) .; \
+			git add -A; \
 		else \
 			echo "Creating new branch: $$BRANCH_NAME"; \
 			git checkout --orphan $$BRANCH_NAME; \
