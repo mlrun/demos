@@ -14,7 +14,13 @@ jobs:
     - name: Push to release branch
       run: |
         export tag=$(echo ${GITHUB_REF#refs/heads/releases/})
-        export tag_match_pattern=$(echo "$tag" | grep -E "^[0-9]+\.[0-9]+\.x$")
+        export tag_match_pattern=$(echo "$tag" | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$")
         export tag_suffix=$(echo ${tag:0:$((${#tag}-1))}x)
         export branch_name=$(echo release/$tag_suffix)
-        git push origin $branch_name
+        if [ -z "$tag_match_pattern" ]; \
+          then \
+            echo "Pushing"; \
+            git push origin $branch_name; \
+          else \
+            echo "Not matching version. Ignoring"; \
+        fi
