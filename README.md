@@ -191,7 +191,7 @@ The demo include the following steps:
 <a id="mlrun-convert"></a>
 ## How-to: Converting ML Code to MLRun
 
-The MLRun convert [how-to](how-to/converting-to-mlrun/README.md) demonstrates how to take an ML code (NYC Taxi Fare) and convert it to use MLRun. It performs the following:
+The MLRun convert [how-to](howto/converting-to-mlrun/README.md) demonstrates how to take an ML code (NYC Taxi Fare) and convert it to use MLRun. It performs the following:
 
 1. Data ingestion
 2. Data cleaning and preparation
