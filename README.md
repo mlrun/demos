@@ -14,6 +14,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
   - [Faces Demo: Real-Time Image Recognition with Deep Learning](#faces-demo-real-time-image-recognition-with-deep-learning)
   - [Churn Demo: Real-Time Customer-Churn Prediction](#churn-demo-real-time-customer-churn-prediction)
   - [NetOps Demo: Predictive Network Operations/Telemetry](#netops-demo-predictive-network-operationstelemetry)
+  - [How-to: Converting ML Code to MLRun](#mlrun-convert)
 
 <a id="overview"></a>
 ## Overview
@@ -145,3 +146,18 @@ The demo is maintained in a separate Git repository and also demonstrates how to
 **Pipeline Output**
 
 <br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
+
+<a id="mlrun-convert"></a>
+## How-to: Converting ML Code to MLRun
+
+The MLRun convert [how-to](how-to/converting-to-mlrun/README.md) demonstrates how to take an ML code (NYC Taxi Fare) and convert it to use MLRun. It performs the following:
+
+1. Data ingestion
+2. Data cleaning and preparation
+3. Model training
+4. Model serving
+
+<a id="demo-netops-pipeline-output"></a>
+**Pipeline Output**
+
+<br><p align="center"><img src="./docs/taxi-demo.png" width="500"/></p><br>
