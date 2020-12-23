@@ -13,6 +13,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 - [Stock-Analysis Demo](#demo-stocks)
+- [How-to: Converting ML Code to MLRun](#mlrun-convert)
 
 <a id="overview"></a>
 ## Overview
@@ -187,4 +188,17 @@ The demo include the following steps:
 
 <p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
 
+<a id="mlrun-convert"></a>
+## How-to: Converting ML Code to MLRun
 
+The MLRun convert [how-to](how-to/converting-to-mlrun/README.md) demonstrates how to take an ML code (NYC Taxi Fare) and convert it to use MLRun. It performs the following:
+
+1. Data ingestion
+2. Data cleaning and preparation
+3. Model training
+4. Model serving
+
+<a id="mlrun-convert-pipeline-output"></a>
+**Pipeline Output**
+
+<br><p align="center"><img src="./docs/taxi-demo.png" width="500"/></p><br>
