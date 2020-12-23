@@ -145,4 +145,3 @@ The demo is maintained in a separate Git repository and also demonstrates how to
 **Pipeline Output**
 
 <br><p align="center"><img src="./docs/netops-pipe.png" width="500"/></p><br>
-
