@@ -14,7 +14,7 @@ ifndef MLRUN_TAG
 	$(error MLRUN_TAG is undefined)
 endif
 	TAG_SUFFIX=$$(echo $${MLRUN_TAG%.*}.x); \
-	BRANCH_NAME=$$(echo release/$$TAG_SUFFIX); \
+	BRANCH_NAME=$$(echo release/$$TAG_SUFFIX-latest); \
 	git fetch origin $$BRANCH_NAME || EXIT_CODE=$$?; \
 	echo $$EXIT_CODE; \
 	if [ "$$EXIT_CODE" = "" ]; \
