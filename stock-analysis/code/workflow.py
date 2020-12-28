@@ -80,7 +80,7 @@ def kfpipeline(
     ):
     
     with dsl.Condition(RUN_TRAINER == True):
-      
+                
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
                                                                      params={'pretrained_model': pretrained_model,
                                                                              'EPOCHS': EPOCHS,
@@ -118,4 +118,3 @@ def kfpipeline(
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
-
