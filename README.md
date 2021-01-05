@@ -1,6 +1,6 @@
 # MLRun Demos
 
-The mlrun/demos repository provides full end-to-end ML demo use-case applications using MLRun.
+The mlrun/demos repository provides demos that implement full end-to-end ML use-case applications with MLRun and demonstrate different aspects of working with MLRun.
 
 #### In This Document
 
@@ -13,7 +13,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 - [Stock-Analysis Demo](#demo-stocks)
-- [How-to: Converting ML Code to MLRun](#mlrun-convert)
+- [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
 
 <a id="overview"></a>
 ## Overview
@@ -188,17 +188,21 @@ The demo include the following steps:
 
 <p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
 
-<a id="mlrun-convert"></a>
-## How-to: Converting ML Code to MLRun
+<a id="howto-convert-to-mlrun"></a>
+## How-To: Converting Existing ML Code to an MLRun Project
 
-The MLRun convert [how-to](howto/converting-to-mlrun/README.md) demonstrates how to take an ML code (NYC Taxi Fare) and convert it to use MLRun. It performs the following:
+The [**converting-to-mlrun**](howto/converting-to-mlrun/README.md) how-to demo demonstrates how to convert existing ML code to an MLRun project.
+The demo implements an MLRun project for taxi ride-fare prediction based on a [Kaggle notebook](https://www.kaggle.com/jsylas/python-version-of-top-ten-rank-r-22-m-2-88) with an ML Python script that uses data from the [New York City Taxi Fare Prediction competition](https://www.kaggle.com/c/new-york-city-taxi-fare-prediction).
+
+The code includes the following components:
 
 1. Data ingestion
 2. Data cleaning and preparation
 3. Model training
 4. Model serving
 
-<a id="mlrun-convert-pipeline-output"></a>
+<a id="converting-to-mlrun-pipeline-output"></a>
 **Pipeline Output**
 
-<br><p align="center"><img src="./docs/taxi-demo.png" width="500"/></p><br>
+<p><img src="./docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
+
