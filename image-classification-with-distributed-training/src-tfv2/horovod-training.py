@@ -5,13 +5,12 @@ import numpy as np
 import tensorflow as tf
 from mlrun import get_or_create_ctx
 from mlrun.artifacts import ChartArtifact
-from sklearn.model_selection import train_test_split
+
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adadelta
-from tensorflow.python.estimator import inputs
 
 import horovod.tensorflow.keras as hvd
 
@@ -61,8 +60,8 @@ else:
 
 print(f"Using device: {device}")
 
-# We are going to use Transfer Learning from an imagenet trained model `ResNet50V2`
-# for easy training.
+# We are going to use Transfer Learning from an imagenet
+# trained model `ResNet50V2` for easy training.
 model = tf.keras.applications.ResNet50V2(
     include_top=False, input_shape=IMAGE_SHAPE
 )
@@ -101,7 +100,8 @@ if hvd.rank() == 0:
     model.summary()
 
 callbacks = [
-    # Horovod: broadcast initial variable states from rank 0 to all other processes.
+    # Horovod: broadcast initial variable states from rank 0 to all
+    # other processes.
     # This is necessary to ensure consistent initialization of all workers when
     # training is started with random weights or restored from a checkpoint.
     hvd.callbacks.BroadcastGlobalVariablesCallback(0),
@@ -109,15 +109,17 @@ callbacks = [
     # Note: This callback must be in the list before the ReduceLROnPlateau,
     # TensorBoard or other metrics-based callbacks.
     hvd.callbacks.MetricAverageCallback(),
-    # Horovod: using `lr = 1.0 * hvd.size()` from the very beginning leads to worse final
-    # accuracy. Scale the learning rate `lr = 1.0` ---> `lr = 1.0 * hvd.size()` during
+    # Horovod: using `lr = 1.0 * hvd.size()` from the very beginning
+    # leads to worse final accuracy.
+    # Scale the learning rate `lr = 1.0` ---> `lr = 1.0 * hvd.size()` during
     # the first five epochs. See https://arxiv.org/abs/1706.02677 for details.
     hvd.callbacks.LearningRateWarmupCallback(warmup_epochs=5, verbose=1),
     # Reduce the learning rate if training plateaues, tensorflow.keras callback
     ReduceLROnPlateau(patience=10, verbose=1),
 ]
 
-# Horovod: save checkpoints only on worker 0 to prevent other workers from corrupting them.
+# Horovod: save checkpoints only on worker 0 to prevent other workers
+# from corrupting them.
 if hvd.rank() == 0:
     callbacks.append(
         ModelCheckpoint(os.path.join(CHECKPOINTS_DIR, "checkpoint-{epoch}.h5"))
