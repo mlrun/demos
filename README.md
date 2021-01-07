@@ -13,6 +13,7 @@ The mlrun/demos repository provides full end-to-end ML demo use-case application
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 - [Stock-Analysis Demo](#demo-stocks)
+- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
 
 <a id="overview"></a>
 ## Overview
@@ -187,4 +188,28 @@ The demo include the following steps:
 
 <p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
 
+<a id="demo-model-deployment"></a>
 
+## Model deployment Pipeline: Real-time operational Pipeline
+
+This demo shows how to deploy a model with streaming information.
+
+This demo is comprised of several steps:
+
+<p><img src="./model-deployment-pipeline/assets/model-deployment-pipeline.png" alt="Model deployment Pipeline Real-time operational Pipeline" width="500"/></p>
+
+
+While this demo covers the use case of 1<sup>st</sup>-day churn, it is easy to replace the data, related features and training model and reuse the same workflow for different business cases.
+
+These steps are covered by the following pipeline:
+
+- **1. Data generator** — Generates events for the training and serving and Create an enrichment table (lookup values). 
+- **2. Event handler** - Receive data from the input. This is a common input stream for all the data. This way, one can easily replace the event source data (in this case we have a data generator) without affecting the rest of this flow. It also store all incoming data to parquet files.
+- **3. Stream to features** - Enrich the stream using the enrichment table and Update aggregation features using the incoming event handler.
+- **4. Optional model training steps -**
+ - **4.1 Get Data Snapshot** - Takes a snapshot of the feature table for training.
+  - **4.2 Describe the Dataset** - Runs common analysis on the datasets and produces plots suche as histogram, feature importance, corollation and more.
+  - **4.3 Training** - Runing training with multiple classification models.
+  - **4.4 Testing** - Testing the best performing model.
+- **5. Serving** - Serve the model and process the data from the enriched stream and aggregation features.
+- **6. Inference logger** - We use the same event handler function from above but only its capability to store incoming data to parquet files.
