@@ -22,7 +22,7 @@ cd mlrun/demos/realtime-face-recognition/client
 <a id="config-client-init"></a>
 ## Configure the Client Initialization
 
-Edit the [**config/init.ini**](config/init.ini) client-initialization file to configure the client initialization; replace the `<nuclio endpoint>` placeholders to match your specific environment.
+Edit the [**config/init.ini**](../../../../../realtime-face-recognition/client/config/init.ini) client-initialization file to configure the client initialization; replace the `<nuclio endpoint>` placeholders to match your specific environment.
 set the nuclio endpoint into nuclio-api-serving-function 
 the function can be found under Projects(tab)->faces->
 
