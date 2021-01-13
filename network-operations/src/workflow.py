@@ -49,32 +49,32 @@ def init_functions(functions: dict, project=None, secrets=None):
 def kfpipeline(
         # aggregate
         df_artifact = os.path.join(projdir, 'data', 'metrics.pq'),
-        metrics = ['cpu_utilization', 'throughput', 'packet_loss', 'latency'],
-        metric_aggs = ['mean', 'sum', 'std', 'var', 'min', 'max', 'median'],
+        metrics: list = ['cpu_utilization', 'throughput', 'packet_loss', 'latency'],
+        metric_aggs: list = ['mean', 'sum', 'std', 'var', 'min', 'max', 'median'],
         suffix = 'daily',
-        window = 10,
+        window: int = 10,
 
         # describe
         describe_table = 'netops',
-        describe_sample = 0.3,
+        describe_sample: float = 0.3,
         label_column = 'is_error',
-        class_labels = [1, 0],
-        plot_hist = True,
+        class_labels: list = [1, 0],
+        plot_hist: bool = True,
     
         # Feature selection
-        k = 5,
-        min_votes = 3,
+        k: int = 5,
+        min_votes: int = 3,
     
         # Train
-        sample_size      = -1,        # -n for random sample of n obs, -1 for entire dataset, +n for n consecutive rows
-        test_size        = 0.1,       # 10% set aside
-        train_val_split  = 0.75,      # remainder split into train and val
+        sample_size: int      = -1,        # -n for random sample of n obs, -1 for entire dataset, +n for n consecutive rows
+        test_size: float        = 0.1,       # 10% set aside
+        train_val_split: float  = 0.75,      # remainder split into train and val
     
         # Test
         predictions_col = 'predictions',
     
         # Deploy
-        deploy_streaming = True,
+        deploy_streaming: bool = True,
         aggregate_fn_url = 'hub://aggregate',
         streaming_features_table = os.path.join(projdir, 'streaming', 'features'),
         streaming_predictions_table = os.path.join(projdir, 'streaming', 'predictions'),
@@ -87,9 +87,9 @@ def kfpipeline(
         streaming_labeled_table = labeled_stream,
         
         # Concept drift
-        deploy_concept_drift = True,
-        secs_to_generate = 10,
-        concept_drift_models = ['ddm', 'eddm', 'pagehinkley'],
+        deploy_concept_drift: bool = True,
+        secs_to_generate: int = 10,
+        concept_drift_models: list = ['ddm', 'eddm', 'pagehinkley'],
         output_tsdb = os.path.join(projdir, 'streaming', 'drift_tsdb'),
         input_stream = labeled_stream_url,
         output_stream = os.path.join(projdir, 'streaming', 'drift_stream'),
