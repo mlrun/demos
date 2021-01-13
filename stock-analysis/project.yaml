@@ -1,24 +1,17 @@
-kind: project
-metadata:
-  name: stocks
-spec:
-  functions:
-  - url: code/00-train-sentiment-analysis-model.ipynb
-    name: bert_sentiment_classifier_trainer
-  - url: code/01-read-stocks.ipynb
-    name: stocks_reader
-  - url: code/02-read-news.ipynb
-    name: news_reader
-  - url: code/03-stream-viewer.ipynb
-    name: stream_viewer
-  - url: hub://sentiment_analysis_serving
-    name: sentiment_analysis_server
-  workflows:
-  - name: main
-    path: /User/05x/demos/stock-analysis/code/workflow.py
-  artifacts: []
-  artifact_path: /v3io/projects/{{run.project}}/artifacts
-  source: ''
-  subpath: ''
-  origin_url: ''
-  desired_state: online
+name: stocks
+functions:
+- url: code/00-train-sentiment-analysis-model.ipynb
+  name: bert_sentiment_classifier_trainer
+- url: code/01-read-stocks.ipynb
+  name: stocks_reader
+- url: code/02-read-news.ipynb
+  name: news_reader
+- url: code/03-stream-viewer.ipynb
+  name: stream_viewer
+- url: hub://sentiment_analysis_serving
+  name: sentiment_analysis_server
+workflows:
+- name: main
+  path: /User/mlrun-demos/demos/stock-analysis/code/workflow.py
+artifacts: []
+artifact_path: ''

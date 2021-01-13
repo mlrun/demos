@@ -7,7 +7,7 @@ funcs = {}
 
 # Directories and Paths
 projdir = os.path.abspath('./')
-model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
+model_filepath = os.path.join(projdir, 'models', 'models', 'bert_sentiment_analysis_model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
 
 # Performence limit
@@ -33,6 +33,8 @@ def init_functions(functions: dict, project=None, secrets=None):
     functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
     functions['sentiment_analysis_server'].spec.readiness_timeout = 500
     functions['sentiment_analysis_server'].set_config('readinessTimeoutSeconds', 500)
+    
+    # Adept image to use CPU if a GPU is not assigned
     if training_gpus == 0:
         functions['sentiment_analysis_server'].spec.base_spec['spec']['build']['baseImage']='mlrun/ml-models'
         functions['bert_sentiment_classifier_trainer'].spec.image='mlrun/ml-models'
@@ -84,6 +86,8 @@ def kfpipeline(
     ):
     
     with dsl.Condition(RUN_TRAINER == True):
+        
+        deployer = funcs['bert_sentiment_classifier_trainer'].deploy_step()
                 
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
                                                                      params={'pretrained_model': pretrained_model,
@@ -96,7 +100,8 @@ def kfpipeline(
                                                                              'EPOCHS': EPOCHS,
                                                                              'random_state': random_state},
                                                                      inputs={'reviews_dataset': reviews_dataset},
-                                                                     outputs=['bert_sentiment_analysis_model'])
+                                                                     outputs=['bert_sentiment_analysis_model'],
+                                                                     image=deployer.outputs['image'])
         
         sentiment_server = funcs['sentiment_analysis_server'].deploy_step(env={f'SERVING_MODEL_{model_name}': trainer.outputs['bert_sentiment_analysis_model']})
         
