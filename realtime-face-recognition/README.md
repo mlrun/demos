@@ -21,7 +21,7 @@ The demo includes five MLRun and Nuclio functions for implementing the following
 2. **Model training and an output PyTorch predictor**, based on the extracted encodings &mdash; from a [notebook](notebooks/face-recognition.ipynb).
 3. **Automated deployment of a model-serving Nuclio function** &mdash; from a [notebook](notebooks/nuclio-face-prediction.ipynb).
 4. **A client** that records video, streams the data to the platform's data store (file system), and triggers the serving function (see [**client/README.md**](client/README.md)).
-5. **Labeling of unrecognized faces using an interactive dashboard** that's built with Streamlit &mdash; from [code](./streamlit/dashboard.py) (see [**streamlit/README.md**](./streamlit/README.md)).
+5. **Labeling of unrecognized faces using an interactive dashboard** that's built with Streamlit &mdash; from [code](../../../../realtime-face-recognition/streamlit/dashboard.py) (see [**streamlit/README.md**](../../../../realtime-face-recognition/streamlit/README.md)).
 
 The demo also demonstrates how to build an automated pipeline from a [notebook](notebooks/face-recognition.ipynb) using MLRun and [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/), including using the platform's NoSQL (key-value) data store and time-series database (TSDB) library to store metadata and track data of the identified and unidentified faces.
 
@@ -40,10 +40,10 @@ The following image illustrates the generated pipeline:
 - [**client/README.md**](client/README.md) &mdash; a video-streaming client.
 - [**notebooks/nuclio-face-prediction.ipynb**](notebooks/nuclio-face-prediction.ipynb) &mdash; serving-function development and testing.
 - [**client/video_capture.py**](client/video_capture.py) &mdash; a client for streaming data to the Iguazio Data Science Platform.
-- [**streamlit/dashboard.py**](streamlit/dashboard.py) &mdash; labeling of unknown images, and model retraining for newly collected data.
+- [**streamlit/dashboard.py**](../../../../realtime-face-recognition/streamlit/dashboard.py) &mdash; labeling of unknown images, and model retraining for newly collected data.
 
 ## Running the demo 
 
 1. run face-recognition notebook &mdash; from a [notebook](notebooks/face-recognition.ipynb).
 2. follow client [Readme](client/README.md) to stream images into iguazio platform. 
-4. follow streamlit [Readme](streamlit/README.md) to deploy streamlit into iguazio platform.
+4. follow streamlit [Readme](../../../../realtime-face-recognition/streamlit/README.md) to deploy streamlit into iguazio platform.
