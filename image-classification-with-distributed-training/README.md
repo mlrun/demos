@@ -14,7 +14,7 @@ The function requests and retrieves images and sends back a reply according to t
 <a id="demo-run"></a>
 ## Running the Demo
 
-To run the demo and generate an automated ML pipeline with source control, open the [**horovod-project.ipynb**](./horovod-project.ipynb) notebook and run the code cells according to the instructions in the notebook.
+To run the demo and generate an automated ML pipeline with source control, open the [**project.ipynb**](./project.ipynb) notebook and run the code cells according to the instructions in the notebook.
 
 <a id="demo-flow"></a>
 ## Demo Flow
