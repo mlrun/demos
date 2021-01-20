@@ -27,7 +27,7 @@ So, a second regressor branch trains a number of survivability models that enabl
 <a id="demo-flow"></a>
 ## Demo Flow
 
-The demo's churn-model implementation highlights how you can use [MLRun projects](https://github.com/mlrun), [Nuclio functions](https://nuclio.io/), and [Kubeflow Pipelines](https://www.kubeflow.org/) to set up and deploy a realistic churn model in a production environment.
+The demo's churn-model implementation highlights how you can use [MLRun projects](https://github.com/mlrun/mlrun), [Nuclio functions](https://nuclio.io/), and [Kubeflow Pipelines](https://www.kubeflow.org/) to set up and deploy a realistic churn model in a production environment.
 Along the way you'll
 
 1.  **Write custom data encoders** for processing raw data and categorizing or "binarizing" various features.
