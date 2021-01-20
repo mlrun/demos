@@ -24,7 +24,7 @@ spec:
         - name: "FRAMES_URI"
           value: <FRAMES_URI>
         - name: "KV_TABLE_PATH"
-          value: "faces/encodings"
+          value: "examples/faces/encodings"
         - name: "CONTAINER"
           value: "users"
         ports:
