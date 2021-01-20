@@ -1,6 +1,6 @@
 converting-to-mlrun/original-code.ipynb
 converting-to-mlrun/model-serving.ipynb
 converting-to-mlrun/mlrun-code.ipynb
-howto/spark/spark_operator.ipynb
-howto/spark/spark_mlrun_read_csv.ipynb
-howto/spark/spark_mlrun_describe.ipynb
+howto/spark/spark-operator.ipynb
+howto/spark/spark-mlrun-read-csv.ipynb
+howto/spark/spark-mlrun-describe.ipynb
