@@ -1,4 +1,4 @@
-getting-started-tutorial/tutorial-1-MLRun-basics.ipynb
-getting-started-tutorial/tutorial-2-Model-training.ipynb
-getting-started-tutorial/tutorial-3-Model-serving.ipynb
-getting-started-tutorial/tutorial-4-Running-pipeline.ipynb
+tutorial-1-MLRun-basics.ipynb
+tutorial-2-Model-training.ipynb
+tutorial-3-Model-serving.ipynb
+tutorial-4-Running-pipeline.ipynb
