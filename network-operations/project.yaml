@@ -1,0 +1,39 @@
+name: network-operations
+functions:
+- url: hub://aggregate:master
+  name: aggregate
+- url: hub://describe:master
+  name: describe
+- url: hub://feature_selection:master
+  name: feature_selection
+- url: hub://sklearn_classifier:master
+  name: train
+- url: hub://test_classifier:master
+  name: test
+- url: hub://model_server_tester:master
+  name: model_server-tester
+- url: hub://concept_drift:master
+  name: concept_drift
+- url: hub://stream_to_parquet:master
+  name: s2p
+- url: hub://virtual_drift:master
+  name: virtual_drift
+- url: /User/mlrun-demos/demos/network-operations/notebooks/generator.ipynb
+  name: generator
+- url: /User/mlrun-demos/demos/network-operations/notebooks/preprocessor.ipynb
+  name: create_feature_vector
+- url: /User/mlrun-demos/demos/network-operations/notebooks/server.ipynb
+  name: serving
+- url: /User/mlrun-demos/demos/network-operations/notebooks/labeled_stream_creator.ipynb
+  name: labeled_stream
+workflows:
+- name: main
+  path: /User/mlrun-demos/demos/network-operations/src/workflow.py
+artifacts:
+- key: lgb_configs
+  kind: ''
+  iter: 0
+  tree: latest
+  target_path: /User/mlrun-demos/demos/network-operations/data/lgb_model.json
+  db_key: lgb_configs
+artifact_path: ''
