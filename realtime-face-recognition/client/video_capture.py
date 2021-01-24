@@ -20,7 +20,7 @@ def get_conf_log_level(level):
         return logging.ERROR
 
 
-INIT_FILE_PATH = "../../../../../realtime-face-recognition/client/config/init.ini"
+INIT_FILE_PATH = "config/init.ini"
 NUMBER_OF_FRAMES = -1
 CAMERA_NAME = socket.gethostname()
 

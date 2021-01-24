@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: streamlit
-        image: aviaigz/streamlit:1.0.2
+        image: aviaigz/streamlit:0.5.4
         imagePullPolicy: Always
         env:
         - name: "V3IO_ACCESS_KEY"
@@ -24,7 +24,7 @@ spec:
         - name: "FRAMES_URI"
           value: <FRAMES_URI>
         - name: "KV_TABLE_PATH"
-          value: "faces/encodings"
+          value: <USER_NAME>/examples/faces/artifacts/encodings
         - name: "CONTAINER"
           value: "users"
         ports:
