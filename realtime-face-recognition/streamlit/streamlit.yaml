@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: streamlit
-        image: aviaigz/streamlit:1.0.2
+        image: aviaigz/streamlit:0.6.0
         imagePullPolicy: Always
         env:
         - name: "V3IO_ACCESS_KEY"
