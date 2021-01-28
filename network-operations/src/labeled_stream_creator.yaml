@@ -1,0 +1,135 @@
+kind: remote
+metadata:
+  name: labeled-stream-creator
+  tag: ''
+  hash: 4fe9e5827cbec3d3ea0bddc62cd99dabafe36d8e
+  project: network-operations
+spec:
+  command: ''
+  args: []
+  image: ''
+  entry_points:
+    split_path:
+      name: split_path
+      doc: ''
+      parameters:
+      - name: mntpath
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 10
+    create_stream:
+      name: create_stream
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: path
+        default: ''
+      - name: shards
+        default: 1
+      outputs:
+      - default: ''
+      lineno: 20
+    push_to_stream:
+      name: push_to_stream
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: stream_path
+        default: ''
+      - name: data
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 29
+    restructure_stream_event:
+      name: restructure_stream_event
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: event
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 30
+    get_data_parquet:
+      name: get_data_parquet
+      doc: ''
+      parameters:
+      - name: table
+        default: ''
+      - name: files_to_select
+        default: 1
+      outputs:
+      - default: ''
+      lineno: 49
+    init_context:
+      name: init_context
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 56
+    handler:
+      name: handler
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: event
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 71
+  description: ''
+  min_replicas: 1
+  max_replicas: 4
+  env:
+  - name: V3IO_API
+    value: ''
+  - name: V3IO_USERNAME
+    value: ''
+  - name: V3IO_ACCESS_KEY
+    value: ''
+  config:
+    spec.triggers.cron:
+      kind: cron
+      attributes:
+        interval: 1m
+  base_spec:
+    apiVersion: nuclio.io/v1
+    kind: Function
+    metadata:
+      annotations:
+        nuclio.io/generated_by: function generated from 11-08-2020 by admin
+      labels: {}
+      name: labeled-stream-creator
+    spec:
+      build:
+        commands:
+        - python -m pip install v3io --upgrade
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IGpzb24KaW1wb3J0IHYzaW8KaW1wb3J0IHYzaW8uZGF0YXBsYW5lCmltcG9ydCBzb2NrZXQKCmRlZiBzcGxpdF9wYXRoKG1udHBhdGg9JycpOgogICAgaWYgbW50cGF0aFswXSA9PSAnLyc6CiAgICAgICAgbW50cGF0aCA9IG1udHBhdGhbMTpdCiAgICBwYXRocyA9IG1udHBhdGguc3BsaXQoJy8nKQogICAgY29udGFpbmVyID0gcGF0aHNbMF0KICAgIHN1YnBhdGggPSAnJwogICAgaWYgbGVuKHBhdGhzKSA+IDE6CiAgICAgICAgc3VicGF0aCA9IG1udHBhdGhbbGVuKGNvbnRhaW5lcik6XQogICAgcmV0dXJuIGNvbnRhaW5lciwgc3VicGF0aAoKZGVmIGNyZWF0ZV9zdHJlYW0oY29udGV4dCwgcGF0aCwgc2hhcmRzPTEpOgogICAgY29udGFpbmVyLCBzdHJlYW1fcGF0aCA9IHNwbGl0X3BhdGgocGF0aCkKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZidDcmVhdGluZyBzdHJlYW0gaW4gQ29udGFpbmVyOiB7Y29udGFpbmVyfSAmIFBhdGgge3N0cmVhbV9wYXRofScpCiAgICByZXNwb25zZSA9IGNvbnRleHQudjNpb19jbGllbnQuY3JlYXRlX3N0cmVhbShjb250YWluZXI9Y29udGFpbmVyLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGF0aD1zdHJlYW1fcGF0aCwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaGFyZF9jb3VudD1zaGFyZHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByYWlzZV9mb3Jfc3RhdHVzPXYzaW8uZGF0YXBsYW5lLlJhaXNlRm9yU3RhdHVzLm5ldmVyKQogICAgcmVzcG9uc2UucmFpc2VfZm9yX3N0YXR1cyhbNDA5LCAyMDRdKQoKZGVmIHB1c2hfdG9fc3RyZWFtKGNvbnRleHQsIHN0cmVhbV9wYXRoLCBkYXRhKToKICAgIGRlZiByZXN0cnVjdHVyZV9zdHJlYW1fZXZlbnQoY29udGV4dCwgZXZlbnQpOgogICAgICAgIGluc3RhbmNlcyA9IFtkaWN0KCldCiAgICAgICAgZm9yIGtleSBpbiBkYXRhLmtleXMoKToKICAgICAgICAgICAgaWYga2V5IG5vdCBpbiBbJ3doZW4nLCAnY2xhc3MnLCAnbW9kZWwnLCAnd29ya2VyJywgJ2hvc3RuYW1lJywgY29udGV4dC5wcmVkaWN0aW9uX2NvbF06CiAgICAgICAgICAgICAgICBpbnN0YW5jZXNbMF0udXBkYXRlKHtrZXk6IGV2ZW50LnBvcChrZXkpfSkKICAgICAgICBldmVudFsncmVxdWVzdCddID0geydpbnN0YW5jZXMnOiBpbnN0YW5jZXN9CiAgICAgICAgZXZlbnRbJ3Jlc3AnXSA9IFtpbnQoZXZlbnQucG9wKGNvbnRleHQucHJlZGljdGlvbl9jb2wpKV0KICAgICAgICByZXR1cm4gZXZlbnQKICAgIAogICAgcmVjb3JkcyA9IGpzb24ubG9hZHMoZGF0YS50b19qc29uKG9yaWVudD0ncmVjb3JkcycpKQogICAgcmVjb3JkcyA9IFt7J2RhdGEnOiBqc29uLmR1bXBzKHJlc3RydWN0dXJlX3N0cmVhbV9ldmVudChjb250ZXh0LCByZWNvcmQpKX0gZm9yIHJlY29yZCBpbiByZWNvcmRzXQogICAgY29udGV4dC5sb2dnZXIuaW5mbyhmJ0xvZ2dpbmcge2xlbihyZWNvcmRzKX0gcmVjb3JkcywgUmVjb3JkIGV4YW1wbGU6IHtyZWNvcmRzWzBdfScpCiAgICBjb250YWluZXIsIHN0cmVhbV9wYXRoID0gc3BsaXRfcGF0aChzdHJlYW1fcGF0aCkKICAgIHN0ZXAgPSAxMAogICAgZm9yIGlkeCBpbiByYW5nZSgwLCBsZW4ocmVjb3JkcyksIHN0ZXApOgogICAgICAgIHJlc3BvbnNlID0gY29udGV4dC52M2lvX2NsaWVudC5wdXRfcmVjb3Jkcyhjb250YWluZXI9Y29udGFpbmVyLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwYXRoPXN0cmVhbV9wYXRoLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVjb3Jkcz1yZWNvcmRzW2lkeDppZHgrc3RlcF0pCgpkZWYgZ2V0X2RhdGFfcGFycXVldCh0YWJsZSwgZmlsZXNfdG9fc2VsZWN0PTEpOgogICAgbXBhdGggPSBbb3MucGF0aC5qb2luKHRhYmxlLCBmaWxlKSBmb3IgZmlsZSBpbiBvcy5saXN0ZGlyKHRhYmxlKSBpZiBmaWxlLmVuZHN3aXRoKCgncGFycXVldCcsICdwcScpKV0KICAgIGZpbGVzX2J5X3VwZGF0ZWQgPSBzb3J0ZWQobXBhdGgsIGtleT1vcy5wYXRoLmdldG10aW1lLCByZXZlcnNlPUZhbHNlKQogICAgY29udGV4dC5sb2dnZXIuZGVidWdfd2l0aCgnSW5wdXQnLCBpbnB1dF9maWxlcz1maWxlc19ieV91cGRhdGVkWzpmaWxlc190b19zZWxlY3RdKQogICAgZGZzID0gcGQuY29uY2F0KFtwZC5yZWFkX3BhcnF1ZXQoZmlsZSkgZm9yIGZpbGUgaW4gZmlsZXNfYnlfdXBkYXRlZFs6ZmlsZXNfdG9fc2VsZWN0XV0pCiAgICByZXR1cm4gZGZzCgpkZWYgaW5pdF9jb250ZXh0KGNvbnRleHQpOgogICAgc2V0YXR0cihjb250ZXh0LCAnbWV0cmljc190YWJsZScsIG9zLmVudmlyb25bJ01FVFJJQ1NfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ3ByZWRpY3Rpb25zX3RhYmxlJywgb3MuZW52aXJvblsnUFJFRElDVElPTlNfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ291dHB1dF9zdHJlYW0nLCBvcy5lbnZpcm9uWydPVVRQVVRfU1RSRUFNJ10pCiAgICBzZXRhdHRyKGNvbnRleHQsICd0aW1lc3RhbXBfY29sJywgb3MuZ2V0ZW52KCd0aW1lc3RhbXBfY29sJywgJ3doZW4nKSkKICAgIHNldGF0dHIoY29udGV4dCwgJ29yaWdfdGltZXN0YW1wX2NvbCcsIG9zLmdldGVudignb3JpZ190aW1lc3RhbXBfY29sJywgJ3RpbWVzdGFtcCcpKQogICAgCiAgICB2M2lvX2NsaWVudCA9IHYzaW8uZGF0YXBsYW5lLkNsaWVudChlbmRwb2ludD0naHR0cDovL3YzaW8td2ViYXBpOjgwODEnLCBsb2dnZXJfdmVyYm9zaXR5PSdERUJVRycsIHRyYW5zcG9ydF92ZXJib3NpdHk9J0RFQlVHJykKICAgIHNldGF0dHIoY29udGV4dCwgJ3YzaW9fY2xpZW50JywgdjNpb19jbGllbnQpCiAgICBpZiBoYXNhdHRyKGNvbnRleHQsICd0cmlnZ2VyJykgYW5kIGNvbnRleHQudHJpZ2dlci5raW5kID09ICdjcm9uJzoKICAgICAgICBjcmVhdGVfc3RyZWFtKGNvbnRleHQsIGNvbnRleHQub3V0cHV0X3N0cmVhbSkKICAgIAogICAgc2V0YXR0cihjb250ZXh0LCAnbGFiZWxfY29sJywgb3MuZW52aXJvblsnbGFiZWxfY29sJ10pCiAgICBzZXRhdHRyKGNvbnRleHQsICdwcmVkaWN0aW9uX2NvbCcsIG9zLmVudmlyb25bJ3ByZWRpY3Rpb25fY29sJ10pCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICBtZXRyaWNzID0gZ2V0X2RhdGFfcGFycXVldChjb250ZXh0Lm1ldHJpY3NfdGFibGUsIDIpLmxvY1s6LCBjb250ZXh0LmxhYmVsX2NvbF0uYXN0eXBlKCdpbnQnKQogICAgbWV0cmljcy5pbmRleC5uYW1lcyA9IGxpc3QoW25hbWUgaWYgbmFtZSAhPSBjb250ZXh0Lm9yaWdfdGltZXN0YW1wX2NvbCBlbHNlIGNvbnRleHQudGltZXN0YW1wX2NvbCBmb3IgbmFtZSBpbiBtZXRyaWNzLmluZGV4Lm5hbWVzXSkKICAgIHByZWRpY3Rpb25zID0gZ2V0X2RhdGFfcGFycXVldChjb250ZXh0LnByZWRpY3Rpb25zX3RhYmxlLCAyKQogICAgY29udGV4dC5sb2dnZXIuZGVidWcoZidMYWJlbGluZyBtZXRyaWNzICh7bWV0cmljcy5zaGFwZX0pIGFuZCBwcmVkaWN0aW9ucyAoe3ByZWRpY3Rpb25zLnNoYXBlfSknKQogICAgY29udGV4dC5sb2dnZXIuZGVidWdfd2l0aCgnSW5kZXhlcycsIG1ldHJpY3NfaW5kZXg9bWV0cmljcy5pbmRleC5uYW1lcywgcHJlZGljdGlvbnNfaW5kZXg9cHJlZGljdGlvbnMuaW5kZXgubmFtZXMpCiAgICAKICAgIGZ1bGxfZGYgPSBwZC5tZXJnZShsZWZ0PXByZWRpY3Rpb25zLCByaWdodD1tZXRyaWNzLCBsZWZ0X29uPWxpc3QobWV0cmljcy5pbmRleC5uYW1lcyksIGxlZnRfaW5kZXg9VHJ1ZSwgcmlnaHRfaW5kZXg9VHJ1ZSkKICAgIGZ1bGxfZGYgPSBmdWxsX2RmLnJlc2V0X2luZGV4KCkKICAgIGNvbnRleHQubG9nZ2VyLmRlYnVnKGYnRnVsbHkgbGFiZWxlZCBiYXRjaCBzaXplIGlzIHtmdWxsX2RmLnNoYXBlfScpCiAgICBjb250ZXh0LmxvZ2dlci5kZWJ1ZyhmJ0luZGV4ZXM6IHtsaXN0KGZ1bGxfZGYuaW5kZXgubmFtZXMpfScpCiAgICBjb250ZXh0LmxvZ2dlci5kZWJ1ZyhmJ0NvbHVtbnM6IHtmdWxsX2RmLmNvbHVtbnN9JykKICAgIGNvbnRleHQubG9nZ2VyLmRlYnVnX3dpdGgoJ3NhbXBsZScsIGZ1bGxfZGY9ZnVsbF9kZi5oZWFkKDEpKQogICAgZnVsbF9kZiA9IGZ1bGxfZGYubG9jWzoxMF0KICAgIAogICAgcHVzaF90b19zdHJlYW0oY29udGV4dCwgY29udGV4dC5vdXRwdXRfc3RyZWFtLCBmdWxsX2RmKQoK
+        noBaseImagesPull: true
+        baseImage: mlrun/ml-models
+      env:
+      - name: METRICS_TABLE
+        value: /User/demos/network-operations/streaming/metrics
+      - name: PREDICTIONS_TABLE
+        value: /User/demos/network-operations/streaming/predictions
+      - name: OUTPUT_STREAM
+        value: /users/admin/demos/network-operations/streaming/labels_stream_v1
+      - name: prediction_col
+        value: predictions
+      - name: label_col
+        value: is_error
+      - name: output_stream_shards
+        value: '1'
+      handler: labeled_stream_creator:handler
+      runtime: python:3.6
+      volumes: []
+  source: ''
