@@ -22,10 +22,10 @@ endif
 		then \
 			echo "Branch $$BRANCH_NAME exists. Adding changes"; \
 			git checkout $$BRANCH_NAME; \
-			rm -rf /tmp/mlrun; \
-			git clone --branch $(MLRUN_TAG) https://github.com/$(MLRUN_GIT_ORG)/mlrun.git /tmp/mlrun; \
+			rm -rf /tmp/mlrun-demos; \
+			git clone --branch $(MLRUN_TAG) https://github.com/$(MLRUN_GIT_ORG)/demos.git /tmp/mlrun-demos; \
 			find . -path ./.git -prune -o -exec rm -rf {} \; 2> /dev/null; \
-			rsync -avr --exclude='.git/' /tmp/mlrun/ .; \
+			rsync -avr --exclude='.git/' /tmp/mlrun-demos/ .; \
 			git add -A; \
 		else \
 			echo "Creating new branch: $$BRANCH_NAME"; \
