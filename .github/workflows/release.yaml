@@ -3,7 +3,8 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      # we don't want to be triggered for RC releases (e.g. v0.6.0-rc9)
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   push-to-release-branch:
@@ -21,4 +22,4 @@ jobs:
         export tag=$(echo ${GITHUB_REF#refs/tags/})
         git config user.name "mlrun-iguazio"
         git config user.email "mlrun.iguazio@gmail.com"
-        MLRUN_TAG=$tag make release
+        MLRUN_GIT_ORG=${{ github.repository_owner }} MLRUN_TAG=$tag make release
