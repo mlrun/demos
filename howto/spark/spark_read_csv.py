@@ -8,7 +8,7 @@ context = get_or_create_ctx("spark-function")
 spark = SparkSession.builder.appName("Spark job").getOrCreate()
 
 # read csv
-df = spark.read.load('howto/spark-operator/iris.csv', 
+df = spark.read.load('iris.csv', 
                      format="csv", 
                      sep=",", 
                      header="true")

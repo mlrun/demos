@@ -13,7 +13,7 @@ def init_functions(functions: dict, project=None, secrets=None):
      
     # uncomment this line to collect the inference results into a stream
     # and specify a path in V3IO (<datacontainer>/<subpath>)
-    # functions['serving'].set_tracking(f'projects/{project.name}/model_stream')
+    #functions['serving'].set_env('INFERENCE_STREAM', 'users/admin/model_stream')
 
     
 @dsl.pipeline(
@@ -41,7 +41,7 @@ def kfpipeline():
     
     # train with hyper-paremeters 
     train = funcs["train"].as_step(
-        name="train",
+        name="train-skrf",
         params={"sample"          : -1, 
                 "label_column"    : LABELS,
                 "test_size"       : 0.10},
@@ -59,10 +59,10 @@ def kfpipeline():
         inputs={"models_path" : train.outputs['model'],
                 "test_set"    : train.outputs['test_set']})
 
-    # deploy our model as a serverless function, we can pass a list of models to serve 
-    deploy = funcs["serving"].deploy_step(models=[{"key": f"{DATASET}:v1", "model_path": train.outputs['model']}])
+    # deploy our model as a serverless function
+    deploy = funcs["serving"].deploy_step(models={f"{DATASET}_v1": train.outputs['model']}, tag='v2')
     
     # test out new model server (via REST API calls)
     tester = funcs["live_tester"].as_step(name='model-tester',
-        params={'addr': deploy.outputs['endpoint'], 'model': f"{DATASET}:v1"},
+        params={'addr': deploy.outputs['endpoint'], 'model': f"{DATASET}_v1"},
         inputs={'table': train.outputs['test_set']})
