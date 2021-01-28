@@ -1,0 +1,138 @@
+name: fm-hvd
+functions:
+- name: utils
+  spec:
+    kind: job
+    metadata:
+      name: utils
+      tag: ''
+      project: fm-hvd
+    spec:
+      command: ''
+      args: []
+      image: mlrun/mlrun
+      env:
+      - name: V3IO_API
+        value: ''
+      - name: V3IO_USERNAME
+        value: ''
+      - name: V3IO_ACCESS_KEY
+        value: ''
+      default_handler: ''
+      entry_points:
+        open_archive:
+          name: open_archive
+          doc: 'Open a file/object archive into a target directory
+
+
+            Currently supports zip and tar.gz'
+          parameters:
+          - name: context
+            doc: function execution context
+            default: ''
+          - name: archive_url
+            type: DataItem
+            doc: url of archive file
+            default: ''
+          - name: target_path
+            doc: file system path to store extracted files
+            default: ''
+          - name: refresh
+            default: false
+          outputs:
+          - default: ''
+          lineno: 10
+      description: ''
+      build:
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCB6aXBmaWxlCmltcG9ydCBqc29uCmZyb20gdGVtcGZpbGUgaW1wb3J0IG1rdGVtcAppbXBvcnQgcGFuZGFzIGFzIHBkCmZyb20gbWxydW4gaW1wb3J0IERhdGFJdGVtCgpkZWYgb3Blbl9hcmNoaXZlKGNvbnRleHQsIAogICAgICAgICAgICAgICAgIGFyY2hpdmVfdXJsOiBEYXRhSXRlbSwKICAgICAgICAgICAgICAgICB0YXJnZXRfcGF0aCwKICAgICAgICAgICAgICAgICByZWZyZXNoPUZhbHNlKToKICAgICIiIk9wZW4gYSBmaWxlL29iamVjdCBhcmNoaXZlIGludG8gYSB0YXJnZXQgZGlyZWN0b3J5CiAgICAKICAgIEN1cnJlbnRseSBzdXBwb3J0cyB6aXAgYW5kIHRhci5negogICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICBmdW5jdGlvbiBleGVjdXRpb24gY29udGV4dAogICAgOnBhcmFtIGFyY2hpdmVfdXJsOiAgdXJsIG9mIGFyY2hpdmUgZmlsZQogICAgOnBhcmFtIHRhcmdldF9wYXRoOiAgZmlsZSBzeXN0ZW0gcGF0aCB0byBzdG9yZSBleHRyYWN0ZWQgZmlsZXMKICAgIDpwYXJhbSBrZXk6ICAgICAgICAgIGtleSBvZiBhcmNoaXZlIGNvbnRlbnRzIGluIGFydGlmYWN0IHN0b3JlCiAgICAiIiIKICAgIG9zLm1ha2VkaXJzKHRhcmdldF9wYXRoLCBleGlzdF9vaz1UcnVlKQogICAgCiAgICBhcmNoaXZlX3VybCA9IGFyY2hpdmVfdXJsLmxvY2FsKCkKICAgIAogICAgY29udGV4dC5sb2dnZXIuaW5mbygnRXh0cmFjdGluZyB6aXAnKQogICAgemlwX3JlZiA9IHppcGZpbGUuWmlwRmlsZShhcmNoaXZlX3VybCwgJ3InKQogICAgemlwX3JlZi5leHRyYWN0YWxsKHRhcmdldF9wYXRoKQogICAgemlwX3JlZi5jbG9zZSgpCiAgICAKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZidleHRyYWN0ZWQgYXJjaGl2ZSB0byB7dGFyZ2V0X3BhdGh9JykKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCdjb250ZW50JywgdGFyZ2V0X3BhdGg9dGFyZ2V0X3BhdGgpCgo=
+        commands: []
+- name: trainer
+  spec:
+    kind: mpijob
+    metadata:
+      name: trainer
+      project: fm-hvd
+      categories: []
+    spec:
+      command: /User/demos/winjit/fm_hvd.py
+      args:
+      - -x NCCL_DEBUG=INFO
+      - -x NCCL_DEBUG=INFO
+      image: .mlrun/func-fm-hvd-trainer-latest
+      env:
+      - name: V3IO_API
+        value: ''
+      - name: V3IO_USERNAME
+        value: ''
+      - name: V3IO_ACCESS_KEY
+        value: ''
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+      description: ''
+      replicas: 2
+      image_pull_policy: Always
+      build:
+        image: .mlrun/func-fm-hvd-trainer-latest
+        base_image: mlrun/ml-models-gpu
+        commands:
+        - python -m conda install opencv -y
+        - apt-get update
+        - apt-get install 'ffmpeg' -y                             'libsm6' -y                             'libxext6'
+          -y
+- url: /User/demos/winjit/tf2_serving.ipynb
+  name: serving
+workflows:
+- name: main
+  code: "from kfp import dsl\nimport mlrun\n\nfuncs = {}\nepochs = 70\nreplicas =\
+    \ 2\nbatch_size = 32\n\ndef init_functions(functions: dict, project=None, secrets=None):\n\
+    \    '''\n    This function will run before running the project.\n    It allows\
+    \ us to add our specific system configurations to the functions\n    like mounts\
+    \ or secrets if needed.\n\n    In this case we will add Iguazio's user mount to\
+    \ our functions using the\n    `mount_v3io()` function to automatically set the\
+    \ mount with the needed\n    variables taken from the environment. \n    * mount_v3io\
+    \ can be replaced with mlrun.platforms.mount_pvc() for \n    non-iguazio mount\n\
+    \n    :param functions:  <function_name: function_yaml> dict of functions in the\n\
+    \                        workflow\n    :param project:    project object\n   \
+    \ :param secrets:    secrets required for the functions for s3 connections and\n\
+    \                       such\n    '''\n    for f in functions.values():\n    \
+    \    f.apply(mlrun.mount_v3io())            # On Iguazio (Auto-mount /User)\n\
+    \        # f.apply(mlrun.platforms.mount_pvc()) # Non-Iguazio mount\n        \n\
+    \    functions['serving'].set_env('MODEL_CLASS', 'TFModel')\n    functions['serving'].set_env('IMAGE_HEIGHT',\
+    \ '224')\n    functions['serving'].set_env('IMAGE_WIDTH', '224')\n    functions['serving'].set_env('ENABLE_EXPLAINER',\
+    \ 'False')\n    functions['serving'].spec.min_replicas = 1\n    \n@dsl.pipeline(\n\
+    \    name='Image classification demo',\n    description='Train an Image Classification\
+    \ TF Algorithm using MLRun'\n)\ndef kfpipeline(\n    # setup pipeline params\n\
+    \        image_archive='store:///images',\n        target_path='/User/artifacts/fm-images',\n\
+    \        checkpoints_dir='/User/artifacts/models/checkpoints',\n        model_name='mask_vs_no_mask'):\n\
+    \n    # step 1: download images\n    open_archive = funcs['utils'].as_step(name='download_and_open',\n\
+    \                                          handler='open_archive',\n         \
+    \                                 params={'target_path': target_path},\n     \
+    \                                     inputs={'archive_url': image_archive},\n\
+    \                                          outputs=['content'])\n\n    # step\
+    \ 2: deploy out serveless training function and train a model\n    # get the output\
+    \ of step 1 and use it as source dir\n    source_dir = str(open_archive.outputs['content'])\n\
+    \    source_dir_images = source_dir +'/images'\n    source_dir_annot = source_dir\
+    \ +'/annotations'\n    \n    # deploy our trainer function \n    deploy_train\
+    \ = funcs['trainer'].deploy_step(skip_deployed=True)\n    deploy_train.after(open_archive)\n\
+    \    \n    # train our model\n    train = funcs['trainer'].as_step(name='train',\n\
+    \                                     params={'epochs'         : epochs,\n   \
+    \                                          'batch_size'     : batch_size,\n  \
+    \                                           'imgs'           : source_dir_images,\n\
+    \                                             'annot'          : source_dir_annot,\n\
+    \                                             'model_artifacts': checkpoints_dir},\n\
+    \                                     outputs=['model'],\n                   \
+    \                  image=deploy_train.outputs['image'])\n    \n    # the image_pull_policy\
+    \ param is set in order to use the image \n    # we just built in the cell above\n\
+    \    train.container.set_image_pull_policy('Always')\n    \n    # set timeout\
+    \ in case the pipeline takes time\n    train.set_timeout(214748364)\n    train.after(deploy_train)\n\
+    \    \n    # step 3: deploy the model using nuclio functions\n    deploy = funcs['serving'].deploy_step(models={model_name:\
+    \ train.outputs['model']})\n    deploy.after(train)\n"
+artifacts:
+- key: images
+  kind: ''
+  iter: 0
+  tree: latest
+  target_path: https://s3.wasabisys.com/iguazio/data/masks_no_masks/archive.zip
+  db_key: images
+artifact_path: ''
