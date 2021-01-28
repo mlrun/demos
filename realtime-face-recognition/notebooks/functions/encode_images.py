@@ -43,7 +43,7 @@ def encode_images(context):
         os.makedirs(params.data_path + 'input')
         context.logger.info("created dir {}".format(params.data_path + 'input'))
         context.logger.info("no input provided dowloading actresses images ......")
-        resp = urlopen('https://iguazio-public.s3.amazonaws.com/faces-demo/Actresses.zip')
+        resp = urlopen('https://s3.wasabisys.com/iguazio/data/faces/actresses.zip')
         zip_ref = zipfile.ZipFile(BytesIO(resp.read()), 'r')
         zip_ref.extractall(params.data_path + 'input')
         zip_ref.close()
