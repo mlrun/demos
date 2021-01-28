@@ -1,142 +1,97 @@
-# NetOps Demo: Predictive Network Operations/Telemetry
+# Network Operations - MLRun MLOps Demo
+---
+This demo shows a full ML Pipeline for error prediction based on network device telematry using MLRun.
 
-[Overview](#overview)&nbsp;| [Running the Demo](#demo-run)&nbsp;| [Demo Flow](#demo-flow)&nbsp;| [Pipeline Output](#pipeline-output)&nbsp;| [Notebooks and Code](#notebooks-and-code)
+In this demo we show:
+- Managing an MLRun Project
+- Using github as a source for functions to use in our pipeline workflows
+- Use MLRun logging to track results and artifacts
+- Running a Kubeflow Pipeline using MLRun
+- Deploy live endpoints
+- Deploy Concept Drift
 
-## Overview
+The demo applications are tested on the Iguazio's Data Science PaaS, and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the `apply(v3io_mount())` calls with other KubeFlow volume modifiers (e.g. `apply(mlrun.platforms.mount_pvc())`) . You can request a free trial of Iguazio PaaS.
 
-This demo demonstrates how to build an automated machine-learning (ML) pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
-The demo implements both model training and inference, including model monitoring and concept-drift detection.
-The demo simulates telemetry network data for running the pipeline.
+## How the system is built
+This demo aims to show an example of a production system deployed fully by an automated pipeline.
 
-The demo demonstrates how to
+There are three main parts to this demo.
+- Training pipeline to create new model.
+- Streaming pipeline endpoints for production
+- Concept Drift detection to monitor the model's performance 
 
-- Manage MLRun projects.
-- Use GitHub as a source for functions to use in pipeline workflows.
-- Use MLRun logging to track results and artifacts.
-- Use MLRun to run a [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) pipeline.
-- Deploy a live-endpoints production pipeline.
-- Deploy a concept-drift pipeline.
+You can select which parts of the workflow to run via the `deploy_streaming` flag for the Production deployment and the `deploy_concept_drift` for the drift detection flags.
 
-> **Note:** The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com) ("the platform"), and use the platform's data store ("v3io").
-> However, they can be modified to work with any shared file storage by replacing the `apply(v3io_mount())` calls with other Kubeflow volume modifiers (for example, `apply(mlrun.platforms.mount_pvc())`).
-> Contact [Iguazio support](mailto:support@iguazio.com) to request a free trial of the platform.
+For retraining purposes and scheduling of workflows we can use the [project runner]() function from the marketplace to create an HTTP endpoint (or any other nuclio trigger) that can run a workflow based on an event.  
 
-<a id="demo-run"></a>
-## Running the Demo
+### Training pipeline
+The training pipeline includes the following process (based on our [functions market](https://github.com/mlrun/functions)):  
+**[Exploratory Data Analysis](https://github.com/mlrun/functions/blob/master/describe/describe.ipynb):** Provides histogram maps, class imbalance, correlation matrix, etc...  
+**[Aggregation](https://github.com/mlrun/functions/tree/master/aggregate/aggregate.ipynb):** run different rolling aggregations on top of the dataset to create temporal features.  
+**[Feature Selection](https://github.com/mlrun/functions/blob/master/feature_selection/feature_selection.ipynb):** Select the best features to use using a vote based on multiple metrics and basic model estimators.  
+**[Training](https://github.com/mlrun/functions/blob/master/sklearn_classifier/sklearn_classifier.ipynb):** Train multiple SKLearn API based models (Using automated hyperparams search) and select the best one according to a selected metric.  
+**[Test](https://github.com/mlrun/functions/blob/master/test_classifier/test_classifier.ipynb):** Using a dedicated Test dataset, provide performence benchmarks for the model.
 
-<a id="demo-run-prerequisites"></a>
-### Prerequisites
+### Production deployment pipeline
+In the production deployment phase we aim to deploy a full system to ingest new data, create the necessary features and provide predictions.
+We are using the Nuclio serverless runtime to create the live endpoints, which for ease-of-use as open source will work by passing parquets at a set directory between each other. (Using a streaming engine would require many dependencies which will make open-source deployment difficult)
 
-Before you begin, ensure that you have the following:
+Our production process is made of a setup stage to start the [generator](notebooks/generator.ipynb) to mimic incoming data and the [(done automatically in the pipeline). 
+The netops pipeline itself is made from the following components:  
+**[Preprocessor](notebooks/preprocessor.ipynb):** Taking the selected features and creating them upon ingestion.  
+**[Model Server](notebooks/server.ipynb):** Deploy the model to a live endpoint.  
+**[Model Server Tester](https://github.com/mlrun/functions/blob/master/model_server_tester/model_server_tester.ipynb):** Verify our model endpoint is live and provides good predictions.  
+**[Labeled stream creator](notebooks/labeled_stream_creator.ipynb):** Join the incoming labels and predictions to a single source to assess the model's performence.
 
-- A [Kubernetes](https://kubernetes.io/) cluster with installations of [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) and [Nuclio](https://nuclio.io/).
-- An installation of MLRun with a running MLRun service and an MLRun dashboard.
-    See details in the [MLRun README](https://github.com/mlrun/mlrun).
+### Concept drift deployment pipeline
+The concept drift pipeline is made of two main components:  
+**[Concept Drift Detectors](https://github.com/mlrun/functions/blob/master/concept_drift/concept_drift.ipynb):** Using streaming drift detectors like DDM and PH.
+we use a `job` to initialise the models with a base labeled dataset and produce a live Nuclio endpoint to enlist to the labeled stream.  
+**[Drift Magnitude](https://github.com/mlrun/functions/blob/e236a6b006e9e5a095a93c4822e422ebce5ac2dc/virtual_drift/virtual_drift.ipynb):** Taking batches of data via parquet, we apply multiple drift magnitude metrics like TVD, Helinger and KL Divergence to assess the drift between a base dataset and the latest data.
 
-<a id="demo-execution-steps"></a>
-### Execution Steps
+<br><p align="center"><img src="./docs/run-pipeline.png"/></p><br>
 
-Execute the following steps to run the demo:
+## Running the demo
+---
+Pre-requisites:
+* A Kubernetes cluster with pre-installed KubeFlow, Nuclio.
+* MLRun Service and UI installed, [see MLRun readme](https://github.com/mlrun/mlrun).
 
-1. Fork the [mlrun/demos](https://github.com/mlrun/demos) Git repository to your GitHub account.
+1. Clone this repo to your own Git.<br>
+2. in a client or notebook properly configured with MLRun and KubeFlow run:
 
-2. In a client or notebook that is properly configured with MLRun and Kubeflow Pipelines, run the following code; replace `<your fork>` with the name of your mlrun/demos GitHub fork:
-    ```
-    mlrun project demos/network-operations/ -u git://github.com/<your fork>/demos/network-operations.git
-    ```
+`mlrun project demos/network-operations/ -u git://github.com/<your-fork>/demos/network-operations.git`
 
-3. Run the [**notebooks/generator.ipynb**](notebooks/generator.ipynb) notebook to create the metrics data set.
+3. Run the [Generator](notebooks/generator.ipynb) notebook to create the metrics dataset.
 
-4. Open the [**project.ipynb**](project.ipynb) notebook and follow the instructions to develop and run an automated NetOps ML pipeline.
+4. Open the [project notebook](project.ipynb) and follow the instructions to develop and run an automated ML Pipeline.
 
-    > **Note:** Alternatively, you can use the following code to run the `main` pipeline from the CLI and specify the artifacts path:
-    > ```sh
-    > mlrun project demos/network-operations/ -r main -p "/User/kfp/{{workflow.uid}}/"
-    > ```
+> Note: alternatively you can run the `main` pipeline from the CLI and specify artifacts path using:
 
-<a id="demo-flow"></a>
-## Demo Flow
+`mlrun project demos/network-operations/ -r main -p "/User/kfp/{{workflow.uid}}/"`
 
-The demo implements three main pipelines:
 
-- [**Training pipeline**](#training-pipeline) &mdash; for training and creating new ML model.
-- [**Production-deployment pipeline**](#production-deployment-pipeline) &mdash; for streaming pipeline endpoints to production.
-    <br>
-    To run this pipeline code, use the `deploy_streaming` flag.
-- [**Concept-drift deployment pipeline**](#concep-drift-pipeline) &mdash; for monitoring the model's performance.
-    <br>
-    To run this pipeline code, use the `deploy_concept_drift` flag.
-
-> **Note:** For model-retraining and workflow-scheduling purposes, you can use the [project runner](https://github.com/mlrun/functions/tree/master/project_runner) MLRun marketplace function to create an HTTP endpoint (or any other Nuclio trigger) that can run a workflow based on an event.
-
-The following image demonstrates the demo workflow:
-
-<p><img src="./docs/workflow.png" alt="Demo workflow"/></p>
-
-<a id="training-pipeline"></a>
-### Training Pipeline
-
-The training pipeline includes the following elements, which use [MLRun marketplace functions](https://github.com/mlrun/functions):
-
-- [**Exploratory data analysis**](https://github.com/mlrun/functions/blob/master/describe/describe.ipynb) &mdash; provide histogram maps, class imbalance, a correlation matrix, etc.
-- [**Aggregation**](https://github.com/mlrun/functions/tree/master/aggregate/aggregate.ipynb) &mdash; run different rolling aggregations on top of the data set to create temporal features.
-- [**Feature selection**](https://github.com/mlrun/functions/blob/master/feature_selection/feature_selection.ipynb) &mdash; select the best features to use by using a vote based on multiple metrics and basic model estimators.
-- [**Training**](https://github.com/mlrun/functions/blob/master/sklearn_classifier/sklearn_classifier.ipynb) &mdash; train multiple scikit-learn (a.k.a. sklearn) API-based models using automated hyperparameters search, and select the best model according to a selected metric.
-- [**Test**](https://github.com/mlrun/functions/blob/master/test_classifier/test_classifier.ipynb) &mdash; use a dedicated test data set to provide performance benchmarks for the model.
-
-<a id="production-deployment-pipeline"></a>
-### Production-Deployment Pipeline
-
-In the production-deployment phase, the aim is to deploy a full system for ingesting new data, creating the necessary features, and generating predictions.
-The production-deployment pipeline uses the Nuclio serverless runtime to create the live endpoints.
-For simplified open-source deployment, data is passed among the endpoints as Parquets files within a set directory.
-(Using a streaming engine would require many dependencies, which complicates open-source deployment.)
-
-The production pipeline is composed of a set-up stage to start the generator (see [**generator.ipynb**](notebooks/generator.ipynb)), which mimics incoming data.
-The pipeline has the following main components:
-
-- [**Preprocessor**](notebooks/preprocessor.ipynb) &mdash; creates the selected features upon ingestion.
-- [**Model server**](notebooks/server.ipynb) &mdash; deploys the model to a live endpoint.
-- [**Model-server tester**](https://github.com/mlrun/functions/blob/master/model_server_tester/model_server_tester.ipynb) &mdash; verifies that the model endpoint is live and provides good predictions.
-- [**Labeled-stream creator**](notebooks/labeled_stream_creator.ipynb) &mdash; combines the incoming labels and predictions into a single source for assessing the model's performance.
-
-<a id="concep-drift-pipeline"></a>
-### Concept-Drift Pipeline
-
-The concept-drift pipeline has two main components, which are based on the MLRun functions marketplace:
-
-- [**Concept-drift detectors**](https://github.com/mlrun/functions/blob/master/concept_drift/concept_drift.ipynb) &mdash; streaming concept-drift detectors, such as DDM and PH.
-    Use an MLRun job to initialize the models with a base labeled data set and produce a live Nuclio endpoint for the labeled stream.
-
-- [**Drift magnitude**](https://github.com/mlrun/functions/blob/e236a6b006e9e5a095a93c4822e422ebce5ac2dc/virtual_drift/virtual_drift.ipynb) &mdash; applies multiple drift-magnitude metrics &mdash; such as TVD, Helinger, and KL Divergence &mdash; to Parquet data batches in order to asses the drift between a base data set and the latest data.
-
-<a id="pipeline-output"></a>
-## Pipeline Output
-
-The following image illustrates the combined pipeline:
-
-<p><img src="./docs/run-pipeline.png" alt="Pipeline output"/></p>
-
-<a id="notebooks-and-code"></a>
-## Notebooks and Code
-
-<a id="notebooks"></a>
+## Files
 ### Notebooks
+* [Generator notebook (Generate metrics dataset)](notebooks/generator.ipynb)
+* [Preprocessor notebook](notebooks/preprocessor.ipynb)
+* [Model server notebook](notebooks/server.ipynb)
+* [Labeled stream creator](notebooks/labeled_stream_creator.ipynb)
+* [Project creation and testing notebook](project.ipynb) 
 
-- [**project.ipynb**](project.ipynb) &mdash; the main demo notebook ("all in one").
-    Run this notebook to execute the entire pipeline.
-- [**notebooks/generator.ipynb**](notebooks/generator.ipynb) &mdash; a metrics data-set generator.
-- [**notebooks/preprocessor.ipynb**](notebooks/preprocessor.ipynb) &mdash; a preprocessor.
-- [**notebooks/server.ipynb**](notebooks/server.ipynb) &mdash; a model server.
-- [**notebooks/labeled_stream_creator.ipynb**](notebooks/labeled_stream_creator.ipynb) &mdash; a labeled-stream generator.
+### Project Files
+* [Project spec (functions, workflows, etc)](project.yaml)
 
-<a id="project-cfg-files"></a>
-### Project-Configuration Files
+### Workflow code
+* [Workflow code (init + dsl)](src/workflow.py)
 
-- [**project.yaml**](project.yaml) &mdash; a project-configuration file, which defines the project's specification (functions, workflows, etc.).
 
-<a id="workflow-code"></a>
-### Workflow Code
+## Pipeline
 
-- [**src/workflow.py**](src/workflow.py) &mdash; workflow code, including initialization and a definitive software library (DSL).
+<br><p align="center"><img src="./docs/workflow.png"/></p><br>
+
+
+
+
+
 

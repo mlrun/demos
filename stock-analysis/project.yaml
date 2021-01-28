@@ -1,6 +1,6 @@
 name: stocks
 functions:
-- url: code/00-train-sentiment-analysis-model.ipynb
+- url: code/bert_sentiment_classification.yaml
   name: bert_sentiment_classifier_trainer
 - url: code/01-read-stocks.ipynb
   name: stocks_reader
@@ -12,6 +12,6 @@ functions:
   name: sentiment_analysis_server
 workflows:
 - name: main
-  path: /User/mlrun-demos/demos/stock-analysis/code/workflow.py
+  path: /User/stock-trading/code/workflow.py
 artifacts: []
 artifact_path: ''

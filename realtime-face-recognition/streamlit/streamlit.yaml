@@ -16,20 +16,14 @@ spec:
     spec:
       containers:
       - name: streamlit
-        image: aviaigz/streamlit:0.5.4
+        image: royeis/streamlit:label
         imagePullPolicy: Always
         env:
         - name: "V3IO_ACCESS_KEY"
           value: <ACCESS_KEY>
-        - name: "FRAMES_URI"
-          value: <FRAMES_URI>
-        - name: "KV_TABLE_PATH"
-          value: <USER_NAME>/examples/faces/artifacts/encodings
-        - name: "CONTAINER"
-          value: "users"
         ports:
         - containerPort: 8501
-        command: ["streamlit", "run", "/User/demos/realtime-face-recognition/streamlit/dashboard.py" ]
+        command: ["streamlit", "run", "/User/demos/demos/realtime-face-recognition/streamlit/dashboard.py" ]
         args: []
         volumeMounts:
         - mountPath: User
@@ -40,7 +34,7 @@ spec:
           options:
             accessKey: <ACCESS_KEY>
             container: users
-            subPath: /<USER_NAME>
+            subPath: /iguazio
         name: fs
 ---
 kind: Service

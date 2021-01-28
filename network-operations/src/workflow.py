@@ -1,22 +1,14 @@
 from kfp import dsl
 from mlrun import mount_v3io, mlconf
 import os
-from nuclio.triggers import V3IOStreamTrigger, CronTrigger
+from nuclio.triggers import V3IOStreamTrigger
 
 funcs = {}
 projdir = os.getcwd()
-projdir_path = f"/{os.environ['V3IO_USERNAME']}{projdir[len('/User'):]}"
-labeled_stream_path = os.path.join(projdir_path, 'streaming', 'labeled_stream')
-container = 'users'
-full_path_projdir = os.path.join('/', container, os.environ["V3IO_USERNAME"], projdir[6:])
-
-# Define a specific hub url?
 # mlconf.hub_url = 'https://raw.githubusercontent.com/mlrun/functions/{tag}/{name}/function.yaml'
 # mlconf.hub_url |= '/User/functions/{name}/function.yaml'
-
-model_inference_stream = os.path.join(full_path_projdir, 'streaming', 'predictions')
-labeled_stream = os.path.join(full_path_projdir, 'streaming', 'labeled_stream')
-
+model_inference_stream = '/users/admin/demos/network-operations/streaming/predictions'
+labeled_stream = '/users/admin/demos/network-operations/streaming/labeled_stream'
 webapi_url = 'http://v3io-webapi:8081'
 model_inference_url = f'{webapi_url}{model_inference_stream}'
 labeled_stream_url = f'{webapi_url}{labeled_stream}'
@@ -30,16 +22,7 @@ def init_functions(functions: dict, project=None, secrets=None):
         f.spec.image_pull_policy = 'Always'
     
     # Define inference-stream related triggers
-    functions['s2p'].add_trigger('labeled_stream', V3IOStreamTrigger(container=container,
-                                                                     path=labeled_stream_path,
-                                                                     seekTo='earliest',
-                                                                     partitions=[0],
-                                                                     consumerGroup='s2p',
-                                                                     name='labeled_stream'))
-    functions['generator'].add_trigger('cron', CronTrigger(interval='1m'))
-    functions['labeled_stream'].add_trigger('cron', CronTrigger(interval='1m'))
-    functions['create_feature_vector'].add_trigger('cron', CronTrigger(interval='1m'))
-    functions['serving'].add_trigger('cron', CronTrigger(interval='1m'))
+    functions['s2p'].add_trigger('labeled_stream', V3IOStreamTrigger(url=f'{labeled_stream_url}@s2p'))
                 
         
 @dsl.pipeline(
@@ -48,7 +31,7 @@ def init_functions(functions: dict, project=None, secrets=None):
 )
 def kfpipeline(
         # aggregate
-        df_artifact = os.path.join(projdir, 'data', 'metrics.pq'),
+        df_artifact = '/User/demos/network-operations/data/metrics.pq',
         metrics = ['cpu_utilization', 'throughput', 'packet_loss', 'latency'],
         metric_aggs = ['mean', 'sum', 'std', 'var', 'min', 'max', 'median'],
         suffix = 'daily',
@@ -76,12 +59,11 @@ def kfpipeline(
         # Deploy
         deploy_streaming = True,
         aggregate_fn_url = 'hub://aggregate',
-        streaming_features_table = os.path.join(projdir, 'streaming', 'features'),
-        streaming_predictions_table = os.path.join(projdir, 'streaming', 'predictions'),
+        streaming_features_table = '/User/demos/network-operations/streaming/features',
+        streaming_predictions_table = '/User/demos/network-operations/streaming/predictions',
     
         # Streaming
-        streaming_metrics_table = os.path.join(projdir, 'streaming', 'metrics'),
-        generator_metrics_configuration = os.path.join(projdir, 'src', 'metric_configurations.yaml'),
+        streaming_metrics_table = '/User/demos/network-operations/streaming/metrics',
     
         # labeled stream creator
         streaming_labeled_table = labeled_stream,
@@ -90,14 +72,14 @@ def kfpipeline(
         deploy_concept_drift = True,
         secs_to_generate = 10,
         concept_drift_models = ['ddm', 'eddm', 'pagehinkley'],
-        output_tsdb = os.path.join(projdir, 'streaming', 'drift_tsdb'),
+        output_tsdb = '/User/demos/network-operations/streaming/drift_tsdb',
         input_stream = labeled_stream_url,
-        output_stream = os.path.join(projdir, 'streaming', 'drift_stream'),
-        streaming_parquet_table =  os.path.join(projdir, 'streaming', 'inference_pq'),
+        output_stream = '/User/demos/network-operations/streaming/drift_stream',
+        streaming_parquet_table =  '/User/demos/network-operations/streaming/inference_pq/',
     
         # Virtual drift
         results_tsdb_container = 'users',
-        results_tsdb_table = os.path.join(full_path_projdir[7:], 'streaming', 'drift_magnitude')
+        results_tsdb_table = 'admin/demo_network_operations/streaming/drift_magnitude'
     ):
     
     # Run preprocessing on the data
@@ -112,15 +94,15 @@ def kfpipeline(
                                                   image='mlrun/ml-models')
 
     describe = funcs['describe'].as_step(name='describe-aggregation',
-                                        handler="summarize",  
-                                        params={"key": f"{describe_table}_aggregate", 
-                                                "label_column": label_column, 
-                                                'class_labels': class_labels,
-                                                'plot_hist': plot_hist,
-                                                'plot_dest': 'plots/aggregation',
-                                                'sample': describe_sample},
-                                        inputs={"table": aggregate.outputs['aggregate']},
-                                        outputs=["summary", "scale_pos_weight"])
+                                                handler="summarize",  
+                                                params={"key": f"{describe_table}_aggregate", 
+                                                        "label_column": label_column, 
+                                                        'class_labels': class_labels,
+                                                        'plot_hist': plot_hist,
+                                                        'plot_dest': 'plots/aggregation',
+                                                        'sample': describe_sample},
+                                                inputs={"table": aggregate.outputs['aggregate']},
+                                                outputs=["summary", "scale_pos_weight"])
     
     feature_selection = funcs['feature_selection'].as_step(name='feature_selection',
                                                            handler='feature_selection',
@@ -201,8 +183,7 @@ def kfpipeline(
                                                                                   'prediction_col': predictions_col}).after(tester)
 
         generator = funcs['generator'].deploy_step(env={'SAVE_TO': streaming_metrics_table,
-                                                        'SECS_TO_GENERATE': secs_to_generate,
-                                                        'METRICS_CONFIGURATION_FILEPATH': generator_metrics_configuration}).after(preprocessor)
+                                                        'SECS_TO_GENERATE': secs_to_generate}).after(preprocessor)
         
         with dsl.Condition(deploy_concept_drift == True):
 
@@ -225,6 +206,6 @@ def kfpipeline(
                                                 'base_dataset': test.outputs['test_set_preds'],
                                                 'results_tsdb_container': 'users',
                                                 'results_tsdb_table': results_tsdb_table,
-                                                'mount_path': '/users/orz',
-                                                'mount_remote': '/User'}).after(labeled_stream_creator)
+                                                'mount_path': '/users/admin',
+                                                'mount_remote': '/User'}).after(tester)
     

@@ -6,8 +6,8 @@ from nuclio.triggers import V3IOStreamTrigger, CronTrigger
 funcs = {}
 
 # Directories and Paths
-projdir = os.path.abspath('./')
-model_filepath = os.path.join(projdir, 'models', 'models', 'bert_sentiment_analysis_model.pt') # Previously saved model if downloaded
+projdir = os.path.join('/', 'User', 'stock-trading')
+model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
 
 # Performence limit
@@ -17,8 +17,7 @@ max_replicas = 1
 readers_cron_interval = '300s'
 
 # Training GPU Allocation
-# Set to 0 if no gpus are to be used
-training_gpus = 0
+training_gpus = 1
 
 
 def init_functions(functions: dict, project=None, secrets=None):
@@ -33,11 +32,6 @@ def init_functions(functions: dict, project=None, secrets=None):
     functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
     functions['sentiment_analysis_server'].spec.readiness_timeout = 500
     functions['sentiment_analysis_server'].set_config('readinessTimeoutSeconds', 500)
-    
-    # Adept image to use CPU if a GPU is not assigned
-    if training_gpus == 0:
-        functions['sentiment_analysis_server'].spec.base_spec['spec']['build']['baseImage']='mlrun/ml-models'
-        functions['bert_sentiment_classifier_trainer'].spec.image='mlrun/ml-models'
     
     # Add triggers
     functions['stocks_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
@@ -62,21 +56,21 @@ def kfpipeline(
     STOCKS_TSDB_TABLE = 'stocks/stocks_tsdb',
     STOCKS_KV_TABLE = 'stocks/stocks_kv',
     STOCKS_STREAM = 'stocks/stocks_stream',
-    RUN_TRAINER: bool = False,
+    RUN_TRAINER = False,
     
     # Trainer
     pretrained_model = 'bert-base-cased',
     reviews_dataset = reviews_datafile,
     models_dir = 'models',
     model_filename = 'bert_sentiment_analysis_model.pt',
-    n_classes: int = 3,
-    MAX_LEN: int = 128,
-    BATCH_SIZE: int = 16,
-    EPOCHS: int =  2,
-    random_state: int = 42,
+    n_classes = 3,
+    MAX_LEN = 128,
+    BATCH_SIZE = 16,
+    EPOCHS =  2,
+    random_state = 42,
     
     # stocks reader
-    STOCK_LIST: list = ['GOOGL', 'MSFT', 'AMZN', 'AAPL', 'INTC'],
+    STOCK_LIST = ['GOOGL', 'MSFT', 'AMZN', 'AAPL', 'INTC'],
     EXPRESSION_TEMPLATE = "symbol='{symbol}';price={price};volume={volume};last_updated='{last_updated}'",
     
     # Sentiment analysis server
@@ -86,9 +80,7 @@ def kfpipeline(
     ):
     
     with dsl.Condition(RUN_TRAINER == True):
-        
-        deployer = funcs['bert_sentiment_classifier_trainer'].deploy_step()
-                
+      
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
                                                                      params={'pretrained_model': pretrained_model,
                                                                              'EPOCHS': EPOCHS,
@@ -100,8 +92,7 @@ def kfpipeline(
                                                                              'EPOCHS': EPOCHS,
                                                                              'random_state': random_state},
                                                                      inputs={'reviews_dataset': reviews_dataset},
-                                                                     outputs=['bert_sentiment_analysis_model'],
-                                                                     image=deployer.outputs['image'])
+                                                                     outputs=['bert_sentiment_analysis_model'])
         
         sentiment_server = funcs['sentiment_analysis_server'].deploy_step(env={f'SERVING_MODEL_{model_name}': trainer.outputs['bert_sentiment_analysis_model']})
         
@@ -127,3 +118,4 @@ def kfpipeline(
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
+
