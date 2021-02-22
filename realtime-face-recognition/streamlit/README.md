@@ -19,5 +19,5 @@ Perform the following steps to deploy an interactive [Streamlit](Streamlit) dash
 
 6. In your web browser, go to port 30090 of your platform's application node &mdash; `<your platform application-node IP address>:30090` &mdash; and view your interactive Streamlit dashboard:
 
-   <img src="C:\Users\daniels\Downloads\dashboard.png" alt="Streamlit dashboard" width="1000" height="500"/>
+   <img src="dashboard.png" alt="Streamlit dashboard" width="1000" height="500"/>
 
