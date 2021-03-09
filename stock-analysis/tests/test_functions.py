@@ -18,3 +18,4 @@ def test_create_tsdb():
     frames_uri = os.getenv('V3IO_FRAMESD', 'framesd:8081')
     client = v3f.Client(frames_uri, container=os.getenv('V3IO_CONTAINER', 'bigdata'))
     client.create(backend='tsdb', table='stocks/stocks_tsdb', rate='1/s', if_exists=1)
+
