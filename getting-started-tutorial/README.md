@@ -2,8 +2,8 @@
 
 This tutorial provides a hands-on introduction to using MLRun to implement a data science workflow and automate machine-learning operations (MLOps).
 
-MLRun is integrated as a default (pre-deployed) shared service in the Iguazio Data Science Platform (**"the platform"**).
-The tutorial covers MLRun and platform fundamentals such as creation of projects and data ingestion and preparation, and demonstrates how to create an end-to-end machine-learning (ML) pipeline.
+The tutorial covers MLRun fundamentals such as creation of projects and data ingestion and preparation, and demonstrates how to create an end-to-end machine-learning (ML) pipeline.
+MLRun is integrated as a default (pre-deployed) shared service in the Iguazio Data Science Platform.
 
 You'll learn how to
 
