@@ -7,6 +7,7 @@ PRETRAINED_MODEL = 'bert-base-cased'
 tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
 
 
+# tesnsor flow
 class BertSentimentClassifier(nn.Module):
     def __init__(self, n_classes):
         super(BertSentimentClassifier, self).__init__()
@@ -25,7 +26,7 @@ class BertSentimentClassifier(nn.Module):
         return self.softmax(out)
 
 
-class SentimentClassifierServing(mlrun.runtimes.MLModelServer):
+class SentimentClassifierServing(mlrun.serving.V2ModelServer):
     def load(self):
         model_file, _ = self.get_model('.pt')
         device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')

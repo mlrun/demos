@@ -1,0 +1,158 @@
+from functions.bert_serving_function import SentimentClassifierServing
+from mlrun import MLClientCtx
+from mlrun.serving.server import create_mock_server
+from sklearn.datasets import load_iris
+
+event_data = {'inputs': ['By Kate Lamb', '(Reuters) - Hussy, mistress, whore, evil woman - these are just some of '
+                                            'the nine example compound words that artist Ika Vantiani was shocked to '
+                                            'find listed under the entry for  woman  or  perempuan  in Indonesia s '
+                                            'official dictionary.', 'All nine were sexualised or derogatory terms. In '
+                                                                    'contrast, in the entry for  laki-laki , '
+                                                                    'one of the words for man, there is just one '
+                                                                    'example,  laki-laki jemputan , which means a  '
+                                                                    'man chosen as a son-in-law . Another word for '
+                                                                    'man,  pria  also lists one term:  pria idaman  '
+                                                                    'meaning  heartthrob .', 'Since making this '
+                                                                                             'discovery in 2016, '
+                                                                                             'Ika has campaigned '
+                                                                                             'through her art for '
+                                                                                             'change and as part of '
+                                                                                             'that she has '
+                                                                                             'assiduously collected '
+                                                                                             'editions of the Kamus '
+                                                                                             'Besar Bahasa Indonesia, '
+                                                                                             'which is compiled by a '
+                                                                                             'government agency and '
+                                                                                             'is the standard '
+                                                                                             'dictionary used in '
+                                                                                             'schools and by '
+                                                                                             'teachers.', '"Perempuan '
+                                                                                                          'jalang, '
+                                                                                                          'this one '
+                                                                                                          'actually '
+                                                                                                          'means '
+                                                                                                          'slut. That '
+                                                                                                          'is the one '
+                                                                                                          'word that '
+                                                                                                          'keeps '
+                                                                                                          'popping up '
+                                                                                                          'in every '
+                                                                                                          'edition,'
+                                                                                                          '" she told '
+                                                                                                          'Reuters.',
+                            '"The focus is on examples that include words like pelacur or jalang - meaning whore, '
+                            'a woman who loves to sell herself, nasty women, mistress."', 'Last November, the Oxford '
+                                                                                          'University Press said it '
+                                                                                          'would change the entries '
+                                                                                          'for  woman  in its '
+                                                                                          'dictionaries to include '
+                                                                                          'more positive and active '
+                                                                                          'descriptions and Ika is '
+                                                                                          'hoping for a similar '
+                                                                                          'result.', 'The campaign '
+                                                                                                     'has drawn '
+                                                                                                     'attention to '
+                                                                                                     'what critics '
+                                                                                                     'say is a '
+                                                                                                     'patriarchal '
+                                                                                                     'culture in the '
+                                                                                                     'world s biggest '
+                                                                                                     'Muslim majority '
+                                                                                                     'country. Ika '
+                                                                                                     'has also gained '
+                                                                                                     'the support of '
+                                                                                                     'Indonesia s '
+                                                                                                     'National '
+                                                                                                     'Commission on '
+                                                                                                     'Violence '
+                                                                                                     'against Women '
+                                                                                                     'which this year '
+                                                                                                     'called for a '
+                                                                                                     'revision. ',
+                            'Language, the commission said, "played an important role in building the values of '
+                            'gender equality and the elimination of violence against women".', 'Ika and her male '
+                                                                                               'colleague, '
+                                                                                               'Yolando Zelkeos '
+                                                                                               'Siahaya, '
+                                                                                               'have highlighted the '
+                                                                                               'issue in a series of '
+                                                                                               'workshops and '
+                                                                                               'exhibitions, '
+                                                                                               'including one at the '
+                                                                                               'Indonesian national '
+                                                                                               'gallery in 2018.',
+                            'One work featured clear sheets of acrylic with the dictionary entry for  perempuan  '
+                            'printed across them so that viewers could imagine being referred to in that way.',
+                            '"Most people when they see this work of mine, they are shocked," said Ika. "They say:  I '
+                            'never would have thought that is how the word  woman  is defined in our dictionary. "',
+                            'Last month her work, which include t-shirts that call for change to the entry and were '
+                            'worn at a women’s march in 2020, provoked a response from Badan Bahasa, the agency '
+                            'responsible for the dictionary.', 'The use of the terms, it said, was based on data '
+                                                               'showing they were among the most frequently used in '
+                                                               'tandem with  perempuan .', '"As for the social '
+                                                                                           'picture that emerges from '
+                                                                                           'the presentation of '
+                                                                                           'information in the '
+                                                                                           'dictionary not being '
+                                                                                           'ideal, that is another '
+                                                                                           'discussion," it said in a '
+                                                                                           'statement posted on its '
+                                                                                           'website.', 'The response '
+                                                                                                       'perplexes '
+                                                                                                       'University of '
+                                                                                                       'Indonesia '
+                                                                                                       'linguist '
+                                                                                                       'Nazarudin, '
+                                                                                                       'who says '
+                                                                                                       'Indonesian '
+                                                                                                       'language data '
+                                                                                                       'from 2013 '
+                                                                                                       'collected by '
+                                                                                                       'Leipzig '
+                                                                                                       'University '
+                                                                                                       'shows other '
+                                                                                                       'phrases, '
+                                                                                                       'such as women '
+                                                                                                       's empowerment '
+                                                                                                       'or women s '
+                                                                                                       'rights, '
+                                                                                                       'were far more '
+                                                                                                       'frequently '
+                                                                                                       'used. ',
+                            '"The question is, what kind of data did they have?" he asked, "How can it be so '
+                            'negative?"', 'A Google  search shows there are 98 million entries for  hak perempuan  '
+                                          'meaning women s rights compared to just 481,000 entries for perempuan '
+                                          'jalang, the word for  slut . ', 'Badan Bahasa told Reuters that in '
+                                                                           'addition to the Leipzig data, '
+                                                                           'it also referred to the Malay Concordance '
+                                                                           'Project, a corpus of classical Malay '
+                                                                           'texts. ', 'Ika says she is hopeful of '
+                                                                                      'change.', '', '"I am not '
+                                                                                                     'saying I want '
+                                                                                                     'it all to be '
+                                                                                                     'changed into '
+                                                                                                     'positive words,'
+                                                                                                     '" she said, '
+                                                                                                     '"No. But I want '
+                                                                                                     'objectivity and '
+                                                                                                     'real '
+                                                                                                     'conversations."']}
+
+
+# create nuclio empty context for testing
+def create_context():
+    ml_ctx = MLClientCtx()
+    return ml_ctx
+
+
+def test_serving_function():
+
+    models_path = '/models'
+    server = create_mock_server()
+    server.add_model("mymodel", class_name=SentimentClassifierServing, model_path=models_path)
+    result = server.test("mymodel/infer",  event_data)
+
+
+
+
+
