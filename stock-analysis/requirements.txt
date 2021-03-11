@@ -6,3 +6,5 @@ kfp~=1.0.4
 mlrun~=0.6.1
 pytest~=6.2.2
 yfinance~=0.1.55
+torch~=1.8.0
+transformers~=4.3.3
