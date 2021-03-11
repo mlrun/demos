@@ -1,5 +1,5 @@
 import nuclio_sdk
-from functions.news_reader import handler, init_context
+from functions.read_news import handler, init_context
 from mlrun import get_or_create_ctx , run_local , new_task, new_function, code_to_function
 import os
 import v3io_frames as v3f

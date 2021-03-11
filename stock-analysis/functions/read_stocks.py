@@ -3,13 +3,29 @@ import os
 import pandas as pd
 import v3io_frames as v3f
 import ast
+import mlrun.feature_store as fs
+from mlrun.feature_store.steps import *
+from mlrun.features import MinMaxValidator
 
 
-def update_tickers(context, perdiod):
+def init_feature_set(quotes):
+    # create a new feature set
+    quotes_set = fs.FeatureSet("stock-quotes", entities=[fs.Entity("ticker")])
+    df = fs.ingest(quotes_set, quotes)
+
+    print(df)
+
+# def ingest_to_feature_store(df):
+#     # add feature set without time column (stock ticker metadata)
+#     stocks_set = fs.FeatureSet("stocks", entities=[fs.Entity("ticker")])
+#     fs.ingest(stocks_set, stocks, infer_options=fs.InferOptions.default())
+
+
+def update_tickers(context, period):
 
     stocks_df = pd.DataFrame()
     for sym in context.stock_syms:
-        hist = yf.Ticker(sym).history(period=perdiod, interval='1m')
+        hist = yf.Ticker(sym).history(period=period, interval='1m')
         time = hist.index[len(hist) - 1]
         record = hist.loc[time]
         last = context.last_trade_times.get(sym)
@@ -28,15 +44,19 @@ def update_tickers(context, perdiod):
             context.last_trade_times[sym] = time
             hist['symbol'] = sym
             hist = hist.reset_index()
-            hist = hist.set_index(['Datetime', 'symbol'])
-            hist = hist.loc[:, ['Close', 'Volume']]
-            hist = hist.rename(columns={'Close': 'price', 'Volume': 'volume'})
+            # hist = hist.set_index(['Datetime', 'symbol'])
+            # hist = hist.loc[:, ['Close', 'Volume']]
+            # hist = hist.rename(columns={'Close': 'price', 'Volume': 'volume'})
+            hist = hist.set_index(['Datetime'])
+            hist = hist.loc[:, ['symbol', 'Close', 'Volume']]
+            hist = hist.rename(columns={'symbol': 'ticker', 'Close': 'price', 'Volume': 'volume'})
             stocks_df = stocks_df.append(hist)
             context.logger.info(f'Added records {hist.shape[0]} records for {sym} to history')
         else:
             context.logger.info(f'No update was made, current TS: {last} vs. new data {time}')
 
     # write price and volume metrics to the Time-Series DB, add exchange label
+    init_feature_set(stocks_df)
     if stocks_df.shape[0] > 0:
         stocks_df = stocks_df.sort_index(level=0)
         context.logger.debug_with('writing data to TSDB', stocks=stocks_df)
@@ -72,7 +92,7 @@ def init_context(context):
     last_trade_times = {}
     setattr(context, 'last_trade_times', last_trade_times)
 
-    # Run first initial data preperation
+    # Run first initial data preparation
     update_tickers(context, '7d')
 
 

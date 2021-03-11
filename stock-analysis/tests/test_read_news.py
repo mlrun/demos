@@ -1,4 +1,4 @@
-from functions.read_stocks import handler, init_context, init_feature_set
+from functions.read_news import handler, init_context
 from nuclio_sdk import Context, Logger
 import os
 
@@ -10,7 +10,7 @@ def create_context():
     return ctx
 
 
-def test_read_stocks():
+def test_read_news():
     os.environ['V3IO_FRAMESD'] = 'https://framesd.default-tenant.app.app-lab-3-0-1-azure.iguazio-cd2.com'
     os.environ['TOKEN'] = '35794f28-b05a-488f-8f40-ae6d31d87949'
     # create a test event and invoke the function locally
@@ -21,5 +21,4 @@ def test_read_stocks():
     handler(ctx, event)
 
 
-def test_init_feature_set():
-    init_feature_set()
+

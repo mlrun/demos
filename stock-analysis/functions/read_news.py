@@ -8,6 +8,7 @@ from datetime import datetime
 import re
 import os
 import json
+import random
 
 
 def get_stock_news_page(stock_string):
@@ -64,8 +65,9 @@ def get_article_scores(context, articles, endpoint):
 
 def init_context(context):
     # Setup V3IO Client
-    frames_uri = os.getenv('V3IO_FRAMESD', 'framesd:8081')
-    client = v3f.Client(frames_uri, container=os.getenv('V3IO_CONTAINER', 'bigdata'))
+    v3io_framesd = os.getenv('V3IO_FRAMESD', 'framesd:8081')
+    token = os.getenv('TOKEN', '')
+    client = v3f.Client(v3io_framesd, container=os.getenv('V3IO_CONTAINER', 'bigdata'),token=token)
     setattr(context, 'v3c', client)
 
     # Create stocks stream
@@ -100,6 +102,8 @@ def handler(context, handler):
         article_pages = [get_article_page(link) for link in article_links]
         articles = [extract_text(article_page) for article_page in article_pages]
         curr_sentiments = get_article_scores(context, articles, context.sentiment_model_endpoint)
+        curr_sentiments = random.randint(0, 1)
+
         curr_times = [get_publish_time(article_page) for article_page in article_pages]
 
         sentiments += curr_sentiments
