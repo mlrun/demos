@@ -1,3 +1,6 @@
+from abc import ABC
+
+from mlrun.serving import V2ModelServer
 import mlrun
 import torch
 import torch.nn as nn
@@ -27,6 +30,7 @@ class BertSentimentClassifier(nn.Module):
 
 
 class SentimentClassifierServing(mlrun.serving.V2ModelServer):
+
     def load(self):
         model_file, _ = self.get_model('.pt')
         device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
@@ -34,12 +38,13 @@ class SentimentClassifierServing(mlrun.serving.V2ModelServer):
         model.load_state_dict(torch.load(model_file, map_location=device))
         model.eval()
         self.model = model
+
     def predict(self, body):
         try:
-            instances = body['instances']
+            instances = body['inputs']
             enc = tokenizer.batch_encode_plus(instances, return_tensors='pt', pad_to_max_length=True)
             outputs = self.model(input_ids=enc['input_ids'], attention_mask=enc['attention_mask'])
-            _, preds = torch.max(outputs, dim=1)
-            return preds.cpu().tolist()
+            _, predictions = torch.max(outputs, dim=1)
+            return predictions.cpu().tolist()
         except Exception as e:
             raise Exception("Failed to predict %s" % e)

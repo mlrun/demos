@@ -11,8 +11,8 @@ def create_context():
 
 
 def test_read_news():
-    os.environ['V3IO_FRAMESD'] = 'https://framesd.default-tenant.app.app-lab-3-0-1-azure.iguazio-cd2.com'
-    os.environ['TOKEN'] = '35794f28-b05a-488f-8f40-ae6d31d87949'
+    os.environ['V3IO_FRAMESD'] = 'https://framesd.default-tenant.app.dev8.lab.iguazeng.com'
+    os.environ['TOKEN'] = 'bc93c3d4-94a9-4650-a79a-e162b351a42a'
     # create a test event and invoke the function locally
     ctx = create_context()
     init_context(ctx)

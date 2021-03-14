@@ -3,7 +3,7 @@ from nuclio_sdk import Context, Logger
 import os
 
 
-def test_read_news():
+def test_download_pre_trained_model():
     download()
 
 
