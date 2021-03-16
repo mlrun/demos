@@ -4,21 +4,6 @@ import pandas as pd
 import v3io_frames as v3f
 import ast
 import mlrun.feature_store as fs
-from mlrun.feature_store.steps import *
-from mlrun.features import MinMaxValidator
-
-
-def init_feature_set(quotes):
-    # create a new feature set
-    quotes_set = fs.FeatureSet("stock-quotes", entities=[fs.Entity("ticker")])
-    df = fs.ingest(quotes_set, quotes)
-
-    print(df)
-
-# def ingest_to_feature_store(df):
-#     # add feature set without time column (stock ticker metadata)
-#     stocks_set = fs.FeatureSet("stocks", entities=[fs.Entity("ticker")])
-#     fs.ingest(stocks_set, stocks, infer_options=fs.InferOptions.default())
 
 
 def update_tickers(context, period):
@@ -55,9 +40,11 @@ def update_tickers(context, period):
         else:
             context.logger.info(f'No update was made, current TS: {last} vs. new data {time}')
 
-    # write price and volume metrics to the Time-Series DB, add exchange label
-    init_feature_set(stocks_df)
     if stocks_df.shape[0] > 0:
+        # ingest to feature store
+        context.logger.info("ingesting to feature store")
+        df = fs.ingest(context.quotes_set, stocks_df)
+
         stocks_df = stocks_df.sort_index(level=0)
         context.logger.debug_with('writing data to TSDB', stocks=stocks_df)
         stocks_df.to_csv('history.csv')
@@ -91,6 +78,11 @@ def init_context(context):
 
     last_trade_times = {}
     setattr(context, 'last_trade_times', last_trade_times)
+
+    # create a new feature set
+    quotes_set = fs.FeatureSet("stock-quotes", entities=[fs.Entity("ticker")])
+    setattr(context, 'quotes_set', quotes_set)
+
 
     # Run first initial data preparation
     update_tickers(context, '7d')

@@ -57,8 +57,9 @@ def get_article_scores(context, articles, endpoint):
     scores = []
     for i, article in enumerate(articles):
         context.logger.info(f'getting score for article {i + 1}\\{len(articles)}')
-        event_data = {'instances': article.split('\n')}
-        resp = requests.put(endpoint+'/bert_classifier_v1/predict', json=json.dumps(event_data))
+        event_data = {'inputs': article.split('\n')}
+        #resp = requests.put(endpoint+'/v2/models/model1/infer', json=json.dumps(event_data))
+        resp = requests.put(endpoint, json=json.dumps(event_data))
         scores.append(get_score(json.loads(resp.text)))
     return scores
 
@@ -88,7 +89,7 @@ def init_context(context):
     setattr(context, 'stocks_kv', os.getenv('STOCKS_KV', 'stocks/stocks_kv'))
 
 
-def handler(context, handler):
+def handler(context):
     syms = []
     contents = []
     links = []
@@ -102,7 +103,7 @@ def handler(context, handler):
         article_pages = [get_article_page(link) for link in article_links]
         articles = [extract_text(article_page) for article_page in article_pages]
         curr_sentiments = get_article_scores(context, articles, context.sentiment_model_endpoint)
-        curr_sentiments = random.randint(0, 1)
+        #curr_sentiments = random.randint(0, 1)
 
         curr_times = [get_publish_time(article_page) for article_page in article_pages]
 
