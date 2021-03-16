@@ -7,7 +7,7 @@ funcs = {}
 
 # Directories and Paths
 projdir = os.path.abspath('./')
-model_filepath = os.path.join(projdir, 'models', 'models', 'bert_sentiment_analysis_model.pt') # Previously saved model if downloaded
+model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
 
 # Performence limit
@@ -90,6 +90,7 @@ def kfpipeline(
         deployer = funcs['bert_sentiment_classifier_trainer'].deploy_step()
                 
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
+                                                                     handler='train_sentiment_analysis_model',
                                                                      params={'pretrained_model': pretrained_model,
                                                                              'EPOCHS': EPOCHS,
                                                                              'models_dir': models_dir,
