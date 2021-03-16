@@ -43,10 +43,12 @@ def extract_text(article_page):
     return text
 
 
-def get_publish_time(article_page):
-    details = article_page.find('meta', attrs={'itemprop': 'dateModified'})
-    publish_date = details.get_attribute_list('content')[0]
-    return str(datetime.strptime(publish_date, '%Y-%m-%d %H:%M:%S'))
+def get_publish_time(article):
+    tag = article.find('script',{"type" : "application/ld+json"}).contents[0]
+    tag_dict = json.loads(str(tag))
+    dateModified = tag_dict["dateModified"]
+    return datetime.strftime(datetime.strptime(dateModified, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+
 
 
 def get_score(paragraph_scores):
@@ -60,7 +62,10 @@ def get_article_scores(context, articles, endpoint):
         event_data = {'inputs': article.split('\n')}
         #resp = requests.put(endpoint+'/v2/models/model1/infer', json=json.dumps(event_data))
         resp = requests.put(endpoint, json=json.dumps(event_data))
-        scores.append(get_score(json.loads(resp.text)))
+        resp_txt = json.loads(resp.text)
+        outputs = resp_txt['outputs']
+        score = get_score(outputs)
+        scores.append(score)
     return scores
 
 
