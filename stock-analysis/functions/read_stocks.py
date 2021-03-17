@@ -43,7 +43,17 @@ def update_tickers(context, period):
     if stocks_df.shape[0] > 0:
         # ingest to feature store
         context.logger.info("ingesting to feature store")
-        df = fs.ingest(context.quotes_set, stocks_df)
+        quotes_df = stocks_df
+        quotes_df.reset_index(inplace=True)
+        quotes_df
+        fs.infer_metadata(
+            context.quotes_set,
+            quotes_df,
+            entity_columns=["ticker"],
+            timestamp_key="Datetime",
+            options=fs.InferOptions.default(),
+        )
+        df = fs.ingest(context.quotes_set, quotes_df)
 
         stocks_df = stocks_df.sort_index(level=0)
         context.logger.debug_with('writing data to TSDB', stocks=stocks_df)
