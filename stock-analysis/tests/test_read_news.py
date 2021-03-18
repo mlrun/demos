@@ -1,7 +1,7 @@
 from functions.read_news import handler, init_context
 from nuclio_sdk import Context, Logger
 import os
-
+import json
 
 # create nuclio empty context for testing
 def create_context():
@@ -20,4 +20,8 @@ def test_read_news():
     handler(ctx)
 
 
+def test_load_resp():
+    resp_text = '{"id": "476d7cf8-d3d1-4c06-a372-17baae42596e", "model_name": "bert_classifier_v1", "outputs": [2, 0, 0, 2, 0, 1, 0, 1, 0, 1, 1, 1, 0]}'
+    js = json.loads(resp_text)
+    print(js)
 
