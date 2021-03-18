@@ -13,11 +13,11 @@ def create_context():
 def test_read_news():
     os.environ['V3IO_FRAMESD'] = 'https://framesd.default-tenant.app.dev8.lab.iguazeng.com'
     os.environ['TOKEN'] = 'bc93c3d4-94a9-4650-a79a-e162b351a42a'
-    os.environ['SENTIMENT_MODEL_ENDPOINT'] = 'http://stocks-sentiment-analysis-serving-stocks.default-tenant.app.dev8.lab.iguazeng.com'
+    os.environ['SENTIMENT_MODEL_ENDPOINT'] = 'http://stocks-avia-sentiment-analysis-serving-stocks-avia.default-tenant.app.dev8.lab.iguazeng.com'
     # create a test event and invoke the function locally
     ctx = create_context()
     init_context(ctx)
-    handler(ctx)
+    handler(ctx, None)
 
 
 def test_load_resp():
