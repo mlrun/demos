@@ -1,7 +1,9 @@
 kind: project
 metadata:
-  name: stocks-test
+  name: stocks-test-avia
 spec:
+  params:
+    PROJECT_NAME: stocks-test-avia
   functions:
   - url: code/00-train-sentiment-analysis-model.ipynb
     name: bert_sentiment_classifier_trainer

@@ -1,5 +1,5 @@
 from kfp import dsl
-from mlrun import mount_v3io, mlconf
+from mlrun import mount_v3io, mlconf, load_project
 import os
 from nuclio.triggers import V3IOStreamTrigger, CronTrigger
 
@@ -7,19 +7,23 @@ funcs = {}
 
 # Directories and Paths
 projdir = os.path.abspath('./')
+project = load_project(projdir)
+project_name = project.spec.params.get("PROJECT_NAME")
 model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
-
 # Performence limit
 max_replicas = 1
 
 # Readers cron interval
-readers_cron_interval = '300s'
+readers_cron_interval = '30s'
 
 # Training GPU Allocation
 # Set to 0 if no gpus are to be used
 training_gpus = 0
 
+# functions_params = {
+#     "PROJECT_NAME" : project_name
+# }
 
 def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
@@ -48,6 +52,10 @@ def init_functions(functions: dict, project=None, secrets=None):
     functions['sentiment_analysis_server'].spec.max_replicas = max_replicas
     functions['news_reader'].spec.max_replicas = max_replicas
     functions['stocks_reader'].spec.max_replicas = max_replicas
+    
+#     # Setting project name for later use
+#     functions['stocks_reader'].spec.PROJECT_NAME = project_name
+#     functions['news_reader'].spec.PROJECT_NAME = project_name
     
     # Add GPU for training
     functions['bert_sentiment_classifier_trainer'].gpus(training_gpus)
@@ -118,13 +126,15 @@ def kfpipeline(
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
-                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint']})
+                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
+                                                           'PROJECT_NAME' : project_name})
     
     stocks_reader = funcs['stocks_reader'].deploy_step(env={'STOCK_LIST': STOCK_LIST,
                                                             'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'STOCKS_KV_TABLE': STOCKS_KV_TABLE,
-                                                            'EXPRESSION_TEMPLATE': EXPRESSION_TEMPLATE})
+                                                            'EXPRESSION_TEMPLATE': EXPRESSION_TEMPLATE,
+                                                           'PROJECT_NAME' : project_name})
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
