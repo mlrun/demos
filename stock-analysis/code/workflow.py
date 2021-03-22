@@ -15,15 +15,11 @@ reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
 max_replicas = 1
 
 # Readers cron interval
-readers_cron_interval = '30s'
+readers_cron_interval = '300s'
 
 # Training GPU Allocation
 # Set to 0 if no gpus are to be used
 training_gpus = 0
-
-# functions_params = {
-#     "PROJECT_NAME" : project_name
-# }
 
 def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
@@ -53,10 +49,6 @@ def init_functions(functions: dict, project=None, secrets=None):
     functions['news_reader'].spec.max_replicas = max_replicas
     functions['stocks_reader'].spec.max_replicas = max_replicas
     
-#     # Setting project name for later use
-#     functions['stocks_reader'].spec.PROJECT_NAME = project_name
-#     functions['news_reader'].spec.PROJECT_NAME = project_name
-    
     # Add GPU for training
     functions['bert_sentiment_classifier_trainer'].gpus(training_gpus)
         
@@ -66,10 +58,10 @@ def init_functions(functions: dict, project=None, secrets=None):
 )
 def kfpipeline(
     # General
-    V3IO_CONTAINER = 'bigdata',
-    STOCKS_TSDB_TABLE = 'stocks/stocks_tsdb',
-    STOCKS_KV_TABLE = 'stocks/stocks_kv',
-    STOCKS_STREAM = 'stocks/stocks_stream',
+    V3IO_CONTAINER = 'users',
+    STOCKS_TSDB_TABLE = os.getenv('V3IO_USERNAME') + '/stocks/stocks_tsdb',
+    STOCKS_KV_TABLE = os.getenv('V3IO_USERNAME') + '/stocks/stocks_kv',
+    STOCKS_STREAM = os.getenv('V3IO_USERNAME') + '/stocks/stocks_stream',
     RUN_TRAINER: bool = False,
     
     # Trainer
@@ -117,7 +109,8 @@ def kfpipeline(
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
-                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint']})
+                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
+                                                           'PROJECT_NAME' : project_name})
     
     with dsl.Condition(RUN_TRAINER == False):
         
@@ -138,3 +131,5 @@ def kfpipeline(
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
+    
+    vector_viewr = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)

@@ -1,9 +1,9 @@
 kind: project
 metadata:
-  name: stocks-test-avia
+  name: stocks-test-dani
 spec:
   params:
-    PROJECT_NAME: stocks-test-avia
+    PROJECT_NAME: stocks-test-dani
   functions:
   - url: code/00-train-sentiment-analysis-model.ipynb
     name: bert_sentiment_classifier_trainer
@@ -15,11 +15,13 @@ spec:
     name: stream_viewer
   - url: hub://sentiment_analysis_serving
     name: sentiment_analysis_server
+  - url: code/06-read-vector.ipynb
+    name: vector_reader
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py
   artifacts: []
-  artifact_path: /v3io/projects/{{run.project}}/artifacts
+  artifact_path: v3io:///projects/{{run.project}}/artifacts
   source: ''
   subpath: ''
   origin_url: ''
