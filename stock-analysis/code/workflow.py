@@ -133,3 +133,5 @@ def kfpipeline(
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
     
     vector_viewr = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
+    
+    print(stocks_reader,stocks_reader.outputs)
