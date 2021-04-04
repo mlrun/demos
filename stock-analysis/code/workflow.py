@@ -2,6 +2,7 @@ from kfp import dsl
 from mlrun import mount_v3io, mlconf, load_project
 import os
 from nuclio.triggers import V3IOStreamTrigger, CronTrigger
+import re 
 
 funcs = {}
 
@@ -132,6 +133,12 @@ def kfpipeline(
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
     
-    vector_viewr = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
-    
-    print(stocks_reader,stocks_reader.outputs)
+    vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
+        
+#     grafana_viewer = funcs['grafana_view'].as_step(inputs={'streamview_url' : stream_viewer.outputs['endpoint'],
+#                                                           'readvector_url' : vector_viewer.outputs['endpoint'],
+#                                                           'v3io_container': V3IO_CONTAINER,
+#                                                           'grafana_url' : "http://grafana-dani",
+#                                                           'stocks_kv' : STOCKS_KV_TABLE,
+#                                                           'stocks_tsdb' : STOCKS_TSDB_TABLE},
+#                                                    handler = "handler")
