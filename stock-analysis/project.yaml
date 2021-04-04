@@ -17,6 +17,8 @@ spec:
     name: sentiment_analysis_server
   - url: code/06-read-vector.ipynb
     name: vector_reader
+  - url: code/07-grafana.ipynb
+    name: grafana_view
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py
