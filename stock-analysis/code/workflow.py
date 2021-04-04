@@ -1,5 +1,5 @@
 from kfp import dsl
-from mlrun import mount_v3io, mlconf
+from mlrun import mount_v3io, mlconf, load_project
 import os
 from nuclio.triggers import V3IOStreamTrigger, CronTrigger
 
@@ -7,9 +7,10 @@ funcs = {}
 
 # Directories and Paths
 projdir = os.path.abspath('./')
-model_filepath = os.path.join(projdir, 'models', 'models', 'bert_sentiment_analysis_model.pt') # Previously saved model if downloaded
+project = load_project(projdir)
+project_name = project.spec.params.get("PROJECT_NAME")
+model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
-
 # Performence limit
 max_replicas = 1
 
@@ -19,7 +20,6 @@ readers_cron_interval = '300s'
 # Training GPU Allocation
 # Set to 0 if no gpus are to be used
 training_gpus = 0
-
 
 def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
@@ -58,10 +58,10 @@ def init_functions(functions: dict, project=None, secrets=None):
 )
 def kfpipeline(
     # General
-    V3IO_CONTAINER = 'bigdata',
-    STOCKS_TSDB_TABLE = 'stocks/stocks_tsdb',
-    STOCKS_KV_TABLE = 'stocks/stocks_kv',
-    STOCKS_STREAM = 'stocks/stocks_stream',
+    V3IO_CONTAINER = 'users',
+    STOCKS_TSDB_TABLE = os.getenv('V3IO_USERNAME') + '/stocks/stocks_tsdb',
+    STOCKS_KV_TABLE = os.getenv('V3IO_USERNAME') + '/stocks/stocks_kv',
+    STOCKS_STREAM = os.getenv('V3IO_USERNAME') + '/stocks/stocks_stream',
     RUN_TRAINER: bool = False,
     
     # Trainer
@@ -90,6 +90,7 @@ def kfpipeline(
         deployer = funcs['bert_sentiment_classifier_trainer'].deploy_step()
                 
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
+                                                                     handler='train_sentiment_analysis_model',
                                                                      params={'pretrained_model': pretrained_model,
                                                                              'EPOCHS': EPOCHS,
                                                                              'models_dir': models_dir,
@@ -108,7 +109,8 @@ def kfpipeline(
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
-                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint']})
+                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
+                                                           'PROJECT_NAME' : project_name})
     
     with dsl.Condition(RUN_TRAINER == False):
         
@@ -117,13 +119,19 @@ def kfpipeline(
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
-                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint']})
+                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
+                                                           'PROJECT_NAME' : project_name})
     
     stocks_reader = funcs['stocks_reader'].deploy_step(env={'STOCK_LIST': STOCK_LIST,
                                                             'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'STOCKS_KV_TABLE': STOCKS_KV_TABLE,
-                                                            'EXPRESSION_TEMPLATE': EXPRESSION_TEMPLATE})
+                                                            'EXPRESSION_TEMPLATE': EXPRESSION_TEMPLATE,
+                                                           'PROJECT_NAME' : project_name})
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
+    
+    vector_viewr = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
+    
+    print(stocks_reader,stocks_reader.outputs)
