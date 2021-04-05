@@ -1,0 +1,157 @@
+kind: remote
+metadata:
+  name: read-news
+  tag: ''
+  hash: 0c1cc50be50809d322ee0caa829008aee0ffbb68
+  project: stocks-test-dani
+spec:
+  command: ''
+  args: []
+  image: ''
+  entry_points:
+    get_stock_news_page:
+      name: get_stock_news_page
+      doc: ''
+      parameters:
+      - name: stock_string
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 15
+    get_internal_article_links:
+      name: get_internal_article_links
+      doc: ''
+      parameters:
+      - name: page
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 20
+    get_article_page:
+      name: get_article_page
+      doc: ''
+      parameters:
+      - name: article_link
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 25
+    clean_paragraph:
+      name: clean_paragraph
+      doc: ''
+      parameters:
+      - name: paragraph
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 30
+    extract_text:
+      name: extract_text
+      doc: ''
+      parameters:
+      - name: article_page
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 36
+    get_publish_time:
+      name: get_publish_time
+      doc: ''
+      parameters:
+      - name: article
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 44
+    get_score:
+      name: get_score
+      doc: ''
+      parameters:
+      - name: paragraph_scores
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 50
+    get_article_scores:
+      name: get_article_scores
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: articles
+        default: ''
+      - name: endpoint
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 53
+    construct_dataframe:
+      name: construct_dataframe
+      doc: ''
+      parameters:
+      - name: sentiments
+        default: ''
+      - name: items
+        default: ''
+      - name: times
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 62
+    init_context:
+      name: init_context
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 67
+    handler:
+      name: handler
+      doc: ''
+      parameters:
+      - name: context
+        default: ''
+      - name: event
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 95
+  description: ''
+  min_replicas: 1
+  max_replicas: 4
+  env: []
+  base_spec:
+    apiVersion: nuclio.io/v1
+    kind: Function
+    metadata:
+      annotations:
+        nuclio.io/generated_by: function generated from /User/test/demos/stock-analysis/code/02-read-news.ipynb
+      labels: {}
+      name: read-news
+    spec:
+      build:
+        baseImage: mlrun/ml-models
+        commands:
+        - pip install beautifulsoup4
+        - pip install pandas
+        - pip install v3io_frames
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKZnJvbSBiczQgaW1wb3J0IEJlYXV0aWZ1bFNvdXAgYXMgYnMKZnJvbSB1cmxsaWIucmVxdWVzdCBpbXBvcnQgUmVxdWVzdCwgdXJsb3BlbgppbXBvcnQgcmVxdWVzdHMKaW1wb3J0IHBhbmRhcyBhcyBwZAppbXBvcnQgdjNpb19mcmFtZXMgYXMgdjNmCmZyb20gdW5pY29kZWRhdGEgaW1wb3J0IG5vcm1hbGl6ZQpmcm9tIGRhdGV0aW1lIGltcG9ydCBkYXRldGltZQppbXBvcnQgcmUKaW1wb3J0IG9zCmltcG9ydCBtbHJ1bi5mZWF0dXJlX3N0b3JlIGFzIGZzCmltcG9ydCBtbHJ1bgoKZGVmIGdldF9zdG9ja19uZXdzX3BhZ2Uoc3RvY2tfc3RyaW5nKToKICAgIHJlcXVlc3QgPSBSZXF1ZXN0KCdodHRwczovL3d3dy5pbnZlc3RpbmcuY29tL2VxdWl0aWVzLycgKyBzdG9ja19zdHJpbmcgKyAnLW5ld3MnLCBoZWFkZXJzPXsiVXNlci1BZ2VudCI6ICJNb3ppbGxhLzUuMCJ9KQogICAgY29udGVudCA9IHVybG9wZW4ocmVxdWVzdCkucmVhZCgpCiAgICByZXR1cm4gYnMoY29udGVudCwgJ2h0bWwucGFyc2VyJykKCmRlZiBnZXRfaW50ZXJuYWxfYXJ0aWNsZV9saW5rcyhwYWdlKToKICAgIG5ld3MgPSBwYWdlLmZpbmRfYWxsKCdkaXYnLCBhdHRycz17J2NsYXNzJzogJ21lZGl1bVRpdGxlMSd9KVsxXQogICAgYXJ0aWNsZXMgPSBuZXdzLmZpbmRfYWxsKCdhcnRpY2xlJywgYXR0cnM9eydjbGFzcyc6ICdqcy1hcnRpY2xlLWl0ZW0gYXJ0aWNsZUl0ZW0nfSkKICAgIHJldHVybiBbJ2h0dHBzOi8vd3d3LmludmVzdGluZy5jb20nICsgYS5maW5kKCdhJykuYXR0cnNbJ2hyZWYnXSBmb3IgYSBpbiBhcnRpY2xlc10KCmRlZiBnZXRfYXJ0aWNsZV9wYWdlKGFydGljbGVfbGluayk6CiAgICByZXF1ZXN0ID0gUmVxdWVzdChhcnRpY2xlX2xpbmssIGhlYWRlcnM9eyJVc2VyLUFnZW50IjogIk1vemlsbGEvNS4wIn0pCiAgICBjb250ZW50ID0gdXJsb3BlbihyZXF1ZXN0KS5yZWFkKCkKICAgIHJldHVybiBicyhjb250ZW50LCAnaHRtbC5wYXJzZXInKQoKZGVmIGNsZWFuX3BhcmFncmFwaChwYXJhZ3JhcGgpOgogICAgcGFyYWdyYXBoID0gcmUuc3ViKHInXChodHRwXFMrJywgJycsIHBhcmFncmFwaCkKICAgIHBhcmFncmFwaCA9IHJlLnN1YihyJ1woW0EtWl0rOltBLVpdK1wpJywgJycsIHBhcmFncmFwaCkKICAgIHBhcmFncmFwaCA9IHJlLnN1YihyJ1tcblx0XHNcJ10nLCAnICcsIHBhcmFncmFwaCkKICAgIHJldHVybiBub3JtYWxpemUoJ05GS0QnLCBwYXJhZ3JhcGgpICAgIAoKZGVmIGV4dHJhY3RfdGV4dChhcnRpY2xlX3BhZ2UpOgogICAgdGV4dF90YWcgPSBhcnRpY2xlX3BhZ2UuZmluZCgnZGl2JywgYXR0cnM9eydjbGFzcyc6ICdXWVNJV1lHIGFydGljbGVQYWdlJ30pCiAgICBwYXJhZ3JhcGhzID0gdGV4dF90YWcuZmluZF9hbGwoJ3AnKQogICAgdGV4dCA9ICdcbicuam9pbihbY2xlYW5fcGFyYWdyYXBoKHAuZ2V0X3RleHQoKSkgZm9yIHAgaW4gcGFyYWdyYXBoc1s6LTFdXSkKICAgIHJldHVybiB0ZXh0CgoKaW1wb3J0IGpzb24KZGVmIGdldF9wdWJsaXNoX3RpbWUoYXJ0aWNsZSk6CiAgICB0YWcgPSBhcnRpY2xlLmZpbmQoJ3NjcmlwdCcseyJ0eXBlIiA6ICJhcHBsaWNhdGlvbi9sZCtqc29uIn0pLmNvbnRlbnRzWzBdCiAgICB0YWdfZGljdCA9IGpzb24ubG9hZHMoc3RyKHRhZykpCiAgICBkYXRlTW9kaWZpZWQgPSB0YWdfZGljdFsiZGF0ZU1vZGlmaWVkIl0KICAgIHJldHVybiBkYXRldGltZS5zdHJmdGltZShkYXRldGltZS5zdHJwdGltZShkYXRlTW9kaWZpZWQsICclWS0lbS0lZCAlSDolTTolUycpLCAnJVktJW0tJWQgJUg6JU06JVMnKQoKZGVmIGdldF9zY29yZShwYXJhZ3JhcGhfc2NvcmVzKToKICAgIHJldHVybiBzdW0oW3Njb3JlIC0gMSBmb3Igc2NvcmUgaW4gcGFyYWdyYXBoX3Njb3Jlc1snb3V0cHV0cyddXSkgLyBsZW4ocGFyYWdyYXBoX3Njb3JlcykKCmRlZiBnZXRfYXJ0aWNsZV9zY29yZXMoY29udGV4dCwgYXJ0aWNsZXMsIGVuZHBvaW50KToKICAgIHNjb3JlcyA9IFtdIAogICAgZm9yIGksIGFydGljbGUgaW4gZW51bWVyYXRlKGFydGljbGVzKToKICAgICAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnZ2V0dGluZyBzY29yZSBmb3IgYXJ0aWNsZSB7aSArIDF9XFx7bGVuKGFydGljbGVzKX0nKQogICAgICAgIGV2ZW50X2RhdGEgPSB7J2lucHV0cyc6IGFydGljbGUuc3BsaXQoJ1xuJyl9CiAgICAgICAgcmVzcCA9IHJlcXVlc3RzLnB1dChlbmRwb2ludCwganNvbj1qc29uLmR1bXBzKGV2ZW50X2RhdGEpKQogICAgICAgIHNjb3Jlcy5hcHBlbmQoZ2V0X3Njb3JlKGpzb24ubG9hZHMocmVzcC50ZXh0KSkpCiAgICByZXR1cm4gc2NvcmVzCgpkZWYgY29uc3RydWN0X2RhdGFmcmFtZShzZW50aW1lbnRzLCBpdGVtcyx0aW1lcyk6CiAgICB0aWNrZXJzID0gW3hbMF0gZm9yIHggaW4gaXRlbXNdCiAgICBzdG9ja19zZW50ID0gcGQuRGF0YUZyYW1lKHsic3ltYm9sIjogdGlja2VycywgInNlbnRpbWVudCI6IHNlbnRpbWVudHMsICJsYXN0X3JlYWN0aW9uIjogdGltZXN9KQogICAgcmV0dXJuIHN0b2NrX3NlbnQKCmRlZiBpbml0X2NvbnRleHQoY29udGV4dCk6CiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKCJpbml0IG5ld3MgcmVhZGVyIGNvbnRleHQiKQogICAgc2V0YXR0cihjb250ZXh0LCAnUFJPSkVDVF9OQU1FJywgb3MuZ2V0ZW52KCdQUk9KRUNUX05BTUUnLCAnc3RvY2tzLXRlc3QtJyArIG9zLmdldGVudignVjNJT19VU0VSTkFNRScpKSkKICAgIG1scnVuLnNldF9lbnZpcm9ubWVudChwcm9qZWN0ID0gY29udGV4dC5QUk9KRUNUX05BTUUpCiAgICBzdG9ja3Nfc2VudF9zZXQgPSBmcy5GZWF0dXJlU2V0KCJuZXdzIiwgZW50aXRpZXM9W2ZzLkVudGl0eSgic3ltYm9sIildKQogICAgc2V0YXR0cihjb250ZXh0LCAnc3RvY2tfZmVhdHVyZV9zZXQnLCBzdG9ja3Nfc2VudF9zZXQpCiAgICBjb250ZXh0LnN0b2NrX2ZlYXR1cmVfc2V0LmFkZF9hZ2dyZWdhdGlvbigic2VudGltZW50cyIsInNlbnRpbWVudCIsWyJtaW4iLCJtYXgiXSxbIjFoIl0sIjEwbSIpCiAgICAKICAgIHYzaW9fZnJhbWVzZCA9IG9zLmdldGVudignVjNJT19GUkFNRVNEJywgJ2ZyYW1lc2Q6ODA4MScpCiAgICB0b2tlbiA9IG9zLmdldGVudignVE9LRU4nLCAnJykKICAgIGNsaWVudCA9IHYzZi5DbGllbnQodjNpb19mcmFtZXNkLCBjb250YWluZXI9b3MuZ2V0ZW52KCdWM0lPX0NPTlRBSU5FUicsICd1c2VycycpLCB0b2tlbj10b2tlbikKICAgIHNldGF0dHIoY29udGV4dCwgJ3YzYycsIGNsaWVudCkKCiAgICBzZXRhdHRyKGNvbnRleHQsICdzdG9ja3Nfc3RyZWFtJywgb3MuZ2V0ZW52KCdTVE9DS1NfU1RSRUFNJywgb3MuZ2V0ZW52KCdWM0lPX1VTRVJOQU1FJykgKyAnL3N0b2Nrcy9zdG9ja3Nfc3RyZWFtJykpCiAgICBjb250ZXh0LnYzYy5jcmVhdGUoYmFja2VuZD0nc3RyZWFtJywgdGFibGU9Y29udGV4dC5zdG9ja3Nfc3RyZWFtLCBpZl9leGlzdHM9MSkKCiAgICBzZXRhdHRyKGNvbnRleHQsICdzdG9ja3NfdHNkYicsIG9zLmdldGVudignU1RPQ0tTX1RTREJfVEFCTEUnLCBvcy5nZXRlbnYoJ1YzSU9fVVNFUk5BTUUnKSArICcvc3RvY2tzL3N0b2Nrc190c2RiJykpCiAgICBjb250ZXh0LnYzYy5jcmVhdGUoYmFja2VuZD0ndHNkYicsIHRhYmxlPWNvbnRleHQuc3RvY2tzX3RzZGIsIHJhdGU9JzEvcycsIGlmX2V4aXN0cz0xKQoKICAgIHNldGF0dHIoY29udGV4dCwgJ3NlbnRpbWVudF9tb2RlbF9lbmRwb2ludCcsCiAgICAgICAgICAgIG9zLmdldGVudignU0VOVElNRU5UX01PREVMX0VORFBPSU5UJywgJ2h0dHA6Ly9kZWZhdWx0LXRlbmFudC5hcHAuZGV2OC5sYWIuaWd1YXplbmcuY29tOjMxNzcyJykpCiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYic2V0IHNlbnRpbWVudF9tb2RlbF9lbmRwb2ludCB7Y29udGV4dC5zZW50aW1lbnRfbW9kZWxfZW5kcG9pbnR9IikKICAgIHN5bV90b191cmwgPSB7J0dPT0dMJzogJ2dvb2dsZS1pbmMnLCAnTVNGVCc6ICdtaWNyb3NvZnQtY29ycCcsICdBTVpOJzogJ2FtYXpvbi1jb20taW5jJywKICAgICAgICAgICAgICAgICAgJ0FBUEwnOiAnYXBwbGUtY29tcHV0ZXItaW5jJ30KICAgIHNldGF0dHIoY29udGV4dCwgJ3N5bV90b191cmwnLCBzeW1fdG9fdXJsKQogICAgc2V0YXR0cihjb250ZXh0LCAnc3RvY2tzX2t2Jywgb3MuZ2V0ZW52KCdTVE9DS1NfS1YnLCAnc3RvY2tzL3N0b2Nrc19rdicpKQogICAgY29udGV4dC5sb2dnZXIuaW5mbygnZW5kIGluaXQgY29udGV4dCcpCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnR2V0dGluZyBuZXdzIGFib3V0IHtjb250ZXh0LnN5bV90b191cmx9JykKCiAgICBzeW1zID0gW10KICAgIGNvbnRlbnRzID0gW10KICAgIGxpbmtzID0gW10KICAgIHRpbWVzID0gW10KICAgIHNlbnRpbWVudHMgPSBbXQogICAgbGFzdF90aWNrZXJfc2VudGltZW50ID0gW10KICAgIGxhc3RfdGlja2VyX3RpbWUgPSBbXQogICAgZm9yIHN5bSwgdXJsX3N0cmluZyBpbiBjb250ZXh0LnN5bV90b191cmwuaXRlbXMoKToKICAgICAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnR2V0dGluZyBuZXdzIGFib3V0IHtzeW19JykKICAgICAgICBuZXdzX3BhZ2UgPSBnZXRfc3RvY2tfbmV3c19wYWdlKHVybF9zdHJpbmcpCiAgICAgICAgYXJ0aWNsZV9saW5rcyA9IGdldF9pbnRlcm5hbF9hcnRpY2xlX2xpbmtzKG5ld3NfcGFnZSkKICAgICAgICBhcnRpY2xlX3BhZ2VzID0gW2dldF9hcnRpY2xlX3BhZ2UobGluaykgZm9yIGxpbmsgaW4gYXJ0aWNsZV9saW5rc10KICAgICAgICBhcnRpY2xlcyA9IFtleHRyYWN0X3RleHQoYXJ0aWNsZV9wYWdlKSBmb3IgYXJ0aWNsZV9wYWdlIGluIGFydGljbGVfcGFnZXNdCiAgICAgICAgY3Vycl9zZW50aW1lbnRzID0gZ2V0X2FydGljbGVfc2NvcmVzKGNvbnRleHQsIGFydGljbGVzLCBjb250ZXh0LnNlbnRpbWVudF9tb2RlbF9lbmRwb2ludCkKICAgICAgICBjdXJyX3RpbWVzID0gW2dldF9wdWJsaXNoX3RpbWUoYXJ0aWNsZV9wYWdlKSBmb3IgYXJ0aWNsZV9wYWdlIGluIGFydGljbGVfcGFnZXNdCgogICAgICAgIHNlbnRpbWVudHMgKz0gY3Vycl9zZW50aW1lbnRzCiAgICAgICAgdGltZXMgKz0gY3Vycl90aW1lcwogICAgICAgIGZvciBhcnRpY2xlLCBsaW5rLCBzZW50aW1lbnQsIHRpbWUgaW4gemlwKGFydGljbGVzLCBhcnRpY2xlX2xpbmtzLCBjdXJyX3NlbnRpbWVudHMsIGN1cnJfdGltZXMpOgogICAgICAgICAgICByZWNvcmQgPSB7CiAgICAgICAgICAgICAgICAnY29udGVudCc6IGFydGljbGUsCiAgICAgICAgICAgICAgICAndGltZSc6IHRpbWUsCiAgICAgICAgICAgICAgICAnc3ltYm9sJzogc3ltLAogICAgICAgICAgICAgICAgJ2xpbmsnOiBsaW5rLAogICAgICAgICAgICAgICAgJ3NlbnRpbWVudCc6IHNlbnRpbWVudAogICAgICAgICAgICB9CiAgICAgICAgICAgIGNvbnRleHQudjNjLmV4ZWN1dGUoJ3N0cmVhbScsIGNvbnRleHQuc3RvY2tzX3N0cmVhbSwgJ3B1dCcsIGFyZ3M9eydkYXRhJzoganNvbi5kdW1wcyhyZWNvcmQpfSkKCiAgICAgICAgICAgIHN5bXMuYXBwZW5kKHN5bSkKICAgICAgICAgICAgY29udGVudHMuYXBwZW5kKGFydGljbGUpCiAgICAgICAgICAgIGxpbmtzLmFwcGVuZChsaW5rKQogICAgICAgIGNvbnRleHQudjNjLmV4ZWN1dGUoJ2t2JywgY29udGV4dC5zdG9ja3Nfa3YsIGNvbW1hbmQ9J3VwZGF0ZScsIGFyZ3M9eydrZXknOiBzeW0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ2V4cHJlc3Npb24nOiBmJ1NFVCBzZW50aW1lbnQ9e3NlbnRpbWVudHNbLTFdfSd9KQogICAgICAgIGxhc3RfdGlja2VyX3NlbnRpbWVudC5hcHBlbmQoc2VudGltZW50c1stMV0pCiAgICAgICAgbGFzdF90aWNrZXJfdGltZS5hcHBlbmQobWF4KHRpbWVzKSkKICAgICAgICAKICAgIHN0b2NrX3NlbnQgPSBjb25zdHJ1Y3RfZGF0YWZyYW1lKGxhc3RfdGlja2VyX3NlbnRpbWVudCwgY29udGV4dC5zeW1fdG9fdXJsLml0ZW1zKCksbGFzdF90aWNrZXJfdGltZSkKICAgIGNvbnRleHQubG9nZ2VyLmluZm8oZidJbmdlc3RpbmcgbmV3IGluZm9ybWF0aW9uIHRvIGZlYXR1cmUgc3RvcmUnKQogICAgZnMuaW5nZXN0KGNvbnRleHQuc3RvY2tfZmVhdHVyZV9zZXQsIHN0b2NrX3NlbnQsIGluZmVyX29wdGlvbnM9ZnMuSW5mZXJPcHRpb25zLmRlZmF1bHQoKSkKCiAgICBpZiBsZW4oc2VudGltZW50cykgPiAwOgogICAgICAgIGRmID0gcGQuRGF0YUZyYW1lLmZyb21fZGljdCh7J3NlbnRpbWVudCc6IHNlbnRpbWVudHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAndGltZSc6IHRpbWVzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJ3N5bWJvbCc6IHN5bXN9KQogICAgICAgIGRmID0gZGYuc2V0X2luZGV4KFsndGltZScsICdzeW1ib2wnXSkKICAgICAgICBkZi5pbmRleCA9IGRmLmluZGV4LnNldF9sZXZlbHMoW3BkLnRvX2RhdGV0aW1lKGRmLmluZGV4LmxldmVsc1swXSksIGRmLmluZGV4LmxldmVsc1sxXV0pCiAgICAgICAgZGYgPSBkZi5zb3J0X2luZGV4KGxldmVsPTAsIGF4aXM9MCkKICAgICAgICBjb250ZXh0LnYzYy53cml0ZShiYWNrZW5kPSd0c2RiJywgdGFibGU9Y29udGV4dC5zdG9ja3NfdHNkYiwgZGZzPWRmKQoK
+        noBaseImagesPull: true
+      env:
+      - name: V3IO_ACCESS_KEY
+        value: 39b1c8bc-741e-4591-abdd-0fe5626fac5e
+      - name: V3IO_USERNAME
+        value: dani
+      - name: V3IO_API
+        value: v3io-webapi.default-tenant.svc:8081
+      handler: 02-read-news:handler
+      runtime: python:3.6
+      volumes: []
+  source: ''
+  build:
+    commands: []
+    code_origin: https://github.com/daniels290813/demos.git#0540c5e7f472f955713781018ef9977033666e02:read-news.ipynb
+  default_handler: handler
+verbose: false
