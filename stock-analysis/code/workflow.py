@@ -135,14 +135,12 @@ def kfpipeline(
     
     vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
     
-#     grafana = funcs["grafana_view"].deploy_step(env = {"streamview_url" : stream_viewer.outputs["endpoint"],
-#                                                        "readvector_url" : vector_viewer.outputs["endpoint"]})
-    
     grafana_viewer = funcs["grafana_view"].deploy_step()
     
     grafana_viewer = funcs["grafana_view"].as_step(params = {"streamview_url" : stream_viewer.outputs["endpoint"],
                                                              "readvector_url" : vector_viewer.outputs["endpoint"],
-                                                             "v3io_container" : "users",
+                                                             "v3io_container" : V3IO_CONTAINER,
                                                              "stocks_kv" : STOCKS_KV_TABLE,
-                                                             "stocks_tsdb" : STOCKS_TSDB_TABLE},
+                                                             "stocks_tsdb" : STOCKS_TSDB_TABLE,
+                                                             "grafana_url" : "http://grafana-dani"},
                                                    handler = "handler").after(grafana_viewer)
