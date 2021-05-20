@@ -14,9 +14,9 @@ This guide will help guide you on get started.
 
 <a id="setup"></a>
 
-<details markdown="1">
+## 0. Setup
 
-<summary><h2 style="display: inline !important">0. Setup</h2></summary>
+<details markdown="1">
 
 Go to the [**Devpost hackathon page**](https://mlopsforgood.devpost.com/) and click the "Join hackathon" button. After you login/signup to the Devpost website you will see all existing projects and you will be able to start your own project.
 
@@ -51,10 +51,9 @@ Iguazio is offering its data science platform in a managed cloud environment. If
 </details>
 
 <a id="business-problem-definition"></a>
+## 1. Business Problem Definition
 
-<details markdown="1">
-
-<summary><h2 style="display: inline">1. Business Problem Definition</h2></summary>
+<details>
 
 This is a crucial step when working on your project which can often impact its success. Don't skip this step. Take the necessary time to think about the problem you would like to address in your project.
 
@@ -75,9 +74,9 @@ You may find that you have more than a single idea that may be worthwhile. Feel 
 
 
 <a id="data-ingestion"></a>
-<details markdown="1">
+## 2. Data Ingestion and Acquisition
 
-<summary><h2 style="display: inline">2. Data Ingestion and Acquisition</h2></summary>
+<details>
 
 ### Data Sources
 
@@ -107,10 +106,9 @@ If you have other specific data access needs, define these requirements first, i
 </details>
 
 <a id="training"></a>
+## 3. Training pipeline
 
-<details markdown="1">
-
-<summary><h2 style="display: inline">3. Training pipeline</h2></summary>
+<details>
 
 ### Feature Engineering
 
@@ -132,10 +130,9 @@ Resources to consider for model training:
 </details>
 
 <a id="serving"></a>
+## 4. Model serving
 
-<details markdown="1">
-
-<summary><h2 style="display: inline">4. Model serving</h2></summary>
+<details>
 
 Even if you have built the most robust training pipeline, real world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on the start.
 
@@ -148,10 +145,9 @@ MLRun has [**serving and data pipeline**](https://docs.mlrun.org/en/latest/servi
 </details>
 
 <a id="ci"></a>
+## 5. Automated CI pipeline
 
-<details markdown="1">
-
-<summary><h2 style="display: inline">5. Automated CI pipeline</h2></summary>
+<details>
 
 You may want to go the extra mile and create an automated pipeline. For example, using GitHub actions to trigger model training when you provide new training file or deploy a model to serving once you train a new model or running a GitLab CI job.
 
