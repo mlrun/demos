@@ -41,7 +41,6 @@ Resources:
 * [**Quick-start guide**](https://docs.mlrun.org/en/latest/quick-start.html)
 * [**Getting-started tutorial**](https://docs.mlrun.org/en/latest/tutorial/index.html)
 * [**Converting Research Notebook to Operational Pipeline With MLRun**](https://docs.mlrun.org/en/latest/howto/convert-to-mlrun.html)
-* [**Face mask detector MLOps example**](https://github.com/Hedingber/mask-detection)
 * [**MLRun end-to-end Demos**](https://github.com/mlrun/demos/tree/hackathon)
 
 ### Iguazio Managed Environment
