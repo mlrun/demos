@@ -1,18 +1,24 @@
-![banner](./docs/_static/images/hackathon-banner.jpg)
+![banner](./docs/hackathon-banner.jpg)
 
 # Getting Started with the MLOps for Good Hackathon
 
  The Hackathon focuses on MLOps. It is important all submissions address the challneges of operationalizing the machine-learning project, and not just focus on the mode innovation. MLOps typically includes the following steps:
 
- 1. Business problem definition
- 2. Data ingestion and acquisition
- 3. Training pipeline
- 4. Model serving
- 5. Automated CI pipeline
+ 1. [Business problem definition](#business-problem-definition)
+ 2. [Data ingestion and acquisition](#data-ingestion)
+ 3. [Training pipeline](#training)
+ 4. [Model serving](#serving)
+ 5. [Automated CI pipeline](#ci)
 
 This guide will help guide you on get started.
 
+<a id="setup"></a>
+
 ## 0. Setup
+
+<details>
+
+<summary>Click to expand</summary>
 
 Go to the [**Devpost hackathon page**](https://mlopsforgood.devpost.com/) and click the "Join hackathon" button. After you login/signup to the Devpost website you will see all existing projects and you will be able to start your own project.
 
@@ -44,7 +50,14 @@ Resources:
 
 Iguazio is offering its data science platform in a managed cloud environment. If you are using the Iguazio product, refer to [**the Iguazio documentation**](https://www.iguazio.com/docs/latest-release/) for more information
 
+</details>
+
+<a id="business-problem-definition"></a>
 ## 1. Business Problem Definition
+
+<details>
+
+<summary>Click to expand</summary>
 
 This is a crucial step when working on your project which can often impact its success. Don't skip this step. Take the necessary time to think about the problem you would like to address in your project.
 
@@ -60,7 +73,16 @@ After you feel you have enough ideas to consider, evaluate each idea. Some of th
 
 You may find that you have more than a single idea that may be worthwhile. Feel free to create more than one project or gage the interest of other participants. You may only be a member of a single project, but it's fun to see someone who manages to bring an idea you had to reality.
 
+<a id="Data Ingestion and Acquisition"></a><a id="business-problem-definition"></a>
+</details>
+
+
+<a id="data-ingestion"></a>
 ## 2. Data Ingestion and Acquisition
+
+<details>
+
+<summary>Click to expand</summary>
 
 ### Data Sources
 
@@ -87,7 +109,14 @@ Iguazio is offering access to its multi-model data layer for storing and analyzi
 
 If you have other specific data access needs, define these requirements first, it is very likely you'll find an open-source project or a service that can be used for your project. 
 
+</details>
+
+<a id="training"></a>
 ## 3. Training pipeline
+
+<details>
+
+<summary>Click to expand</summary>
 
 ### Feature Engineering
 
@@ -106,7 +135,14 @@ Resources to consider for model training:
 * [**Azure automated machine learning**](https://azure.microsoft.com/en-us/services/machine-learning/automatedml/)
 * [**MLRun serverless runtime**](https://docs.mlrun.org/en/latest/runtimes/functions.html)
 
+</details>
+
+<a id="serving"></a>
 ## 4. Model serving
+
+<details>
+
+<summary>Click to expand</summary>
 
 Even if you have built the most robust training pipeline, real world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on the start.
 
@@ -116,12 +152,22 @@ You should also think about the interaction the user can have with the model. Th
 
 MLRun has [**serving and data pipeline**](https://docs.mlrun.org/en/latest/serving/index.html) capability which should make it easy to deploy the model. You can deploy your pipeline in a few lines of code.
 
+</details>
+
+<a id="ci"></a>
 ## 5. Automated CI pipeline
+
+<details>
+
+<summary>Click to expand</summary>
 
 You may want to go the extra mile and create an automated pipeline. For example, using GitHub actions to trigger model training when you provide new training file or deploy a model to serving once you train a new model or running a GitLab CI job.
 
 See [**the MLRun documentation**](https://docs.mlrun.org/en/latest/ci-pipeline.html) for using MLRun in order to create a CI pipeline.
 
+</details>
+
+<a id="summary"></a>
 ## Summary
 
 While it is tempting to start writing code right away, you will likely succeed by taking the time to research. Any existing publicly available data and models will significantly reduce the amount of effort. Also, consider what skillset is needed to complete your project and find the right teammates that can help you drive your project to completion.
