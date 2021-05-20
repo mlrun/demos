@@ -1,16 +1,19 @@
-# MLRun Demos
+# MLRun Demos <!-- omit in toc -->
 
 The mlrun/demos repository provides demos that implement full end-to-end ML use-case applications with MLRun and demonstrate different aspects of working with MLRun.
 
-#### In This Document
+For more information about the MLRun Hackathon, refer to the [**hackathon getting-started**](./getting-started.md) section.
+
+## In This Document <!-- omit in toc -->
 
 - [Overview](#overview)
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
-- [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
-- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
-- [Stock-Analysis Demo](#demo-stocks)
+- [Getting-started Tutorial](#getting-started-tutorial)
+- [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
+- [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
+- [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
+- [Stock-Analysis Demo](#stock-analysis-demo)
 
 <a id="overview"></a>
 ## Overview
@@ -38,9 +41,10 @@ To run the MLRun demos, first do the following:
 
 - Prepare a Kubernetes cluster with preinstalled operators or custom resources (CRDs) for Horovod and/or Nuclio, depending on the demos that you wish to run.
 - Install an MLRun service on your cluster.
-  See the instructions in the [MLRun documentation](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
+  See the instructions in the [MLRun documentation](https://docs.mlrun.org/en/latest/install.html).
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
 
+<a id="getting-started"></a>
 ## Getting-started Tutorial
 
 [**The tutorial**](./getting-started-tutorial/01-mlrun-basics.ipynb) covers MLRun fundamentals such as creation of projects and data ingestion and preparation, and demonstrates how to create an end-to-end machine-learning (ML) pipeline.
@@ -89,7 +93,7 @@ The output plots can be viewed as static HTML files in the [scikit-learn-pipelin
 <a id="howto-convert-to-mlrun"></a>
 ## How-To: Converting Existing ML Code to an MLRun Project
 
-The [**converting-to-mlrun**](howto/converting-to-mlrun/README.md) how-to demo demonstrates how to convert existing ML code to an MLRun project.
+The [**converting-to-mlrun**](./converting-to-mlrun/README.md) how-to demo demonstrates how to convert existing ML code to an MLRun project.
 The demo implements an MLRun project for taxi ride-fare prediction based on a [Kaggle notebook](https://www.kaggle.com/jsylas/python-version-of-top-ten-rank-r-22-m-2-88) with an ML Python script that uses data from the [New York City Taxi Fare Prediction competition](https://www.kaggle.com/c/new-york-city-taxi-fare-prediction).
 
 The code includes the following components:

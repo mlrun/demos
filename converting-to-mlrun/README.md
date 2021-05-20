@@ -25,7 +25,7 @@ The code includes the following components:
 <a id="pipeline-output"></a>
 ## Pipeline Output
 
-<p><img src="../../docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
+<p><img src="../docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
 
 <a id="notebooks-and-code"></a>
 ## Notebooks and Code

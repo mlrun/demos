@@ -53,7 +53,7 @@ Iguazio is offering its data science platform in a managed cloud environment. If
 <a id="business-problem-definition"></a>
 ## 1. Business Problem Definition
 
-<details>
+<details markdown="1">
 
 This is a crucial step when working on your project which can often impact its success. Don't skip this step. Take the necessary time to think about the problem you would like to address in your project.
 
@@ -76,7 +76,7 @@ You may find that you have more than a single idea that may be worthwhile. Feel 
 <a id="data-ingestion"></a>
 ## 2. Data Ingestion and Acquisition
 
-<details>
+<details markdown="1">
 
 ### Data Sources
 
@@ -108,7 +108,7 @@ If you have other specific data access needs, define these requirements first, i
 <a id="training"></a>
 ## 3. Training pipeline
 
-<details>
+<details markdown="1">
 
 ### Feature Engineering
 
@@ -132,7 +132,7 @@ Resources to consider for model training:
 <a id="serving"></a>
 ## 4. Model serving
 
-<details>
+<details markdown="1">
 
 Even if you have built the most robust training pipeline, real world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on the start.
 
@@ -147,7 +147,7 @@ MLRun has [**serving and data pipeline**](https://docs.mlrun.org/en/latest/servi
 <a id="ci"></a>
 ## 5. Automated CI pipeline
 
-<details>
+<details markdown="1">
 
 You may want to go the extra mile and create an automated pipeline. For example, using GitHub actions to trigger model training when you provide new training file or deploy a model to serving once you train a new model or running a GitLab CI job.
 
