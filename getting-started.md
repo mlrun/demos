@@ -20,6 +20,8 @@ This guide will help guide you on get started.
 
 <summary>Click to expand</summary>
 
+<div markdown="1>
+
 Go to the [**Devpost hackathon page**](https://mlopsforgood.devpost.com/) and click the "Join hackathon" button. After you login/signup to the Devpost website you will see all existing projects and you will be able to start your own project.
 
 ### Collaboration, Resources + More to Help You Build
@@ -49,6 +51,8 @@ Resources:
 ### Iguazio Managed Environment
 
 Iguazio is offering its data science platform in a managed cloud environment. If you are using the Iguazio product, refer to [**the Iguazio documentation**](https://www.iguazio.com/docs/latest-release/) for more information
+
+</div>
 
 </details>
 
