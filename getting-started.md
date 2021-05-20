@@ -14,11 +14,9 @@ This guide will help guide you on get started.
 
 <a id="setup"></a>
 
-## 0. Setup
-
 <details markdown="1">
 
-<summary>Click to expand</summary>
+<summary><h2>0. Setup</h2></summary>
 
 Go to the [**Devpost hackathon page**](https://mlopsforgood.devpost.com/) and click the "Join hackathon" button. After you login/signup to the Devpost website you will see all existing projects and you will be able to start your own project.
 
