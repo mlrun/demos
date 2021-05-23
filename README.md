@@ -12,7 +12,7 @@ For more information about the MLRun Hackathon, refer to the [**hackathon gettin
 - [Getting-started Tutorial](#getting-started-tutorial)
 - [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
 - [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
-- [Stock-Analysis Demo](#stock-analysis-demo)
+- [Healthcare Demo](#healthcare-demo)
 
 <a id="overview"></a>
 ## Overview
@@ -111,12 +111,12 @@ These steps are covered by the following pipeline:
 - **6. Inference logger** - We use the same event handler function from above but only its capability to store incoming data to parquet files.
 
 <a id="demo-stocks"></a>
-## Stock-Analysis Demo
+## Healthcare Demo
 
 This demo shows the usage of MLRun and the feature store. The demo will showcase:
-- [**Data ingestion & preparation**](./feature-store/01-ingest-datasources.ipynb)
-- [**Model training & testing**](./feature-store/02-create-training-model.ipynb)
-- [**Real-time data & model pipeline**](./feature-store/03-deploy-serving-model.ipynb)
+- [**Data ingestion & preparation**](./healthcare-feature-store/01-ingest-datasources.ipynb)
+- [**Model training & testing**](./healthcare-feature-store/02-create-training-model.ipynb)
+- [**Real-time data & model pipeline**](./healthcare-feature-store/03-deploy-serving-model.ipynb)
 
 Healthcare facilities need to closely monitor their patients and identify early signs that can indicate that medical intervention is necessary. Time is a key factor, the earlier the medical teams can attend to an issue, the better the outcome. This means an effective system that can alert of issues in real-time can save lives.
 
