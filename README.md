@@ -12,7 +12,7 @@ For more information about the MLRun Hackathon, refer to the [**hackathon gettin
 - [Getting-started Tutorial](#getting-started-tutorial)
 - [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
 - [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
-- [Healthcare Demo](#healthcare-demo)
+- [Healthcare Demo with Feature Store](#healthcare-demo-with-feature-store)
 
 <a id="overview"></a>
 ## Overview
@@ -111,7 +111,7 @@ These steps are covered by the following pipeline:
 - **6. Inference logger** - We use the same event handler function from above but only its capability to store incoming data to parquet files.
 
 <a id="demo-stocks"></a>
-## Healthcare Demo
+## Healthcare Demo with Feature Store
 
 This demo shows the usage of MLRun and the feature store. The demo will showcase:
 - [**Data ingestion & preparation**](./healthcare-feature-store/01-ingest-datasources.ipynb)
