@@ -10,7 +10,6 @@ For more information about the MLRun Hackathon, refer to the [**hackathon gettin
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
 - [Getting-started Tutorial](#getting-started-tutorial)
-- [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
 - [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
 - [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
 - [Stock-Analysis Demo](#stock-analysis-demo)
@@ -65,31 +64,6 @@ You'll also learn about the basic concepts, components, and APIs that allow you 
 - Deploying a model to a serving layer using serverless functions
 
 
-<a id="demo-scikit-learn"></a>
-## scikit-learn Demo: Full AutoML Pipeline
-
-The [**scikit-learn-pipeline**](./scikit-learn-pipeline/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
-
-The combined CI/data/ML pipeline includes the following steps:
-
-- Create an Iris data-set generator (ingestion) function.
-- Ingest the Iris data set.
-- Analyze the data-set features.
-- Train and test the model using multiple algorithms (AutoML).
-- Deploy the model as a real-time serverless function.
-- Test the serverless function's REST API with a test data set.
-
-To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and run the code cells according to the instructions in the notebook.
-
-<p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
-
-<a id="demo-scikit-learn-pipeline-output"></a>
-**Pipeline Output**
-
-The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
-
-<p><img src="./docs/skpipe.png" alt="scikit-learn pipeline output" width="500"/></p>
-
 <a id="howto-convert-to-mlrun"></a>
 ## How-To: Converting Existing ML Code to an MLRun Project
 
@@ -139,31 +113,21 @@ These steps are covered by the following pipeline:
 <a id="demo-stocks"></a>
 ## Stock-Analysis Demo
 
-This demo tackles a common requirement of running a data-engineering pipeline as part of ML model serving by reading data from external data sources and generating insights using ML models.
-The demo reads stock data from an external source, analyzes the related market news, and visualizes the analyzed data in a Grafana dashboard.
+This demo shows the usage of MLRun and the feature store. The demo will showcase:
+- [**Data ingestion & preparation**](./feature-store/01-ingest-datasources.ipynb)
+- [**Model training & testing**](./feature-store/02-create-training-model.ipynb)
+- [**Real-time data & model pipeline**](./feature-store/03-deploy-serving-model.ipynb)
 
-> **Note**: this demo uses the Iguazio multi-model data layer (V3IO), primarily for real-time streaming. To run this demo outside
-> an Iguazio cluster, you will need to get credentials to access a V3IO system.
+Healthcare facilities need to closely monitor their patients and identify early signs that can indicate that medical intervention is necessary. Time is a key factor, the earlier the medical teams can attend to an issue, the better the outcome. This means an effective system that can alert of issues in real-time can save lives.
 
-The demo demonstrates how to
+In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, this patient data has been successfully used to treat hospitalized COVID-19 patients prior to their condition becoming severe or critical. To do this we will use a medical dataset which includes three types of data:  
+- **Healthcare systems**: Batch updated dataset, containing different lab test results (Blood test results for ex.).
+- **Patient Records**: Static dataset containing general patient details.
+- **Real-time sensors**: Real-Time patient metric monitoring sensor.  
 
-- Train a sentiment-analysis model using the Bidirectional Encoder Representations from Transformers ([BERT](https://github.com/google-research/bert)) natural language processing (NLP) technique, and deploy the model.
-- Deploy Python code to a scalable function using [Nuclio](https://nuclio.io/).
-- Integrate with the real-time multi-model data layer of the Iguazio Data Science Platform ("the platform") &mdash; time-series databases (TSDB) and NoSQL (key-value) storage.
-- Leverage machine learning to generate insights.
-- Process streaming data and visualize it on a user-friendly dashboard.
+<img src="./docs/_static/images/feature_store_demo_diagram.png" width="600px" />
 
-The demo include the following steps:
+We will walk through creation of ingestion pipeline for each datasource with all the needed preprocessing and validation. We will run the pipeline locally within the notebook and then launch a real-time function to **ingest live data** or schedule a cron to run the task when needed.
 
-1.  **Training and validating the model** (BERT Model); can be skipped by downloading a pre-trained model (default).
-2.  **Deploying a sentiment-analysis model server**.
-3.  **Ingesting stock data**.
-4.  **Scraping stock news and analyzing sentiments** to generate sentiment predictions.
-5.  **Deploying a stream viewer** that reads data from the stocks news and sentiments stream and can be used as a Grafana data source.
-6.  **Visualizing the data on a Grafana dashboard**, using the stream viewer as a data source.
-
-<a id="demo-stocks-pipeline-output"></a>
-**Pipeline Output**
-
-<p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
+Following the ingestion, we will create a feature vector and train several models using this vector. We will then deploy the model and showcase the feature vector and model serving.
 
