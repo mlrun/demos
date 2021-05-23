@@ -34,7 +34,7 @@ Looking for a team? [**The Slack channel**](https://go.iguazio.com/mlopslive/joi
 
 [**MLRun**](https://mlrun.org) is an open-source end-to-end MLOps framework that can significantly help you in this hackathon. We recommend you take the time to install and go through some of its basic examples.
 
-Check out the [**MLRun installation guide**](https://docs.mlrun.org/en/latest/install.html) for more details.
+To set-up your own cluster, check out the [**MLRun installation guide**](https://docs.mlrun.org/en/latest/install.html) for more details.
 
 Resources:
 
@@ -43,9 +43,9 @@ Resources:
 * [**Converting Research Notebook to Operational Pipeline With MLRun**](https://docs.mlrun.org/en/latest/howto/convert-to-mlrun.html)
 * [**MLRun end-to-end Demos**](https://github.com/mlrun/demos/tree/hackathon)
 
-### Iguazio Managed Environment
+### Managed Environment
 
-Iguazio is offering its data science platform in a managed cloud environment. If you are using the Iguazio product, refer to [**the Iguazio documentation**](https://www.iguazio.com/docs/latest-release/) for more information
+Iguazio is offering several pre-configured clusters in the cloud. Send an email to <hackathon@iguazio.com> if you wish to request access to such cluster.  Supply is limited with first-come-first-served, so hurry up if you require this cluster. refer to [**the Iguazio documentation**](https://www.iguazio.com/docs/latest-release/) for more information
 
 </details>
 
@@ -98,7 +98,7 @@ If your data is not large and just a few files, it's likely the simplest approac
 
 For are cases where you may find the need to store large amounts of data, it is best to consider an object storage, such as [**Azure Blob Storage**](https://azure.microsoft.com/en-us/services/storage/blobs/). In case you need you need to access data using different patterns, check out [**MongoDB Atlas**](https://www.mongodb.com/cloud/atlas).
 
-Iguazio is offering access to its multi-model data layer for storing and analyzing various types of data structures — such as NoSQL ("key-value") tables, time-series databases (TSDB), data streams, binary objects, and files. This is commonly referred to as **V3IO**. You can your assigned V3IO data layer by specifying the `V3IO_API`, `V3IO_USERNAME` and `V3IO_ACCESS_KEY` environment variables.
+Iguazio is offering access to its multi-model data layer for storing and analyzing various types of data structures — such as NoSQL ("key-value") tables, time-series databases (TSDB), data streams, binary objects, and files. This is commonly referred to as **V3IO**. You can your assigned V3IO data layer by specifying the `V3IO_API`, `V3IO_USERNAME` and `V3IO_ACCESS_KEY` environment variables. Send an email to <hackathon@iguazio.com> to obtain your credentials.
 
 If you have other specific data access needs, define these requirements first, it is very likely you'll find an open-source project or a service that can be used for your project. 
 
