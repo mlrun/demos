@@ -7,12 +7,12 @@ For more information about the MLRun Hackathon, refer to the [**hackathon gettin
 ## In This Document <!-- omit in toc -->
 
 - [Overview](#overview)
-  - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [Getting-started Tutorial](#getting-started-tutorial)
-- [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
-- [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
-- [Healthcare Demo with Feature Store](#healthcare-demo-with-feature-store)
+- [Getting-started Tutorial](#getting-started)
+- [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
+- [Integrating with CI Pipelines](#demo-ci-pipeline)
+- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
+- [Healthcare Demo with Feature Store](#demo-healthcare)
 
 <a id="overview"></a>
 ## Overview
@@ -82,6 +82,23 @@ The code includes the following components:
 
 <p><img src="./docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
 
+<a id="demo-ci-pipeline"></a>
+## Integrating with CI Pipelines
+
+The [**CI Pipeline**](./ci-pipeline/ci-pipeline.ipynb) demo demonstrates how to build a full end-to-end automated-ML pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
+
+Users may want to run their ML Pipelines using CI frameworks like Github Actions, GitLab CI/CD, etc. MLRun support simple and native integration with the CI systems, see the following example in which we combine local code (from the repository) with MLRun marketplace functions to build an automated ML pipeline which:
+
+- Runs data preparation
+- Train a model
+- Test the trained model
+- Deploy the model into a cluster
+- Test the deployed model
+
+The demo by default uses Slack notifications and requires setting up webhooks. This process is straightforward and should take a few minutes. For more information see [the slack documentation](https://api.slack.com/messaging/webhooks)
+
+<p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
+
 <a id="demo-model-deployment"></a>
 
 ## Model deployment Pipeline: Real-time operational Pipeline
@@ -110,7 +127,7 @@ These steps are covered by the following pipeline:
 - **5. Serving** - Serve the model and process the data from the enriched stream and aggregation features.
 - **6. Inference logger** - We use the same event handler function from above but only its capability to store incoming data to parquet files.
 
-<a id="demo-stocks"></a>
+<a id="demo-healthcare"></a>
 ## Healthcare Demo with Feature Store
 
 This demo shows the usage of MLRun and the feature store. The demo will showcase:
@@ -126,8 +143,4 @@ In this demo we will learn how to **Ingest** different data sources to our **Fea
 - **Real-time sensors**: Real-Time patient metric monitoring sensor.  
 
 <img src="./docs/_static/images/feature_store_demo_diagram.png" width="600px" />
-
-We will walk through creation of ingestion pipeline for each datasource with all the needed preprocessing and validation. We will run the pipeline locally within the notebook and then launch a real-time function to **ingest live data** or schedule a cron to run the task when needed.
-
-Following the ingestion, we will create a feature vector and train several models using this vector. We will then deploy the model and showcase the feature vector and model serving.
 
