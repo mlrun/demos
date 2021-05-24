@@ -9,7 +9,6 @@ You'll learn how to
 
 - Collect (ingest), prepare, and analyze data
 - Train, deploy, and monitor an ML model
-- Create and run an automated ML pipeline
 
 You'll also learn about the basic concepts, components, and APIs that allow you to perform these tasks, including
 
@@ -25,4 +24,3 @@ The notebooks are designed to be run sequentially, as each notebook relies on th
 1. [Part 1: MLRun Basics](./01-mlrun-basics.ipynb)
 2. [Part 2: Training an ML Model](./02-model-training.ipynb)
 3. [Part 3: Serving an ML Model](./03-model-serving.ipynb)
-4. [Part 4: Creating an Automated ML Pipeline](./04-pipeline.ipynb)

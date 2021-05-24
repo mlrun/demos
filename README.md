@@ -7,12 +7,13 @@ For more information about the MLRun Hackathon, refer to the [**hackathon gettin
 ## In This Document <!-- omit in toc -->
 
 - [Overview](#overview)
+  - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [Getting-started Tutorial](#getting-started)
-- [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
-- [Integrating with CI Pipelines](#demo-ci-pipeline)
-- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
-- [Healthcare Demo with Feature Store](#demo-healthcare)
+- [Getting-started Tutorial](#getting-started-tutorial)
+- [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
+- [Integrating with CI Pipelines](#integrating-with-ci-pipelines)
+- [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
+- [Healthcare Demo with Feature Store](#healthcare-demo-with-feature-store)
 
 <a id="overview"></a>
 ## Overview
@@ -53,7 +54,6 @@ You'll learn how to
 
 - Collect (ingest), prepare, and analyze data
 - Train, deploy, and monitor an ML model
-- Create and run an automated ML pipeline
 
 You'll also learn about the basic concepts, components, and APIs that allow you to perform these tasks, including
 
