@@ -95,7 +95,7 @@ Users may want to run their ML Pipelines using CI frameworks like Github Actions
 - Deploy the model into a cluster
 - Test the deployed model
 
-The demo by default uses Slack notifications and requires setting up webhooks. This process is straightforward and should take a few minutes. For more information see [the slack documentation](https://api.slack.com/messaging/webhooks)
+The demo can optionally use Slack notifications. To run slack notification, you will need to create an app and enable webhooks. This process is straightforward and should take a few minutes. For more information see [the slack documentation](https://api.slack.com/messaging/webhooks)
 
 <p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
 
