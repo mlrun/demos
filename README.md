@@ -103,14 +103,13 @@ The demo by default uses Slack notifications. To run slack notification, you wil
 
 ## Model deployment Pipeline: Real-time operational Pipeline
 
-This demo shows how to deploy a model with streaming information.
+[**This demo**](./model-deployment-pipeline/project.ipynb) shows how to deploy a model with streaming information.
 
 This demo is comprised of several steps:
 
 <p><img src="./model-deployment-pipeline/assets/model-deployment-pipeline.png" alt="Model deployment Pipeline Real-time operational Pipeline" width="500"/></p>
 
-> **Note**: this demo uses the Iguazio multi-model data layer (V3IO), primarily for real-time streaming. To run this demo outside
-> an Iguazio cluster, you will need to get credentials to access a V3IO system.
+> **Note**: this demo uses the multi-model data layer (V3IO), primarily for real-time streaming. Contact Iguazio to get credentials to access a V3IO system. To test access to the V3IO API see the [**v3io-api test notebook**](./model-deployment-pipeline/v3io-test.ipynb).
 
 While this demo covers the use case of 1<sup>st</sup>-day churn, it is easy to replace the data, related features and training model and reuse the same workflow for different business cases.
 
@@ -141,6 +140,8 @@ In this demo we will learn how to **Ingest** different data sources to our **Fea
 - **Healthcare systems**: Batch updated dataset, containing different lab test results (Blood test results for ex.).
 - **Patient Records**: Static dataset containing general patient details.
 - **Real-time sensors**: Real-Time patient metric monitoring sensor.  
+
+> **Note**: this demo uses the multi-model data layer (V3IO), primarily for real-time streaming. Contact Iguazio to get credentials to access a V3IO system. To test access to the V3IO API see the [**v3io-api test notebook**](./healthcare-feature-store/v3io-test.ipynb).
 
 <img src="./docs/_static/images/feature_store_demo_diagram.png" width="600px" />
 
