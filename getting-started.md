@@ -10,7 +10,7 @@
  4. [Model serving](#serving)
  5. [Automated CI pipeline](#ci)
 
-This guide will help guide you on get started.
+This guide will help you get started.
 
 <a id="setup"></a>
 
@@ -28,13 +28,11 @@ Not only can you bounce ideas off each other and ask other developers for techni
 
 #### Teaming up
 
-Looking for a team? [**The Slack channel**](https://go.iguazio.com/mlopslive/joincommunity) can also help you connect with potential teammates. You can also use the challenge Participants Tab to search for other developers looking to team up, check out their skills and message them to see if they want to…
+Looking for a team? [**The Slack channel**](https://go.iguazio.com/mlopslive/joincommunity) can help you connect with potential teammates. You can also check out the Participants Tab [**here**](https://mlopsforgood.devpost.com/participants) to search for other practitioners, check out their skills and connect with them.
 
 ### MLRun
 
-[**MLRun**](https://mlrun.org) is an open-source end-to-end MLOps framework that can significantly help you in this hackathon. We recommend you take the time to install and go through some of its basic examples.
-
-To set-up your own cluster, check out the [**MLRun installation guide**](https://docs.mlrun.org/en/latest/install.html) for more details.
+[**MLRun**](https://mlrun.org) is an open-source end-to-end MLOps framework that will significantly help you get your data science to production for this hackathon. To get started, install and go through some of its basic examples.
 
 Resources:
 
@@ -45,7 +43,7 @@ Resources:
 
 ### Managed Environment
 
-Iguazio is offering several pre-configured clusters in the cloud. Send an email to <hackathon@iguazio.com> if you wish to request access to such cluster.  Supply is limited with first-come-first-served, so hurry up if you require this cluster. refer to [**the Iguazio documentation**](https://www.iguazio.com/docs/latest-release/) for more information.
+Iguazio is offering several pre-configured clusters in on Azure Cloud, for free. If you'd like to access one of these clusters, send an email to <hackathon@iguazio.com>. Alternatively, you can set up your own cluster. To do that, check out the [**MLRun installation guide**](https://docs.mlrun.org/en/latest/install.html).
 
 </details>
 
@@ -54,19 +52,19 @@ Iguazio is offering several pre-configured clusters in the cloud. Send an email 
 
 <details markdown="1">
 
-This is a crucial step when working on your project which can often impact its success. Don't skip this step. Take the necessary time to think about the problem you would like to address in your project.
+This is a crucial step that will impact the success of your project. Don't skip this step. Take the necessary time to think about the problem you would like to address in your project.
 
-Don't worry if you don't come up with ideas right away or if your ideas sound far-fetched at first. It's best to not limit yourself at the first stage, write down every idea that comes up.
+Don't worry if you don't come up with ideas right away or if your ideas sound far-fetched at first. It's best to not limit yourself at the first stage, so write down every idea that comes up.
 
 After you feel you have enough ideas to consider, evaluate each idea. Some of the criteria you should evaluate:
 
-1. Alignment with the MLOps for Good topics
+1. Alignment with the MLOps for Good social and environmental goals
 2. Feasibility to complete within the Hackathon timeframe.
 3. Availability of data.
-4. Any existing models that address this problem.
-5. Skillset and the number of people required to complete the project.
+4. Availability of existing models that address this problem.
+5. Availability of team members with the required skillsets to complete the project.
 
-You may find that you have more than a single idea that may be worthwhile. Feel free to create more than one project or gage the interest of other participants. You may only be a member of a single project, but it's fun to see someone who manages to bring an idea you had to reality.
+You may find that you have more than a single idea that is worthwhile. Feel free to create more than one project or gauge the interest of other participants. You may only be a member of a single project, but it can be fun to see someone else bring your idea to reality.
 
 <a id="Data Ingestion and Acquisition"></a><a id="business-problem-definition"></a>
 </details>
@@ -79,7 +77,7 @@ You may find that you have more than a single idea that may be worthwhile. Feel 
 
 ### Data Sources
 
-Machine learning requires data, and therefore, you should research what data sources are available for your project. Consider the size of the data, if the dataset is too small, this may limit your ability to train your model. You should also think ahead about the serving process, and whether you can obtain new data for inference.
+Machine learning requires data, and therefore you should research what data sources are available for your project. Consider the size of the data: if the dataset is too small, this may limit your ability to train your model. You should also think ahead about the serving process, and whether you can obtain new data for inference.
 
 We recommend researching publicly available datasets, such as <https://github.com/awesomedata/awesome-public-datasets>. Before starting to use the dataset, please verify that the dataset owner gave the proper license/permission to use this dataset. If in doubt, contact the Iguazio team.
 
@@ -94,13 +92,13 @@ While it is always best to build a solution based on real data, you may find the
 
 ### Storage
 
-If your data is not large and just a few files, it's likely the simplest approach is to read the files directly.
+If your data is not large and just a few files, likely the simplest approach is to read the files directly.
 
-In some cases where you may find the need to store large amounts of data, it is best to consider an object storage, such as [**Azure Blob Storage**](https://azure.microsoft.com/en-us/services/storage/blobs/). In case you need you need to access data using different patterns, check out [**MongoDB Atlas**](https://www.mongodb.com/cloud/atlas).
+In cases where you need to store large amounts of data, it is best to consider an object storage, such as [**Azure Blob Storage**](https://azure.microsoft.com/en-us/services/storage/blobs/). If you need to access data using different patterns, check out [**MongoDB Atlas**](https://www.mongodb.com/cloud/atlas).
 
-Iguazio is offering access to its multi-model data layer for storing and analyzing various types of data structures — such as NoSQL ("key-value") tables, time-series databases (TSDB), data streams, binary objects, and files. This is commonly referred to as **V3IO**. You can your assigned V3IO data layer by specifying the `V3IO_API`, `V3IO_USERNAME` and `V3IO_ACCESS_KEY` environment variables. Send an email to <hackathon@iguazio.com> to obtain your credentials.
+Iguazio is offering free access for hackathon participants to its multi-model data layer to store and analyze various types of data structures — such as NoSQL ("key-value") tables, time-series databases (TSDB), data streams, binary objects, and files. This is commonly referred to as **V3IO**. You can access your assigned V3IO data layer by specifying the `V3IO_API`, `V3IO_USERNAME` and `V3IO_ACCESS_KEY` environment variables. Send an email to <hackathon@iguazio.com> to get your credentials.
 
-If you have other specific data access needs, define these requirements first, it is very likely you'll find an open-source project or a service that can be used for your project. 
+If you have other specific data access needs, first define the requirements and it's likely you'll find an open-source project or a service that can be used for your project. 
 
 </details>
 
@@ -111,13 +109,13 @@ If you have other specific data access needs, define these requirements first, i
 
 ### Feature Engineering
 
-This is a common step when dealing with machine-learning project. Deep-learning projects sometimes do not require special feature engineering, for example, a neural-network can identify key areas in an image without special features.
+This is a common step when dealing with a machine-learning project. Deep learning projects sometimes do not require special feature engineering. For example, a neural network can identify key areas in an image without special features.
 
-In case you have to perform feature engineering, remember that the training pipeline is not just the model training. You may have some data manipulation to perform. Therefore, the data processing is still key to this step. You may not know ahead of time which features your model will need, this is an iterative process where you create a set of features, train some models, and then consider other features that may be useful. Consider not just the feature definition, but also how you would serve the features.
+If you have to perform feature engineering, remember that the training pipeline is not just the model training. You may have some data manipulation to perform. Therefore, the data processing is still key to this step. You may not know ahead of time which features your model will need, so this is an iterative process where you create a set of features, train some models, and then consider other features that may be useful. Consider not just the feature definition, but also how you would serve the features.
 
 ### Finding the Right Model
 
-It's usually a good idea to try out several algorithms with different hyperparameters when training models. While it's great if you come up with an innovative model, it's a good idea to look for previous work, maybe someone already has a relatively good model that you can use. Remember that this hackathon primary focus is necessarily the best model, but rather the best way to operationalize the workflow.
+It's usually a good idea to try out several algorithms with different hyperparameters when training models. While it's great if you come up with an innovative model, it's a good idea to look for existing work to see if there's a relatively good model that you can use. Remember that the primary focus of this hackathon is not the best model, but rather the best way to operationalize the workflow.
 
 If you would like to take a more advanced approach, consider creating a model ensemble.
 
@@ -133,7 +131,7 @@ Resources to consider for model training:
 
 <details markdown="1">
 
-Even if you have built the most robust training pipeline, real world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on the start.
+Even if you have built the most robust training pipeline, real-world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on.
 
 Model serving requires getting input data. In many applications this is an online source where the model provides some output (e.g., prediction) based on the stream. Other applications process files in batch, so you would need to consider where to put the input files, how to trigger the pipeline, and where to store the output.
 
@@ -148,15 +146,15 @@ MLRun has [**serving and data pipeline**](https://docs.mlrun.org/en/latest/servi
 
 <details markdown="1">
 
-You may want to go the extra mile and create an automated pipeline. For example, using GitHub actions to trigger model training when you provide new training file or deploy a model to serving once you train a new model or running a GitLab CI job.
+You may want to go the extra mile and create an automated pipeline. For example, using GitHub actions to trigger model training when you provide a new training file or deploy a model to serving once you train a new model or running a GitLab CI job.
 
-See [**the MLRun documentation**](https://docs.mlrun.org/en/latest/ci-pipeline.html) for using MLRun in order to create a CI pipeline.
+See [**the MLRun documentation**](https://docs.mlrun.org/en/latest/ci-pipeline.html) to create a CI pipeline with MLRun.
 
 </details>
 
 <a id="summary"></a>
 ## Summary
 
-While it is tempting to start writing code right away, you will likely succeed by taking the time to research. Any existing publicly available data and models will significantly reduce the amount of effort. Also, consider what skillset are needed to complete your project and find the right teammates that can help you drive your project to completion.
+While it is tempting to start writing code right away, you'll thank yourself later if you take some time to research. Using existing publicly available data and models will significantly reduce the amount of effort to bring your project to production.
 
-We also recommend being active in [**the Slack channel**](https://go.iguazio.com/mlopslive/joincommunity). Talking with other people can help discuss ideas together.
+We also recommend being active in [**the Slack channel**](https://go.iguazio.com/mlopslive/joincommunity). Talking about your project with other people can help everyone generate ideas together.
