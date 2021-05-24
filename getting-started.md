@@ -40,7 +40,7 @@ Resources:
 
 * [**Quick-start guide**](https://docs.mlrun.org/en/latest/quick-start.html)
 * [**Getting-started tutorial**](https://docs.mlrun.org/en/latest/tutorial/index.html)
-* [**Converting Research Notebook to Operational Pipeline With MLRun**](https://docs.mlrun.org/en/latest/howto/convert-to-mlrun.html)
+* [**Converting Research Notebook to Operational Pipeline with MLRun**](https://docs.mlrun.org/en/latest/howto/convert-to-mlrun.html)
 * [**MLRun end-to-end Demos**](https://github.com/mlrun/demos/tree/hackathon)
 
 ### Managed Environment
@@ -90,13 +90,13 @@ Additional open datasets:
 - [Registry of open data on AWS](https://registry.opendata.aws/)
 - [Google Cloud Platform Datasets](https://console.cloud.google.com/marketplace/browse?filter=solution-type:dataset)
 
-While it is always best to build a solution based on real data, you may find the best way to implement your project is to generate data. In some cases the generated data is needed to enrich an existing dataset, in other cases, where data is scarce, you will need to generate the entire dataset. Data generation takes time and there are a lot of tools available for creating datasets. Do you research and try to find the tool that best fits your needs and skillset. Some tools may be generic, and others may be more specific. Make sure to include all the source code and documentation how to generate the files.
+While it is always best to build a solution based on real data, you may find the best way to implement your project is to generate data. In some cases, the generated data is needed to enrich an existing dataset, in other cases, where data is scarce, you will need to generate the entire dataset. Data generation takes time and there are a lot of tools available for creating datasets. Do your research and try to find the tool that best fits your needs and skillset. Some tools may be generic, and others may be more specific. Make sure to include all the source code and documentation how to generate the files.
 
 ### Storage
 
 If your data is not large and just a few files, it's likely the simplest approach is to read the files directly.
 
-For are cases where you may find the need to store large amounts of data, it is best to consider an object storage, such as [**Azure Blob Storage**](https://azure.microsoft.com/en-us/services/storage/blobs/). In case you need you need to access data using different patterns, check out [**MongoDB Atlas**](https://www.mongodb.com/cloud/atlas).
+In some cases where you may find the need to store large amounts of data, it is best to consider an object storage, such as [**Azure Blob Storage**](https://azure.microsoft.com/en-us/services/storage/blobs/). In case you need you need to access data using different patterns, check out [**MongoDB Atlas**](https://www.mongodb.com/cloud/atlas).
 
 
 If you choose to run your own cluster, but would like access to the multi-model in-memory data layer (V3IO), you can configure your assigned V3IO data layer credentials by specifying the `V3IO_API`, `V3IO_USERNAME` and `V3IO_ACCESS_KEY` environment variables. [send us an email](mailto:hackathon@iguazio.com>) and we will give you the credentials to this environment.
@@ -118,7 +118,7 @@ In case you have to perform feature engineering, remember that the training pipe
 
 ### Finding the Right Model
 
-It's usually a good idea to try out several algorithms with different hyperparameters when training a model. While it's great if you come up with an innovative model, it's a good idea to look for previous work, maybe someone already has a relatively good model that you can use. Remember that this hackathon primary focus is not about the best model, but rather the best way to operationalize the workflow.
+It's usually a good idea to try out several algorithms with different hyperparameters when training models. While it's great if you come up with an innovative model, it's a good idea to look for previous work, maybe someone already has a relatively good model that you can use. Remember that this hackathon primary focus is necessarily the best model, but rather the best way to operationalize the workflow.
 
 If you would like to take a more advanced approach, consider creating a model ensemble.
 
@@ -136,7 +136,7 @@ Resources to consider for model training:
 
 Even if you have built the most robust training pipeline, real world scenarios require running the model as part of an application. This step is where you would gain the most benefit from using an MLOps framework early on the start.
 
-Model serving requires getting input data. In many applications this is an online source where the model provides some output (e.g., prediction) based on the stream. The model output is usually a response to the input and therefore it's also streaming. Other applications process files in batch, so you would need to consider where to put the input files, how to trigger the pipeline, and where to store the output.
+Model serving requires getting input data. In many applications this is an online source where the model provides some output (e.g., prediction) based on the stream. Other applications process files in batch, so you would need to consider where to put the input files, how to trigger the pipeline, and where to store the output.
 
 You should also think about the interaction the user can have with the model. This is usually something simple, such as a basic web page or a dashboard (e.g., Grafana).
 
@@ -158,6 +158,6 @@ See [**the MLRun documentation**](https://docs.mlrun.org/en/latest/ci-pipeline.h
 <a id="summary"></a>
 ## Summary
 
-While it is tempting to start writing code right away, you will likely succeed by taking the time to research. Any existing publicly available data and models will significantly reduce the amount of effort. Also, consider what skillset is needed to complete your project and find the right teammates that can help you drive your project to completion.
+While it is tempting to start writing code right away, you will likely succeed by taking the time to research. Any existing publicly available data and models will significantly reduce the amount of effort. Also, consider what skillset are needed to complete your project and find the right teammates that can help you drive your project to completion.
 
-We also recommend to be active in [**the Slack channel**](https://go.iguazio.com/mlopslive/joincommunity). Talking with other people can help discuss ideas together.
+We also recommend being active in [**the Slack channel**](https://go.iguazio.com/mlopslive/joincommunity). Talking with other people can help discuss ideas together.
