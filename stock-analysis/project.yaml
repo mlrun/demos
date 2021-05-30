@@ -1,17 +1,30 @@
-name: stocks
-functions:
-- url: code/00-train-sentiment-analysis-model.ipynb
-  name: bert_sentiment_classifier_trainer
-- url: code/01-read-stocks.ipynb
-  name: stocks_reader
-- url: code/02-read-news.ipynb
-  name: news_reader
-- url: code/03-stream-viewer.ipynb
-  name: stream_viewer
-- url: hub://sentiment_analysis_serving
-  name: sentiment_analysis_server
-workflows:
-- name: main
-  path: /User/mlrun-demos/demos/stock-analysis/code/workflow.py
-artifacts: []
-artifact_path: ''
+kind: project
+metadata:
+  name: stocks-test-dani
+spec:
+  params:
+    PROJECT_NAME: stocks-test-dani
+  functions:
+  - url: code/00-train-sentiment-analysis-model.ipynb
+    name: bert_sentiment_classifier_trainer
+  - url: code/01-read-stocks.ipynb
+    name: stocks_reader
+  - url: code/02-read-news.ipynb
+    name: news_reader
+  - url: code/03-stream-viewer.ipynb
+    name: stream_viewer
+  - url: hub://sentiment_analysis_serving
+    name: sentiment_analysis_server
+  - url: code/06-read-vector.ipynb
+    name: vector_reader
+  - url: code/07-grafana.ipynb
+    name: grafana_view
+  workflows:
+  - name: main
+    path: /User/test/demos/stock-analysis/code/workflow.py
+  artifacts: []
+  artifact_path: v3io:///projects/{{run.project}}/artifacts
+  source: ''
+  subpath: ''
+  origin_url: ''
+  desired_state: online
