@@ -1,20 +1,21 @@
-# MLRun Demos
+# MLRun Demos  <!-- omit in toc -->
 
 The mlrun/demos repository provides demos that implement full end-to-end ML use-case applications with MLRun and demonstrate different aspects of working with MLRun.
 
-#### In This Document
+## In This Document  <!-- omit in toc -->
 
 - [Overview](#overview)
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
-- [Image Classification with Distributed Training Demo](#demo-image-classification)
-- [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
-- [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
-- [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
-- [Stock-Analysis Demo](#demo-stocks)
-- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
-- [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
+- [scikit-learn Demo: Full AutoML Pipeline](#scikit-learn-demo-full-automl-pipeline)
+- [Image Classification with Distributed Training Demo](#image-classification-with-distributed-training-demo)
+- [Faces Demo: Real-Time Image Recognition with Deep Learning](#faces-demo-real-time-image-recognition-with-deep-learning)
+- [Churn Demo: Real-Time Customer-Churn Prediction](#churn-demo-real-time-customer-churn-prediction)
+- [NetOps Demo: Predictive Network Operations/Telemetry](#netops-demo-predictive-network-operationstelemetry)
+- [Stock-Analysis Demo](#stock-analysis-demo)
+- [Model deployment Pipeline: Real-time operational Pipeline](#model-deployment-pipeline-real-time-operational-pipeline)
+- [How-To: Converting Existing ML Code to an MLRun Project](#how-to-converting-existing-ml-code-to-an-mlrun-project)
+- [Healthcare Demo with Feature Store (beta)](#healthcare-demo-with-feature-store-beta)
 
 <a id="overview"></a>
 ## Overview
@@ -233,3 +234,19 @@ The code includes the following components:
 
 <p><img src="./docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
 
+<a id="demo-healthcare"></a>
+## Healthcare Demo with Feature Store (beta)
+
+This demo shows the usage of MLRun and the feature store. The demo will showcase:
+- [**Data ingestion & preparation**](./healthcare-feature-store/01-ingest-datasources.ipynb)
+- [**Model training & testing**](./healthcare-feature-store/02-create-training-model.ipynb)
+- [**Real-time data & model pipeline**](./healthcare-feature-store/03-deploy-serving-model.ipynb)
+
+Healthcare facilities need to closely monitor their patients and identify early signs that can indicate that medical intervention is necessary. Time is a key factor, the earlier the medical teams can attend to an issue, the better the outcome. This means an effective system that can alert of issues in real-time can save lives.
+
+In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, this patient data has been successfully used to treat hospitalized COVID-19 patients prior to their condition becoming severe or critical. To do this we will use a medical dataset which includes three types of data:  
+- **Healthcare systems**: Batch updated dataset, containing different lab test results (Blood test results for ex.).
+- **Patient Records**: Static dataset containing general patient details.
+- **Real-time sensors**: Real-Time patient metric monitoring sensor.  
+
+<img src="./docs/_static/images/feature_store_demo_diagram.png" width="600px" />
