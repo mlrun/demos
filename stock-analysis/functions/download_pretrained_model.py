@@ -4,8 +4,8 @@ import os
 
 def download():
     
-    # If you are using a dark site, run the following:
-    # os.environ['SAMPLE_DATA_SOURCE_URL_PREFIX'] = '/v3io/projects/demos-data/iguazio/'
+    # If you would like to change the location of the source data, set the SAMPLE_DATA_SOURCE_URL_PREFIX environment variable.
+    # For example, set it to '/v3io/projects/demos-data/iguazio/'
     
     url_prefix = os.environ.get('SAMPLE_DATA_SOURCE_URL_PREFIX', 'https://s3.wasabisys.com/iguazio/')
     model_location = f'{url_prefix.rstrip("/")}data/stock-analysis/model.pt'
