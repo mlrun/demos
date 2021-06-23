@@ -142,5 +142,5 @@ def kfpipeline(
                                                              "v3io_container" : V3IO_CONTAINER,
                                                              "stocks_kv" : STOCKS_KV_TABLE,
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
-                                                             "grafana_url" : "http://grafana-dani"},
+                                                             "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
