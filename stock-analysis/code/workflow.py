@@ -31,7 +31,7 @@ def init_functions(functions: dict, project=None, secrets=None):
         f.spec.image_pull_policy = 'Always'
     
     # Define inference-stream related triggers
-    functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
+#     functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
     functions['sentiment_analysis_server'].spec.readiness_timeout = 500
     functions['sentiment_analysis_server'].set_config('readinessTimeoutSeconds', 500)
     
