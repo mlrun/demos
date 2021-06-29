@@ -104,8 +104,8 @@ def kfpipeline(
                                                                      inputs={'reviews_dataset': reviews_dataset},
                                                                      outputs=['bert_sentiment_analysis_model'],
                                                                      image=deployer.outputs['image'])
-        
-        sentiment_server = funcs['sentiment_analysis_server'].deploy_step(env={f'SERVING_MODEL_{model_name}': trainer.outputs['bert_sentiment_analysis_model']})
+        #becasue we switched to V2_Model_Server, no need to send model filepath as env variable
+        sentiment_server = funcs['sentiment_analysis_server'].deploy_step()#env={f'SERVING_MODEL_{model_name}': trainer.outputs['bert_sentiment_analysis_model']}
         
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
@@ -114,8 +114,8 @@ def kfpipeline(
                                                            'PROJECT_NAME' : project_name})
     
     with dsl.Condition(RUN_TRAINER == False):
-        
-        sentiment_server = funcs['sentiment_analysis_server'].deploy_step(env={f'SERVING_MODEL_{model_name}': model_filepath})
+        #becasue we switched to V2_Model_Server, no need to send model filepath as env variable
+        sentiment_server = funcs['sentiment_analysis_server'].deploy_step() #env={f'SERVING_MODEL_{model_name}': model_filepath}
         
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
@@ -144,3 +144,6 @@ def kfpipeline(
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
                                                              "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
+    
+    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': os.getcwd()+"/code/mymodel2.h5"})
+    rnn_model_training_run = funcs["rnn_model_training"].as_step(handler="handler").after(vector_viewer)
