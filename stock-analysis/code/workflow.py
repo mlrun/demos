@@ -12,6 +12,8 @@ project = load_project(projdir)
 project_name = project.spec.params.get("PROJECT_NAME")
 model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
+rnn_model_path = os.path.join(projdir, 'models', 'mymodel2.h5')
+
 # Performence limit
 max_replicas = 1
 
@@ -135,16 +137,22 @@ def kfpipeline(
     
     vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
     
+    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path, 'PROJECT_NAME' : project_name})
+    rnn_model_training_run = funcs["rnn_model_training"].as_step().after(vector_viewer)
+    
+    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step().after(rnn_model_training_run)
+    
+    
     grafana_viewer = funcs["grafana_view"].deploy_step()
     
     grafana_viewer = funcs["grafana_view"].as_step(params = {"streamview_url" : stream_viewer.outputs["endpoint"],
                                                              "readvector_url" : vector_viewer.outputs["endpoint"],
+                                                             "rnn_serving_url" : rnn_model_prediction.outputs["endpoint"],
                                                              "v3io_container" : V3IO_CONTAINER,
                                                              "stocks_kv" : STOCKS_KV_TABLE,
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
                                                              "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
     
-    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': "mymodel2.h5"}) # where does this saved ??
-    rnn_model_training_run = funcs["rnn_model_training"].as_step(handler="handler").after(vector_viewer)
+    
     
