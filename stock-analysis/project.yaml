@@ -1,9 +1,9 @@
 kind: project
 metadata:
-  name: stocks2-dani
+  name: stocks6-dani
 spec:
   params:
-    PROJECT_NAME: stocks2-dani
+    PROJECT_NAME: stocks6-dani
   functions:
   - url: code/00-train-sentiment-analysis-model.ipynb
     name: bert_sentiment_classifier_trainer
@@ -19,6 +19,10 @@ spec:
     name: vector_reader
   - url: code/07-grafana.ipynb
     name: grafana_view
+  - url: code/model_training.ipynb
+    name: rnn_model_training
+  - url: hub://rnn_serving
+    name: rnn_serving
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py

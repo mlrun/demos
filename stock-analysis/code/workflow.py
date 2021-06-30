@@ -145,5 +145,6 @@ def kfpipeline(
                                                              "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
     
-    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': os.getcwd()+"/code/mymodel2.h5"})
+    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': "mymodel2.h5"}) # where does this saved ??
     rnn_model_training_run = funcs["rnn_model_training"].as_step(handler="handler").after(vector_viewer)
+    
