@@ -12,7 +12,7 @@ project = load_project(projdir)
 project_name = project.spec.params.get("PROJECT_NAME")
 model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
-rnn_model_path = os.path.join(projdir, 'models', 'mymodel2.h5')
+rnn_model_path = os.path.join(projdir, 'models', 'mymodel.h5')
 
 # Performence limit
 max_replicas = 1
@@ -137,10 +137,13 @@ def kfpipeline(
     
     vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
     
-    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path, 'PROJECT_NAME' : project_name})
-    rnn_model_training_run = funcs["rnn_model_training"].as_step().after(vector_viewer)
     
-    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step().after(rnn_model_training_run)
+    rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path,
+                                                                               'PROJECT_NAME' : project_name}).after(vector_viewer)
+    
+    rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_deployer)
+    
+    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint']}).after(rnn_serving)
     
     
     grafana_viewer = funcs["grafana_view"].deploy_step()

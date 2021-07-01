@@ -23,8 +23,9 @@ spec:
     name: rnn_model_training
   - url: code/model_prediction.ipynb
     name: rnn_model_prediction
-  - url: hub://rnn_serving
+  - url: code/rnn_serving.ipynb
     name: rnn_serving
+    kind: serving
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py
