@@ -113,7 +113,8 @@ def kfpipeline(
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
-                                                           'PROJECT_NAME' : project_name})
+                                                            'PROJECT_NAME' : project_name})
+        news_reader_run = funcs['news_reader'].as_step().after(news_reader)
     
     with dsl.Condition(RUN_TRAINER == False):
         #becasue we switched to V2_Model_Server, no need to send model filepath as env variable
@@ -123,7 +124,9 @@ def kfpipeline(
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
-                                                           'PROJECT_NAME' : project_name})
+                                                            'PROJECT_NAME' : project_name})
+        
+        news_reader_run = funcs['news_reader'].as_step(image=news_reader)
     
     stocks_reader = funcs['stocks_reader'].deploy_step(env={'STOCK_LIST': STOCK_LIST,
                                                             'V3IO_CONTAINER': V3IO_CONTAINER,
@@ -141,7 +144,9 @@ def kfpipeline(
     rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path,
                                                                                'PROJECT_NAME' : project_name}).after(vector_viewer)
     
-    rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_deployer)
+    rnn_model_training_run = funcs["rnn_model_training"].as_step(handler="handler").after(rnn_model_training_deployer)
+    
+    rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_run)
     
     rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint']}).after(rnn_serving)
     
@@ -156,6 +161,3 @@ def kfpipeline(
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
                                                              "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
-    
-    
-    

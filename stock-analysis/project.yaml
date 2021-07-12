@@ -15,14 +15,14 @@ spec:
     name: stream_viewer
   - url: hub://sentiment_analysis_serving
     name: sentiment_analysis_server
-  - url: code/06-read-vector.ipynb
+  - url: code/04-read-vector.ipynb
     name: vector_reader
+  - url: code/05-model_training.ipynb
+    name: rnn_model_training
+  - url: code/06-model_prediction.ipynb
+    name: rnn_model_prediction
   - url: code/07-grafana.ipynb
     name: grafana_view
-  - url: code/model_training.ipynb
-    name: rnn_model_training
-  - url: code/model_prediction.ipynb
-    name: rnn_model_prediction
   - url: code/rnn_serving.ipynb
     name: rnn_serving
     kind: serving
