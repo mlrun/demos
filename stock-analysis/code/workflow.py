@@ -44,7 +44,7 @@ def init_functions(functions: dict, project=None, secrets=None):
     
     # Add triggers
     functions['stocks_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
-#     functions['news_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
+    functions['news_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
     
     
     # Set max replicas for resource limits
@@ -127,7 +127,8 @@ def kfpipeline(
         
         funcs['func_invoke'].spec.image = "mlrun/mlrun"
         
-#         news_reader_invok = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]}).after(news_reader)
+        news_reader_invok = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]},
+                                                             handler="handler").after(news_reader)
     
     stocks_reader = funcs['stocks_reader'].deploy_step(env={'STOCK_LIST': STOCK_LIST,
                                                             'V3IO_CONTAINER': V3IO_CONTAINER,
@@ -147,19 +148,20 @@ def kfpipeline(
     rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path,
                                                                                'PROJECT_NAME' : project_name}).after(vector_viewer)
     
-#     rnn_model_training_invoker = funcs['func_invoke'].as_step(params = {"endpoint" : rnn_model_training_deployer.outputs["endpoint"]}).after(rnn_model_training_deployer)
+    rnn_model_training_invoker = funcs['func_invoke'].as_step(params = {"endpoint" : rnn_model_training_deployer.outputs["endpoint"]},
+                                                             handler="handler").after(rnn_model_training_deployer)
     
-#     rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_invoker)
+    rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_invoker)
     
-#     rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint']}).after(rnn_serving)
+    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint']}).after(rnn_serving)
     
-#     grafana_viewer = funcs["grafana_view"].deploy_step()
+    grafana_viewer = funcs["grafana_view"].deploy_step()
     
-#     grafana_viewer = funcs["grafana_view"].as_step(params = {"streamview_url" : stream_viewer.outputs["endpoint"],
-#                                                              "readvector_url" : vector_viewer.outputs["endpoint"],
-#                                                              "rnn_serving_url" : rnn_model_prediction.outputs["endpoint"],
-#                                                              "v3io_container" : V3IO_CONTAINER,
-#                                                              "stocks_kv" : STOCKS_KV_TABLE,
-#                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
-#                                                              "grafana_url" : "http://grafana"},
-#                                                    handler = "handler").after(grafana_viewer)
+    grafana_viewer = funcs["grafana_view"].as_step(params = {"streamview_url" : stream_viewer.outputs["endpoint"],
+                                                             "readvector_url" : vector_viewer.outputs["endpoint"],
+                                                             "rnn_serving_url" : rnn_model_prediction.outputs["endpoint"],
+                                                             "v3io_container" : V3IO_CONTAINER,
+                                                             "stocks_kv" : STOCKS_KV_TABLE,
+                                                             "stocks_tsdb" : STOCKS_TSDB_TABLE,
+                                                             "grafana_url" : "http://grafana"},
+                                                   handler = "handler").after(grafana_viewer)
