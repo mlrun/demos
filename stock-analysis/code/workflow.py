@@ -45,7 +45,7 @@ def init_functions(functions: dict, project=None, secrets=None):
     # Add triggers
     functions['stocks_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
     functions['news_reader'].add_trigger('cron', CronTrigger(readers_cron_interval))
-    
+    functions['rnn_model_training'].add_trigger('cron', CronTrigger('12h'))
     
     # Set max replicas for resource limits
     functions['sentiment_analysis_server'].spec.max_replicas = max_replicas

@@ -7,27 +7,27 @@ spec:
   functions:
   - url: code/00-train-sentiment-analysis-model.ipynb
     name: bert_sentiment_classifier_trainer
-  - url: code/01-read-stocks.ipynb
+  - url: code/01-function_invoker.ipynb
+    name: func_invoke
+  - url: code/02-read-stocks.ipynb
     name: stocks_reader
-  - url: code/02-read-news.ipynb
+  - url: code/03-read-news.ipynb
     name: news_reader
-  - url: code/03-stream-viewer.ipynb
+  - url: code/04-stream-viewer.ipynb
     name: stream_viewer
   - url: hub://sentiment_analysis_serving
     name: sentiment_analysis_server
-  - url: code/04-read-vector.ipynb
+  - url: code/05-read-vector.ipynb
     name: vector_reader
-  - url: code/05-model_training.ipynb
+  - url: code/06-model_training.ipynb
     name: rnn_model_training
-  - url: code/06-model_prediction.ipynb
+  - url: code/07-model_prediction.ipynb
     name: rnn_model_prediction
-  - url: code/07-grafana.ipynb
+  - url: code/08-grafana.ipynb
     name: grafana_view
-  - url: code/rnn_serving.ipynb
+  - url: hub://rnn_serving:development
     name: rnn_serving
     kind: serving
-  - url: code/function_invoker.ipynb
-    name: func_invoke
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py
