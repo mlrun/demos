@@ -26,6 +26,8 @@ spec:
   - url: code/rnn_serving.ipynb
     name: rnn_serving
     kind: serving
+  - url: code/function_invoker.ipynb
+    name: func_invoke
   workflows:
   - name: main
     path: /User/test/demos/stock-analysis/code/workflow.py
