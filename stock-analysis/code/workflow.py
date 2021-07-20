@@ -33,7 +33,6 @@ def init_functions(functions: dict, project=None, secrets=None):
         f.spec.image_pull_policy = 'Always'
     
     # Define inference-stream related triggers
-#     functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
     functions['sentiment_analysis_server'].spec.readiness_timeout = 500
     functions['sentiment_analysis_server'].set_config('readinessTimeoutSeconds', 500)
     
@@ -54,6 +53,9 @@ def init_functions(functions: dict, project=None, secrets=None):
     
     # Add GPU for training
     functions['bert_sentiment_classifier_trainer'].gpus(training_gpus)
+    
+    # Declare function base image to build (Job and not a nuclio funciton)
+    functions['func_invoke'].spec.image = "mlrun/mlrun"
         
 @dsl.pipeline(
     name='Stocks demo deployer',
@@ -89,7 +91,6 @@ def kfpipeline(
     ):
     
     with dsl.Condition(RUN_TRAINER == True):
-        
         deployer = funcs['bert_sentiment_classifier_trainer'].deploy_step()
                 
         trainer = funcs['bert_sentiment_classifier_trainer'].as_step(name='bert_sentiment_classifier_trainer',
@@ -105,19 +106,9 @@ def kfpipeline(
                                                                              'random_state': random_state},
                                                                      inputs={'reviews_dataset': reviews_dataset},
                                                                      outputs=['bert_sentiment_analysis_model'],
-                                                                     image=deployer.outputs['image'])
-        #becasue we switched to V2_Model_Server, no need to send model filepath as env variable
-        sentiment_server = funcs['sentiment_analysis_server'].deploy_step()#env={f'SERVING_MODEL_{model_name}': trainer.outputs['bert_sentiment_analysis_model']}
+                                                                     image=deployer.outputs['image']).after(deployer)
         
-        news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
-                                                            'STOCKS_STREAM': STOCKS_STREAM,
-                                                            'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
-                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
-                                                            'PROJECT_NAME' : project_name})
-            
-    with dsl.Condition(RUN_TRAINER == False):
-        #becasue we switched to V2_Model_Server, no need to send model filepath as env variable
-        sentiment_server = funcs['sentiment_analysis_server'].deploy_step() #env={f'SERVING_MODEL_{model_name}': model_filepath}
+        sentiment_server = funcs['sentiment_analysis_server'].deploy_step().after(trainer)
         
         news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM,
@@ -125,9 +116,21 @@ def kfpipeline(
                                                             'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
                                                             'PROJECT_NAME' : project_name}).after(sentiment_server)
         
-        funcs['func_invoke'].spec.image = "mlrun/mlrun"
+        news_reader_invok1 = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]},
+                                                             handler="handler").after(news_reader)
+            
+    with dsl.Condition(RUN_TRAINER == False):
+        sentiment_server = funcs['sentiment_analysis_server'].deploy_step()
         
-        news_reader_invok = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]},
+        news_reader = funcs['news_reader'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
+                                                            'STOCKS_STREAM': STOCKS_STREAM,
+                                                            'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
+                                                            'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
+                                                            'PROJECT_NAME' : project_name}).after(sentiment_server)
+        
+        
+        
+        news_reader_invok2 = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]},
                                                              handler="handler").after(news_reader)
     
     stocks_reader = funcs['stocks_reader'].deploy_step(env={'STOCK_LIST': STOCK_LIST,
@@ -138,18 +141,18 @@ def kfpipeline(
                                                            'PROJECT_NAME' : project_name})
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
-                                                            'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader)
+                                                            'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader_invok1,news_reader_invok2)
     
     
     
-    vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(news_reader)
+    vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(stocks_reader,news_reader_invok1,news_reader_invok2)
     
     
     rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path,
-                                                                               'PROJECT_NAME' : project_name}).after(vector_viewer)
+                                                                               'PROJECT_NAME' : project_name})
     
     rnn_model_training_invoker = funcs['func_invoke'].as_step(params = {"endpoint" : rnn_model_training_deployer.outputs["endpoint"]},
-                                                             handler="handler").after(rnn_model_training_deployer)
+                                                             handler="handler").after(rnn_model_training_deployer,vector_viewer)
     
     rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_invoker)
     
@@ -164,4 +167,4 @@ def kfpipeline(
                                                              "stocks_kv" : STOCKS_KV_TABLE,
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
                                                              "grafana_url" : "http://grafana"},
-                                                   handler = "handler").after(grafana_viewer)
+                                                   handler = "handler").after(grafana_viewer,rnn_model_prediction)
