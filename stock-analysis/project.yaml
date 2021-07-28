@@ -25,7 +25,7 @@ spec:
     name: rnn_model_prediction
   - url: code/08-grafana.ipynb
     name: grafana_view
-  - url: hub://rnn_serving:development
+  - url: hub://rnn_serving
     name: rnn_serving
     kind: serving
   workflows:
