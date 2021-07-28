@@ -31,7 +31,6 @@ def init_functions(functions: dict, project=None, secrets=None):
         f.spec.image_pull_policy = 'Always'
     
     # Define inference-stream related triggers
-    functions['sentiment_analysis_server'].add_model('bert_classifier_v1', model_filepath)
     functions['sentiment_analysis_server'].spec.readiness_timeout = 500
     functions['sentiment_analysis_server'].set_config('readinessTimeoutSeconds', 500)
     
@@ -142,5 +141,5 @@ def kfpipeline(
                                                              "v3io_container" : V3IO_CONTAINER,
                                                              "stocks_kv" : STOCKS_KV_TABLE,
                                                              "stocks_tsdb" : STOCKS_TSDB_TABLE,
-                                                             "grafana_url" : "http://grafana-dani"},
+                                                             "grafana_url" : "http://grafana"},
                                                    handler = "handler").after(grafana_viewer)
