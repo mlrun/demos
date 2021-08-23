@@ -1,0 +1,39 @@
+kind: project
+metadata:
+  name: stocks-dani
+spec:
+  params:
+    PROJECT_NAME: stocks-dani
+  functions:
+  - url: code/00-train-sentiment-analysis-model.ipynb
+    name: bert_sentiment_classifier_trainer
+  - url: code/01-function_invoker.ipynb
+    name: func_invoke
+  - url: code/02-read-stocks.ipynb
+    name: stocks_reader
+  - url: code/03-read-news.ipynb
+    name: news_reader
+  - url: code/04-stream-viewer.ipynb
+    name: stream_viewer
+  - url: hub://sentiment_analysis_serving
+    name: sentiment_analysis_server
+  - url: code/05-read-vector.ipynb
+    name: vector_reader
+  - url: code/06-model_training.ipynb
+    name: rnn_model_training
+  - url: code/07-model_prediction.ipynb
+    name: rnn_model_prediction
+  - url: code/08-grafana.ipynb
+    name: grafana_view
+  - url: hub://rnn_serving
+    name: rnn_serving
+    kind: serving
+  workflows:
+  - name: main
+    path: /User/test/demos/stock-analysis/code/workflow.py
+  artifacts: []
+  artifact_path: v3io:///projects/{{run.project}}/artifacts
+  source: ''
+  subpath: ''
+  origin_url: ''
+  desired_state: online
