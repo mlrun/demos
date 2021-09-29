@@ -14,7 +14,6 @@ def init_functions(functions: dict, project=None, secrets=None):
     # uncomment this line to collect the inference results into a stream
     # and specify a path in V3IO (<datacontainer>/<subpath>)
     #functions['serving'].set_env('INFERENCE_STREAM', 'users/admin/model_stream')
-
     
 @dsl.pipeline(
     name="Demo training pipeline",
