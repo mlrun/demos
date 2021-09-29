@@ -10,6 +10,7 @@ funcs = {}
 projdir = os.path.abspath('./')
 project = load_project(projdir)
 project_name = project.spec.params.get("PROJECT_NAME")
+artifact_path = project.spec.params.get("ARTIFACT_PATH")
 model_filepath = os.path.join(projdir, 'models', 'model.pt') # Previously saved model if downloaded
 reviews_datafile = os.path.join(projdir, 'data', 'reviews.csv')
 rnn_model_path = os.path.join(projdir, 'models', 'mymodel.h5')
@@ -54,9 +55,17 @@ def init_functions(functions: dict, project=None, secrets=None):
     # Add GPU for training
     functions['bert_sentiment_classifier_trainer'].gpus(training_gpus)
     
+    project.func('news_reader').spec.max_replicas = 1
+
     # Declare function base image to build (Job and not a nuclio funciton)
     functions['func_invoke'].spec.image = "mlrun/mlrun"
-        
+    functions['bert_sentiment_classifier_trainer'].spec.build.commands = ['pip install transformers==3.0.1', 'pip install torch==1.6.0']
+    functions['stocks_reader'].spec.build.commands = ['pip install lxml', 'pip install yfinance','pip install v3io_frames']
+    functions['news_reader'].spec.build.commands = ['pip install beautifulsoup4', 'pip install v3io_frames']
+    functions['stream_viewer'].spec.build.commands = ['pip install v3io']
+    functions['grafana_view'].spec.build.commands = ['pip install git+https://github.com/v3io/grafwiz --upgrade', 'pip install v3io_frames', 'pip install attrs==19.1.0']
+    functions['sentiment_analysis_server'].add_model("model1", class_name='SentimentClassifierServing', model_path=model_filepath)
+    functions['rnn_serving'].add_model("model2",class_name="RNN_Model_Serving",model_path = rnn_model_path)  
 @dsl.pipeline(
     name='Stocks demo deployer',
     description='Up to RT Stocks ingestion and analysis'
@@ -114,7 +123,8 @@ def kfpipeline(
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
-                                                            'PROJECT_NAME' : project_name}).after(sentiment_server)
+                                                            'PROJECT_NAME' : project_name,
+                                                            'ARTIFACT_PATH' : artifact_path}).after(sentiment_server)
         
         news_reader_invok1 = funcs['func_invoke'].as_step(params = {"endpoint" : news_reader.outputs["endpoint"]},
                                                              handler="handler").after(news_reader)
@@ -126,7 +136,8 @@ def kfpipeline(
                                                             'STOCKS_STREAM': STOCKS_STREAM,
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'SENTIMENT_MODEL_ENDPOINT': sentiment_server.outputs['endpoint'],
-                                                            'PROJECT_NAME' : project_name}).after(sentiment_server)
+                                                            'PROJECT_NAME' : project_name,
+                                                            'ARTIFACT_PATH' : artifact_path}).after(sentiment_server)
         
         
         
@@ -138,25 +149,29 @@ def kfpipeline(
                                                             'STOCKS_TSDB_TABLE': STOCKS_TSDB_TABLE,
                                                             'STOCKS_KV_TABLE': STOCKS_KV_TABLE,
                                                             'EXPRESSION_TEMPLATE': EXPRESSION_TEMPLATE,
-                                                           'PROJECT_NAME' : project_name})
+                                                            'PROJECT_NAME' : project_name,
+                                                            'ARTIFACT_PATH' : artifact_path})
     
     stream_viewer = funcs['stream_viewer'].deploy_step(env={'V3IO_CONTAINER': V3IO_CONTAINER,
                                                             'STOCKS_STREAM': STOCKS_STREAM}).after(news_reader_invok1,news_reader_invok2)
     
     
     
-    vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name}).after(stocks_reader,news_reader_invok1,news_reader_invok2)
+    vector_viewer = funcs['vector_reader'].deploy_step(env={'PROJECT_NAME' : project_name,
+                                                            'ARTIFACT_PATH' : artifact_path}).after(stocks_reader,news_reader_invok1,news_reader_invok2)
     
     
     rnn_model_training_deployer = funcs["rnn_model_training"].deploy_step(env={'model_path': rnn_model_path,
-                                                                               'PROJECT_NAME' : project_name})
+                                                                               'PROJECT_NAME' : project_name,
+                                                                               'ARTIFACT_PATH' : artifact_path})
     
     rnn_model_training_invoker = funcs['func_invoke'].as_step(params = {"endpoint" : rnn_model_training_deployer.outputs["endpoint"]},
                                                              handler="handler").after(rnn_model_training_deployer,vector_viewer)
     
     rnn_serving = funcs['rnn_serving'].deploy_step().after(rnn_model_training_invoker)
     
-    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint']}).after(rnn_serving)
+    rnn_model_prediction = funcs["rnn_model_prediction"].deploy_step(env = {"endpoint":rnn_serving.outputs['endpoint'],
+                                                                            'ARTIFACT_PATH' : artifact_path}).after(rnn_serving)
     
     grafana_viewer = funcs["grafana_view"].deploy_step()
     
