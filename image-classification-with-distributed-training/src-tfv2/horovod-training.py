@@ -113,7 +113,7 @@ callbacks = [
     # leads to worse final accuracy.
     # Scale the learning rate `lr = 1.0` ---> `lr = 1.0 * hvd.size()` during
     # the first five epochs. See https://arxiv.org/abs/1706.02677 for details.
-    hvd.callbacks.LearningRateWarmupCallback(warmup_epochs=5, verbose=1),
+    hvd.callbacks.LearningRateWarmupCallback(warmup_epochs=5, verbose=1, initial_lr= 1.0),
     # Reduce the learning rate if training plateaues, tensorflow.keras callback
     ReduceLROnPlateau(patience=10, verbose=1),
 ]
