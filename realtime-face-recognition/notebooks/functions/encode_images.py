@@ -43,7 +43,10 @@ def encode_images(context):
         os.makedirs(params.data_path + 'input')
         context.logger.info("created dir {}".format(params.data_path + 'input'))
         context.logger.info("no input provided dowloading actresses images ......")
-        resp = urlopen('https://s3.wasabisys.com/iguazio/data/faces/actresses.zip')
+        # Set the source-data URL
+        url_prefix = os.environ.get('SAMPLE_DATA_SOURCE_URL_PREFIX', 'https://s3.wasabisys.com/iguazio/')
+        actress_url = f'{url_prefix.rstrip("/")}/data/faces/actresses.zip'
+        resp = urlopen(actress_url)
         zip_ref = zipfile.ZipFile(BytesIO(resp.read()), 'r')
         zip_ref.extractall(params.data_path + 'input')
         zip_ref.close()
