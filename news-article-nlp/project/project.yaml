@@ -1,0 +1,12 @@
+kind: project
+metadata:
+  name: nlp-demo-nick
+spec:
+  functions: []
+  workflows: []
+  artifacts: []
+  source: ''
+  subpath: ''
+  origin_url: ''
+  desired_state: online
+  disable_auto_mount: false
