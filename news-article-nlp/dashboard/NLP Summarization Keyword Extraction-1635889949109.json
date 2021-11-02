@@ -137,7 +137,7 @@
       "targets": [
         {
           "refId": "A",
-          "target": "backend=kv; container=users; table=nlp; fields=title,summarized_text,authors,keywords,publish_date,url;",
+          "target": "backend=kv; container=bigdata; table=nlp; fields=title,summarized_text,authors,keywords,publish_date,url;",
           "type": "table"
         }
       ],
@@ -161,5 +161,5 @@
   "timezone": "",
   "title": "NLP Summarization Keyword Extraction",
   "uid": "fyuW8aK7z",
-  "version": 6
+  "version": 8
 }
