@@ -1,4 +1,5 @@
-# Mask Detection Demo - Introduction
+![](./notebooks-images/mlrun.png)
+# Mask Detection Demo
 
 In the following demo we will demonstrate using MLRun for creating a mask detection app, training a model for classifing whether a person in an image is wearing a mask or not and serve it in an HTTP end-point. 
 
@@ -17,7 +18,13 @@ In the following demo we will demonstrate using MLRun for creating a mask detect
 The demo is split among 3 notebooks and it is important to run them in order as each is relying on the other:
 
 1. [**Training and Evaluation**](./1-training-and-evaluation.ipynb) - Build the mask detection model and run training and evaluation with MLRun's deep learning auto-logging and distributed training (using Horovod).
-2. [**Serving**](./2-serving.ipynb) - Serve the model we trained as an HTTP end-point, demonstrating a serving graph where we preprocess the images before inferring them through the model.
+
+
+2. [**Serving**](./2-serving.ipynb) - Serve the model we trained as an HTTP end-point, demonstrating a serving graph where we preprocess the images before and after inferring them through the model:
+![](./notebooks-images/serving-graph.png)
+
+
 3. [**Automatic Pipeline**](./3-automatic-pipeline.ipynb) - Build an automatic pipeline, using the MLRun functions from notebooks 1 and 2 with additional step - optimizing (using ONNX).
+![](./notebooks-images/automatic-pipeline.png)
 
 We hope you'll have fun using MLRun!
