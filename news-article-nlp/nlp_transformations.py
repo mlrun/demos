@@ -3,7 +3,6 @@ from transformers import pipeline
 from keybert import KeyBERT
 import json
 import storey
-import v3io.aio.dataplane
 
 def fetch_article(event):
     """
@@ -62,41 +61,26 @@ def filter_article(event):
         del event["original_text"]
     return event
 
-class WriteToKV(storey.MapClass):
+def kv_format(event):
     """
-    Write record to V3IO KV table. Flattens lists as JSON strings.
+    Format record to be stored in V3IO KV table. Removes apostrophes in text fields,
+    flattens lists into strings, and adds the title as the key for the KV record.
     
-    Expects "title" field in event.
+    Expects "title", "summarized_text", and optional "original_text" fields
+    in event.
     """
-    def __init__(self, container, table_path, key, **kwargs):
-        super().__init__(**kwargs)
-        self.container = container
-        self.table_path = table_path
-        self.key = key
-       
-    def flatten_dict(self, event):
-        for k, v in event.items():
-            if type(v) == list:
-                event[k] = json.dumps(v)
-        return dict(event)
+    # Remove commas from title and text
+    event.body["title"] = event.body["title"].replace("'", "")
+    event.body["summarized_text"] = event.body["summarized_text"].replace("'", "")
+    if "original_text" in event.body:
+        event.body["original_text"] = event.body["original_text"].replace("'", "")
     
-    async def do(self, event):
-        v3io_client = v3io.aio.dataplane.Client()
-        await v3io_client.kv.put(
-            container=self.container,
-            table_path=self.table_path,
-            key=event[self.key],
-            attributes=self.flatten_dict(event.copy())
-        )
-        return event
-        
-    def to_dict(self):
-        return {
-            "class_name": "WriteToKV",
-            "name": self.name or "WriteToKV",
-            "class_args": {
-                "container" : self.container,
-                "table_path" : self.table_path,
-                "key" : self.key
-            }
-        }
+    # Add KV key
+    event.key = event.body["title"]
+    
+    # Flatten list into string
+    for k, v in event.body.items():
+        if type(v) == list:
+            event.body[k] = json.dumps(v)
+    
+    return event
