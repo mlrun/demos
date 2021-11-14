@@ -47,13 +47,10 @@ def preprocess(images: List[np.ndarray]) -> Dict[str, List[np.ndarray]]:
 
     :returns: A dictionary for the TFKerasModelServer, with the preprocessed images in the 'inputs' key.
     """
-    # Initialize an empty list for the preprocessed images:
-    preprocessed_images = []
-
     # Go through the given images and run MobileNetV2 preprocessing:
-    for image in images:
-        preprocessed_image = keras.applications.mobilenet_v2.preprocess_input(image)
-        preprocessed_images.append(preprocessed_image)
+    preprocessed_images = [
+        keras.applications.mobilenet_v2.preprocess_input(image) for image in images
+    ]
     preprocessed_images = [np.vstack(preprocessed_images)]
 
     # Pack and return:
