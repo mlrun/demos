@@ -7,6 +7,7 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
 - [Overview](#overview)
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
+- [Mask Detection Demo](#mask-detection-demo)
 - [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
 - [Image Classification with Distributed Training Demo](#demo-image-classification)
 - [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
@@ -46,6 +47,25 @@ To run the MLRun demos, first do the following:
 - Install an MLRun service on your cluster.
   See the instructions in the [MLRun documentation](https://github.com/mlrun/mlrun/blob/master/README.md#installation).
 - Ensure that your cluster has a shared file or object storage for storing the data (artifacts).
+
+<a id="mask-detection-demo"></a>
+## Mask Detection Demo
+
+The [Mask detection](./mask-detection/README.md) demo is a 3 notebooks demo where we:
+1. **Train and evaluate** a model for detecting whether a person is wearing a mask in an image using Tensorflow.Keras or PyTorch (coming soon).
+2. **Serve** the model as a serverless function in a http endpoint.
+3. Write an **automatic pipeline** where we download a dataset of images, train and evaluate, optimize the model (using ONNX) and serve it.
+
+In this demo you will learn how to:
+* Create, save and load a MLRun project.
+* Write your own MLRun functions and run them.
+* Import MLRun function from the MLRun Functions Marketplace.
+* Use mlrun.frameworks features for tf.keras and pytorch:
+  * Auto-logging for both MLRun and Tensorboard.
+  * Distributed training using Horovod.
+* Serve a model in a serving graph with pre and post processing functions.
+* Test and deploy the serving graph.
+* Write and run an automatic pipeline workflow.
 
 <a id="demo-scikit-learn"></a>
 ## scikit-learn Demo: Full AutoML Pipeline
