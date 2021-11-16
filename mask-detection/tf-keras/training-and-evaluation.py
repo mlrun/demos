@@ -15,7 +15,9 @@ import mlrun.frameworks.tf_keras as mlrun_tf_keras
 
 
 def _get_datasets(
-    dataset_path: str, batch_size: int, is_evaluation: bool = False,
+    dataset_path: str,
+    batch_size: int,
+    is_evaluation: bool = False,
 ):
     """
     Create the training and validation or evaluation datasets from the given path.
@@ -35,10 +37,9 @@ def _get_datasets(
         images_files = [
             os.path.join(images_directory, file)
             for file in os.listdir(images_directory)
+            if os.path.isfile(os.path.join(images_directory, file))
         ]
         for image_file in images_files:
-            if not os.path.isfile(image_file):
-                continue
             image = keras.preprocessing.image.load_img(
                 image_file, target_size=(224, 224)
             )
@@ -61,7 +62,11 @@ def _get_datasets(
 
     # Split the dataset into training and validation sets:
     x_train, x_test, y_train, y_test = train_test_split(
-        images, labels, test_size=0.2, stratify=labels, random_state=42,
+        images,
+        labels,
+        test_size=0.2,
+        stratify=labels,
+        random_state=42,
     )
 
     # Construct the training image generator for data augmentation:
@@ -147,7 +152,9 @@ def train(
 
     # Compile the model:
     model.compile(
-        optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"],
+        optimizer=optimizer,
+        loss="categorical_crossentropy",
+        metrics=["accuracy"],
     )
 
     # Train the head of the network:
@@ -161,7 +168,10 @@ def train(
 
 
 def evaluate(
-    context: mlrun.MLClientCtx, model_path: str, dataset_path: str, batch_size: int,
+    context: mlrun.MLClientCtx,
+    model_path: str,
+    dataset_path: str,
+    batch_size: int,
 ):
     """
     The evaluation handler. Load the Mask Detection model and run an evaluation on the given parameters. The evaluation
