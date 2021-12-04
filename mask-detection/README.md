@@ -5,8 +5,7 @@ In the following demo we will demonstrate how to use MLRun to create a mask dete
 
 ### Key Technologies:
 
-* Either [**TF.Keras**](https://www.tensorflow.org/api_docs/python/tf/keras) to train and evaluate the model,
-* or [**PyTorch**](https://pytorch.org/) (Will be added soon)
+* Either [**TF.Keras**](https://www.tensorflow.org/api_docs/python/tf/keras) or [**PyTorch**](https://pytorch.org/) to train and evaluate the model
 * [**Horovod**](https://horovod.ai/) to run distributed training
 * [**ONNX**](https://onnx.ai/) to optimize and accelerate the model's performance
 * [**Nuclio**](https://nuclio.io/) to create a high-performance serverless Serving function
