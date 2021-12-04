@@ -1,10 +1,9 @@
 import os
-import numpy as np
 
+import numpy as np
+import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
-
-import tensorflow as tf
 from tensorflow import keras
 
 for gpu in tf.config.experimental.list_physical_devices("GPU"):
