@@ -124,9 +124,7 @@ class MaskDetector(Module):
 
 
 def _get_datasets(
-    dataset_path: str,
-    batch_size: int,
-    is_evaluation: bool = False,
+    dataset_path: str, batch_size: int, is_evaluation: bool = False,
 ):
     """
     Create the training and validation or evaluation datasets from the given path.
@@ -172,11 +170,7 @@ def _get_datasets(
 
     # Split the dataset into training and validation sets:
     x_train, x_test, y_train, y_test = train_test_split(
-        images,
-        labels,
-        test_size=0.2,
-        stratify=labels,
-        random_state=42,
+        images, labels, test_size=0.2, stratify=labels, random_state=42,
     )
 
     # Construct the datasets:
@@ -225,8 +219,7 @@ def train(
     """
     # Get the datasets:
     training_set, validation_set = _get_datasets(
-        dataset_path=dataset_path,
-        batch_size=batch_size,
+        dataset_path=dataset_path, batch_size=batch_size,
     )
 
     # Initialize the model:
@@ -256,10 +249,7 @@ def train(
 
 
 def evaluate(
-    context: mlrun.MLClientCtx,
-    model_path: str,
-    dataset_path: str,
-    batch_size: int,
+    context: mlrun.MLClientCtx, model_path: str, dataset_path: str, batch_size: int,
 ):
     """
     The evaluation handler. Load the Mask Detection model and run an evaluation on the given parameters. The evaluation
