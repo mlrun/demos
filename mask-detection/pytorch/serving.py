@@ -42,6 +42,7 @@ def preprocess(images: List[Image.Image]) -> Dict[str, List[np.ndarray]]:
 
     :returns: A dictionary for the PyTorchModelServer, with the preprocessed images in the 'inputs' key.
     """
+    # Prepare the transforms composition:
     transforms_composition = torchvision.transforms.Compose(
         [
             torchvision.transforms.ToTensor(),
@@ -51,7 +52,9 @@ def preprocess(images: List[Image.Image]) -> Dict[str, List[np.ndarray]]:
         ]
     )
 
-    preprocessed_images = [transforms_composition(image).numpy() for image in images]
+    # Apply the transforms:
+    preprocessed_images = [np.expand_dims(transforms_composition(image).numpy(), 0) for image in images]
+    preprocessed_images = [np.vstack(preprocessed_images)]
 
     return {"inputs": preprocessed_images}
 

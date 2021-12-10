@@ -52,7 +52,7 @@ To run the MLRun demos, first do the following:
 ## Mask Detection Demo
 
 The [Mask detection](./mask-detection/README.md) demo is a 3 notebooks demo where we:
-1. **Train and evaluate** a model for detecting whether a person is wearing a mask in an image using Tensorflow.Keras or PyTorch (coming soon).
+1. **Train and evaluate** a model for detecting whether a person is wearing a mask in an image using Tensorflow.Keras or PyTorch.
 2. **Serve** the model as a serverless function in a http endpoint.
 3. Write an **automatic pipeline** where we download a dataset of images, train and evaluate, optimize the model (using ONNX) and serve it.
 

@@ -67,7 +67,7 @@ class MaskDetectionDataset(Dataset):
 
         :param index: The index to get the dataset's item.
 
-        :return: The 'i' item as a tuple of tensors: (image, label).
+        :returns: The 'i' item as a tuple of tensors: (image, label).
         """
         return self._images[index], self._labels[index]
 
@@ -75,7 +75,7 @@ class MaskDetectionDataset(Dataset):
         """
         Returns the amount of images in the dataset.
 
-        :return: The amount of images in the dataset.
+        :returns: The amount of images in the dataset.
         """
         return len(self._images)
 
@@ -116,7 +116,7 @@ class MaskDetector(Module):
 
         :param x: An image to infer.
 
-        :return: The model's prediction.
+        :returns: The model's prediction.
         """
         x = self.mobilenet_v2.features(x)
         x = self.mask_detection(x)
@@ -195,7 +195,7 @@ def accuracy(y_pred: Tensor, y_true: Tensor) -> float:
     :param y_pred: The model's prediction.
     :param y_true: The ground truth.
 
-    :return: The accuracy metric value.
+    :returns: The accuracy metric value.
     """
     return 1 - (torch.norm(y_true - y_pred) / y_true.size()[0]).item()
 
@@ -243,7 +243,7 @@ def train(
         training_iterations=35,
         model_name="mask_detector",
         custom_objects_map={"training-and-evaluation.py": "MaskDetector"},
-        custom_objects_directory=os.path.abspath("./pytorch"),
+        custom_objects_directory=os.path.join(os.path.dirname(dataset_path), "pytorch"),
         context=context,
     )
 
@@ -265,22 +265,14 @@ def evaluate(
         dataset_path=dataset_path, batch_size=batch_size, is_evaluation=True
     )
 
-    # Load the model using MLRun's model handler:
-    model_handler = mlrun_torch.PyTorchModelHandler(
-        model_name="mask_detector", model_path=model_path, context=context
-    )
-    model_handler.load()
-
     # Initialize the loss:
     loss = torch.nn.MSELoss()
 
     # Evaluate:
     mlrun_torch.evaluate(
-        model=model_handler.model,
+        model_path=model_path,
         dataset=evaluation_set,
         loss_function=loss,
         metric_functions=[accuracy],
-        model_name="mask_detector",
-        model_path=model_path,
         context=context,
     )
