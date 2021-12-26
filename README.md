@@ -13,7 +13,6 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
 - [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
-- [Stock-Analysis Demo](#demo-stocks)
 - [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
 - [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
 
@@ -180,34 +179,6 @@ The demo implements three pipelines:
 **Pipeline Output**
 
 <p><img src="./docs/netops-pipe.png" alt="NetOps pipeline output" width="500"/></p>
-
-<a id="demo-stocks"></a>
-## Stock-Analysis Demo
-
-This demo tackles a common requirement of running a data-engineering pipeline as part of ML model serving by reading data from external data sources and generating insights using ML models.
-The demo reads stock data from an external source, analyzes the related market news, and visualizes the analyzed data in a Grafana dashboard.
-
-The demo demonstrates how to
-
-- Train a sentiment-analysis model using the Bidirectional Encoder Representations from Transformers ([BERT](https://github.com/google-research/bert)) natural language processing (NLP) technique, and deploy the model.
-- Deploy Python code to a scalable function using [Nuclio](https://nuclio.io/).
-- Integrate with the real-time multi-model data layer of the Iguazio Data Science Platform ("the platform") &mdash; time-series databases (TSDB) and NoSQL (key-value) storage.
-- Leverage machine learning to generate insights.
-- Process streaming data and visualize it on a user-friendly dashboard.
-
-The demo include the following steps:
-
-1.  **Training and validating the model** (BERT Model); can be skipped by downloading a pre-trained model (default).
-2.  **Deploying a sentiment-analysis model server**.
-3.  **Ingesting stock data**.
-4.  **Scraping stock news and analyzing sentiments** to generate sentiment predictions.
-5.  **Deploying a stream viewer** that reads data from the stocks news and sentiments stream and can be used as a Grafana data source.
-6.  **Visualizing the data on a Grafana dashboard**, using the stream viewer as a data source.
-
-<a id="demo-stocks-pipeline-output"></a>
-**Pipeline Output**
-
-<p><img src="./stock-analysis/assets/images/stocks-demo-pipeline.png" alt="Stock-analysis pipeline output" width="500"/></p>
 
 <a id="demo-model-deployment"></a>
 
