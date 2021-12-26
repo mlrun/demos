@@ -65,29 +65,6 @@ In this demo you will learn how to:
 
 <p><img src="./docs/skpipe.png" alt="scikit-learn pipeline output" width="500"/></p>
 
-<a id="demo-image-classification"></a>
-## Image Classification with Distributed Training Demo
-
-The [**image-classification-with-distributed-training**](image-classification-with-distributed-training/README.md) demo demonstrates an end-to-end image-classification solution using [TensorFlow](https://www.tensorflow.org/) (versions 1 or 2), [Keras](https://keras.io/), [Horovod](https://eng.uber.com/horovod/), and [Nuclio](https://nuclio.io/).
-
-The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
-
-1. **Download** &mdash; import an image archive from AWS S3 to your cluster's data store.
-2. **Label** &mdash; tag the images based on their name structure.
-3. **Training** &mdash; perform distributed training using TensorFlow, Keras, and Horovod.
-4. **Inference** &mdash; automate deployment of a Nuclio model-serving function.
-
-> **Note:** The demo supports both TensorFlow versions 1 and 2.
-> There's one shared notebook and two code files &mdash; one for each TensorFlow version.
-
-<a id="demo-image-classification-demo-flow"></a>
-**Demo Workflow**
-
-<p><img src="./docs/hvd-flow.png" alt="Image-classification demo workflow" width="600"/></p>
-
-<a id="demo-image-classification-pipeline-output"></a>
-**Pipeline Output**
-
 <p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
 
 <a id="howto-convert-to-mlrun"></a>
