@@ -115,25 +115,6 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 
 <p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
 
-<a id="demo-churn"></a>
-## Churn Demo: Real-Time Customer-Churn Prediction
-
-The [**churn**](./customer-churn-prediction/README.md) demo demonstrates analysis of customer-churn data using the Kaggle [Telco Customer Churn data set](https://www.kaggle.com/blastchar/telco-customer-churn), model training and validation using [XGBoost](https://xgboost.readthedocs.io), and model serving using real-time Nuclio serverless functions.
-
-The demo consists of few MLRun and Nuclio functions and a Kubeflow Pipelines orchestration:
-
-1.  Write custom data encoders for processing raw data and categorizing or "binarizing" various features.
-2.  Summarize the data, examining parameters such as class balance and variable distributions.
-3.  Define parameters and hyperparameters for a generic XGBoost training function.
-4.  Train and test several models using XGBoost.
-5.  Identify the best model for your needs, and deploy it into production as a real-time Nuclio serverless function.
-6.  Test the model server.
-
-<a id="demo-churn-pipeline-output"></a>
-**Pipeline Output**
-
-<p><img src="./customer-churn-prediction/assets/pipeline-3.png" alt="Cutomer-churn pipeline output" width="500"/></p>
-
 <a id="demo-netops"></a>
 ## NetOps Demo: Predictive Network Operations/Telemetry
 
