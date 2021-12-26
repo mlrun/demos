@@ -10,7 +10,6 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
 - [Mask Detection Demo](#mask-detection-demo)
 - [Image Classification with Distributed Training Demo](#demo-image-classification)
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
-- [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 - [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
 - [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
 
@@ -90,33 +89,6 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 **Pipeline Output**
 
 <p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
-
-<a id="demo-netops"></a>
-## NetOps Demo: Predictive Network Operations/Telemetry
-
-The [NetOps demo](network-operations/README.md) demo demonstrates how to build an automated ML pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
-The demo implements both model training and inference, including model monitoring and concept-drift detection.
-The demo simulates telemetry network data for running the pipeline.
-
-The demo demonstrates how to
-
-- Manage MLRun projects.
-- Use GitHub as a source for functions to use in pipeline workflows.
-- Use MLRun logging to track results and artifacts.
-- Use MLRun to run a [Kubeflow Pipelines](https://www.kubeflow.org/docs/pipelines/) pipeline.
-- Deploy a live-endpoints production pipeline.
-- Deploy a concept-drift pipeline.
-
-The demo implements three pipelines:
-
-- **Training pipeline** &mdash; ingestion of telemetry data, exploratory data analysis, data preparation (aggregation), feature selection, and model training and testing.
-- **Production-deployment pipeline** &mdash; automated model deployment.
-- **Concept-drift pipeline** &mdash; streaming of concept-drift detectors using a live Nuclio endpoint, and application of multiple drift-magnitude metrics to asses the drift between a base data set and the latest data.
-
-<a id="demo-netops-pipeline-output"></a>
-**Pipeline Output**
-
-<p><img src="./docs/netops-pipe.png" alt="NetOps pipeline output" width="500"/></p>
 
 <a id="howto-convert-to-mlrun"></a>
 ## How-To: Converting Existing ML Code to an MLRun Project
