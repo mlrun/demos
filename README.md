@@ -10,7 +10,6 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
 - [Mask Detection Demo](#mask-detection-demo)
 - [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
 - [Image Classification with Distributed Training Demo](#demo-image-classification)
-- [Faces Demo: Real-Time Image Recognition with Deep Learning](#demo-face-recognition)
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
 - [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
@@ -115,24 +114,6 @@ The demo consists of four MLRun and Nuclio functions and a Kubeflow Pipelines or
 **Pipeline Output**
 
 <p><img src="./docs/hvd-pipe.png" alt="Image-classification pipeline output" width="500"/></p>
-
-<a id="demo-face-recognition"></a>
-## Faces Demo: Real-Time Image Recognition with Deep Learning
-
-The [**faces**](realtime-face-recognition/README.md) demo demonstrates real-time capture, recognition, and classification of face images over a video stream, as well as location tracking of identities.
-
-This comprehensive demonstration includes multiple components:
-
-- A live image-capture utility.
-- Image identification and tracking using [OpenCV](https://opencv.org/).
-- A labeling application for tagging unidentified faces using [Streamlit](https://www.streamlit.io/).
-- Model training using [PyTorch](https://pytorch.org).
-- Automated model deployment using [Nuclio](https://nuclio.io/)
-
-<a id="demo-face-recognition-demo-flow"></a>
-**Demo Workflow**
-
-<p><img src="./realtime-face-recognition/workflow.png" alt="Face-recognition pipeline output" width="500"/></p>
 
 <a id="demo-churn"></a>
 ## Churn Demo: Real-Time Customer-Churn Prediction
