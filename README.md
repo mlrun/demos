@@ -8,7 +8,6 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
 - [Mask Detection Demo](#mask-detection-demo)
-- [scikit-learn Demo: Full AutoML Pipeline](#demo-scikit-learn)
 - [Image Classification with Distributed Training Demo](#demo-image-classification)
 - [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
 - [NetOps Demo: Predictive Network Operations/Telemetry](#demo-netops)
@@ -64,29 +63,6 @@ In this demo you will learn how to:
 * Serve a model in a serving graph with pre and post processing functions.
 * Test and deploy the serving graph.
 * Write and run an automatic pipeline workflow.
-
-<a id="demo-scikit-learn"></a>
-## scikit-learn Demo: Full AutoML Pipeline
-
-The [**scikit-learn-pipeline**](./scikit-learn-pipeline/README.md) demo demonstrates how to build a full end-to-end automated-ML (AutoML) pipeline using [scikit-learn](https://scikit-learn.org) and the UCI [Iris data set](http://archive.ics.uci.edu/ml/datasets/iris).
-
-The combined CI/data/ML pipeline includes the following steps:
-
-- Create an Iris data-set generator (ingestion) function.
-- Ingest the Iris data set.
-- Analyze the data-set features.
-- Train and test the model using multiple algorithms (AutoML).
-- Deploy the model as a real-time serverless function.
-- Test the serverless function's REST API with a test data set.
-
-To run the demo, download the [**sklearn-project.ipynb**](./scikit-learn-pipeline/sklearn-project.ipynb) notebook into an empty directory and run the code cells according to the instructions in the notebook.
-
-<p><img src="./docs/trees.png" alt="scikit-learn tress image" width="500"/></p>
-
-<a id="demo-scikit-learn-pipeline-output"></a>
-**Pipeline Output**
-
-The output plots can be viewed as static HTML files in the [scikit-learn-pipeline/plots](scikit-learn-pipeline/plots) directory.
 
 <p><img src="./docs/skpipe.png" alt="scikit-learn pipeline output" width="500"/></p>
 
