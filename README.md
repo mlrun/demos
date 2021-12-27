@@ -7,11 +7,9 @@ The mlrun/demos repository provides demos that implement full end-to-end ML use-
 - [Overview](#overview)
   - [General ML Workflow](#general-ml-workflow)
 - [Prerequisites](#prerequisites)
-- [Mask Detection Demo](#mask-detection-demo)
-- [Image Classification with Distributed Training Demo](#demo-image-classification)
-- [Churn Demo: Real-Time Customer-Churn Prediction](#demo-churn)
-- [Model deployment Pipeline: Real-time operational Pipeline](#demo-model-deployment)
 - [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
+- [Mask Detection Demo](#mask-detection-demo)
+
 
 <a id="overview"></a>
 ## Overview
