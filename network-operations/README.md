@@ -45,16 +45,17 @@ Execute the following steps to run the demo:
 
 3. Run the [**01-ingest.ipynb**](01-ingest.ipynb) notebook to create the feature sets and deploy the data generator and live ingestion endpoints.
 
-4. Open the [**02-fv-training.ipynb**](02-fv-training.ipynb) notebook and follow the instructions to create a Feature Vector, train a model and deploy it for live real-time predictions.
+4. Open the [**02-training-and-deployment.ipynb**](02-training-and-deployment.ipynb) notebook and follow the instructions to create a Feature Vector, and run an automated pipeline to train a model and deploy it for live real-time predictions.
 
 <a id="demo-flow"></a>
 ## Demo Flow
 
-The demo implements three main operations:
-
-- [**Feature Ingestion & Engineering**](#feature-creation) &mdash; Create a feature set for the network-device telemetry and deploy live ingestion endpoints.
-- [**Model Training**](#model-training) &mdash; Create a Feature Vector from the available features and retrieve a Dataset. Create a model from this dataset for network device failure prediction.
-- [**Model Deployment & Monitoring**](#model-Deployment-and-monitoring) &mdash; Deploy the generated model to a live endpoint and monitor it through grafana.
+The demo consists of:
+1. Building and testing features from three sources (device metadata, real-time device metrics, and real-time device labels) using the feature store
+2. Ingesting the data using batch (for testing) or real-time (for production)
+3. Train and test the model with data from the feature-store
+4. Deploying the model as part of a real-time feature engineering and inference pipeline
+5. Real-time model and metrics monitoring, drift detection
 
 <a id="feature-creation"></a>
 ### Feature Creation
@@ -84,12 +85,12 @@ We will then be able to use MLRun's Model Montoring through Grafana to see our m
 ## Notebooks and Code
 
 <a id="notebooks"></a>
-### Notebooks
+### Notebooks and Code
 
 - [**01-ingest.ipynb**](01-ingest.ipynb) &mdash; the 1st demo step notebook. including project setup, genetaor deployment, feature sets creation and deployment.
-- [**02-training.ipynb**](02-fv-training.ipynb) &mdash; the 2nd demo step notebook. including feature vecto creation, dataset creation, model training, deployment and testing.
+- [**02-training-and-deployment.ipynb**](02-training-and-deployment.ipynb) &mdash; the 2nd demo step notebook. including feature vecto creation, dataset creation, model training, deployment and testing.
 - [**src/generator.py**](src/generator.py) &mdash; a nuclio function to generate live network-device telemetry and publish it to a v3io stream.
-
+- [**src/workflow.py**](src/workflow.py) &mdash; ML Pipeline for training, tests, and model deployment
 <a id="project-cfg-files"></a>
 ### Project-Configuration Files
 
