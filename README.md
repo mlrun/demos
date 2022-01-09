@@ -9,6 +9,8 @@ The mlrun/demos repository demonstrates different aspects of working with MLRun 
 - [Prerequisites](#prerequisites)
 - [How-To: Converting Existing ML Code to an MLRun Project](#howto-convert-to-mlrun)
 - [Mask Detection Demo](#mask-detection-demo)
+- [News Article Summarization and Keyword Extraction via NLP](#news-article-summary-nlp)
+- [Fraud Prevention - Iguazio Feature Store](#fraud-detection-demo)
 
 
 <a id="overview"></a>
