@@ -1,7 +1,12 @@
 errors: {length_in_ticks: 50, rate_in_ticks: 5}
 timestamps: {interval: 5s, stochastic_interval: true}
-models: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-country: [A, B, C, D, E, F, G]
+deployment:
+    device:
+        faker: msisdn
+        num_items: 20
+static:
+    models: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    country: [A, B, C, D, E, F, G]
 metrics:
   cpu_utilization:
     accuracy: 2

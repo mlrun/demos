@@ -13,29 +13,42 @@ import mlrun.feature_store as fstore
 from v3io_generator import metrics_generator, deployment_generator
 
 
-def _create_deployment(country, models, project=None):
+def _create_deployment(metrics_configuration, project=None):
     print("creating deployment")
     # Create meta-data factory
     dep_gen = deployment_generator.deployment_generator()
     faker = dep_gen.get_faker()
 
     # Design meta-data
-    num_devices = 20
-    dep_gen.add_level("device", number=num_devices, level_type=faker.msisdn)
+    deployment_configs = metrics_configuration["deployment"]
+    for level, level_configs in deployment_configs.items():
+        dep_gen.add_level(
+            level,
+            number=level_configs["num_items"],
+            level_type=getattr(faker, level_configs["faker"]),
+        )
 
     # Create meta-data
     deployment_df = dep_gen.generate_deployment()
 
     # Add static metrics
     static_df = copy.copy(deployment_df)
-    static_df["country"] = [random.choice(country) for i in range(num_devices)]
-    static_df["model"] = [random.choice(models) for i in range(num_devices)]
+    static_data_configs = metrics_configuration["static"]
+    for static_feature, static_feature_values in static_data_configs.items():
+        if str(static_feature_values).startswith("range"):
+            static_df[static_feature] = [
+                random.choice(eval(static_feature_values))
+                for i in range(static_df.shape[0])
+            ]
+        else:
+            static_df[static_feature] = [
+                random.choice(static_feature_values) for i in range(static_df.shape[0])
+            ]
 
     # Add stub data
-    deployment_df["cpu_utilization"] = 70
-    deployment_df["latency"] = 0
-    deployment_df["packet_loss"] = 0
-    deployment_df["throughput"] = 290
+    for metric, params in metrics_configuration["metrics"].items():
+        value = params["distribution_params"].get("mu", 0)
+        deployment_df[metric] = value
 
     if project:
         # save the simulated dataset for future use
@@ -45,7 +58,7 @@ def _create_deployment(country, models, project=None):
     return deployment_df, static_df
 
 
-def get_or_create_deployment(country, models, project=None, create_new=False):
+def get_or_create_deployment(metrics_configuration, project=None, create_new=False):
     if project and not create_new:
         try:
             static_df = mlrun.get_dataitem(project.get_artifact_uri("static")).as_df()
@@ -57,7 +70,7 @@ def get_or_create_deployment(country, models, project=None, create_new=False):
             pass
 
     # Create deployment
-    return _create_deployment(country, models, project)
+    return _create_deployment(metrics_configuration, project)
 
 
 def get_data_from_sample(context, data: Dict, as_df: bool = False) -> Dict:
@@ -92,10 +105,7 @@ def get_sample(
     create_new=False,
 ):
     deployment_df, static_df = get_or_create_deployment(
-        metrics_configuration["country"],
-        metrics_configuration["models"],
-        project=project,
-        create_new=create_new,
+        metrics_configuration, project=project, create_new=create_new,
     )
     initial_timestamp = int(
         os.getenv(
@@ -131,9 +141,7 @@ def init_context(context):
 
     # Generate or create deployment
     deployment_df, static_deployment = get_or_create_deployment(
-        metrics_configuration["country"],
-        metrics_configuration["models"],
-        project=project,
+        metrics_configuration, project=project,
     )
 
     static_set = fstore.get_feature_set("static")
