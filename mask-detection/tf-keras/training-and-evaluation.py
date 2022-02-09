@@ -175,16 +175,8 @@ def evaluate(
         dataset_path=dataset_path, batch_size=batch_size, is_evaluation=True
     )
 
-    # Load the model using MLRun's model handler:
-    model_handler = mlrun_tf_keras.TFKerasModelHandler(
-        model_name="mask_detector", model_path=model_path, context=context
-    )
-    model_handler.load()
-
-    # Apply MLRun's interface for tf.keras:
-    mlrun_tf_keras.apply_mlrun(
-        model=model_handler.model,
-        model_name="mask_detector",
+    # Apply MLRun's interface for tf.keras and load the model:
+    model_handler = mlrun_tf_keras.apply_mlrun(
         model_path=model_path,
         context=context,
     )
