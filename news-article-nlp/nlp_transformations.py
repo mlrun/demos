@@ -21,21 +21,18 @@ def fetch_article(event):
     event["original_text"] = article.text
     return event
 
-class SummarizeArticle:
+def summarize_article(event):
     """
     Summarizes news article text via Huggingface pipeline using
     DistilBart model.
     
     Expects "original_text" field in event.
     """
-    def __init__(self):
-        self.summarizer = pipeline("summarization")
-        
-    def do(self, event):
-        event["summarized_text"] = self.summarizer(event["original_text"], truncation=True)[0]['summary_text']
-        return event
+    summarizer = pipeline("summarization")
+    event["summarized_text"] = summarizer(event["original_text"], truncation=True)[0]['summary_text']
+    return event
 
-class ExtractKeywords:
+def extract_keywords(event):
     """
     Extracts single keywords from news article text via KeyBERT using
     BERT-embeddings. Uses Maximal Marginal Relevance to create keywords
@@ -43,19 +40,15 @@ class ExtractKeywords:
     
     Expects "original_text" field in event.
     """
-    def __init__(self):
-        self.keybert = KeyBERT()
-        
-    def do(self, event):
-        keywords = self.keybert.extract_keywords(
-            event["original_text"],
-            keyphrase_ngram_range=(1, 1),
-            stop_words='english',
-            use_mmr=True,
-            diversity=0.7
-        )
-        event["keywords"] = [k[0] for k in keywords]
-        return event
+    keywords = KeyBERT().extract_keywords(
+        event["original_text"],
+        keyphrase_ngram_range=(1, 1),
+        stop_words='english',
+        use_mmr=True,
+        diversity=0.7
+    )
+    event["keywords"] = [k[0] for k in keywords]
+    return event
 
 def filter_article(event):
     """
