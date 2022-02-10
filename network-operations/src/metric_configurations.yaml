@@ -5,8 +5,14 @@ deployment:
         faker: msisdn
         num_items: 20
 static:
-    models: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    country: [A, B, C, D, E, F, G]
+    models: 
+      kind: range
+      min_range: 0
+      max_range: 9
+      as_integer: True
+    country: 
+      kind: choice
+      choices: [A, B, C, D, E, F, G]
 metrics:
   cpu_utilization:
     accuracy: 2
