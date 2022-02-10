@@ -111,6 +111,9 @@ You can view the MLRun's Model Montoring results in the MLRun UI or in Grafana d
 - [**src/generator.py**](src/generator.py) &mdash; a nuclio function to generate live network-device telemetry and publish it to a v3io stream.
 - [**src/workflow.py**](src/workflow.py) &mdash; ML Pipeline for training, tests, and model deployment
 
+> This demo is using MLRun [Metrics Generator](https://github.com/mlrun/metrics-gen) package, 
+> which generates simulated data and time-series metrics
+
 <a id="project-cfg-files"></a>
 ### Project-Configuration Files
 
