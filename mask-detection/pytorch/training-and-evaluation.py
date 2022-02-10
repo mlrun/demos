@@ -268,7 +268,7 @@ def evaluate(
     # Initialize the loss:
     loss = torch.nn.MSELoss()
 
-    # Evaluate:
+    # Evaluate (the model will be loaded automatically from the provided model path):
     mlrun_torch.evaluate(
         model_path=model_path,
         dataset=evaluation_set,
