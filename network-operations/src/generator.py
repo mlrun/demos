@@ -10,45 +10,24 @@ import random
 import mlrun.feature_store as fstore
 
 # Data generator
-from v3io_generator import metrics_generator, deployment_generator
+from metrics_gen.deployment_generator import deployment_generator
+from metrics_gen.static_data_generator import Static_data_generator
+from metrics_gen.metrics_generator import Generator_df
 
 
 def _create_deployment(metrics_configuration, project=None):
     print("creating deployment")
     # Create meta-data factory
-    dep_gen = deployment_generator.deployment_generator()
-    faker = dep_gen.get_faker()
-
-    # Design meta-data
-    deployment_configs = metrics_configuration["deployment"]
-    for level, level_configs in deployment_configs.items():
-        dep_gen.add_level(
-            level,
-            number=level_configs["num_items"],
-            level_type=getattr(faker, level_configs["faker"]),
-        )
-
-    # Create meta-data
-    deployment_df = dep_gen.generate_deployment()
+    dep_gen = deployment_generator()
+    deployment_df = dep_gen.generate_deployment(metrics_configuration)
 
     # Add static metrics
-    static_df = copy.copy(deployment_df)
-    static_data_configs = metrics_configuration["static"]
-    for static_feature, static_feature_values in static_data_configs.items():
-        if str(static_feature_values).startswith("range"):
-            static_df[static_feature] = [
-                random.choice(eval(static_feature_values))
-                for i in range(static_df.shape[0])
-            ]
-        else:
-            static_df[static_feature] = [
-                random.choice(static_feature_values) for i in range(static_df.shape[0])
-            ]
+    static_data_generator = Static_data_generator(
+        deployment_df, metrics_configuration
+    )
 
-    # Add stub data
-    for metric, params in metrics_configuration["metrics"].items():
-        value = params["distribution_params"].get("mu", 0)
-        deployment_df[metric] = value
+    static_df = static_data_generator.generate_static_data()
+
 
     if project:
         # save the simulated dataset for future use
@@ -113,7 +92,7 @@ def get_sample(
             (datetime.datetime.now() - datetime.timedelta(days=1)).timestamp(),
         )
     )
-    met_gen = metrics_generator.Generator_df(
+    met_gen = Generator_df(
         metrics_configuration,
         user_hierarchy=deployment_df,
         initial_timestamp=initial_timestamp,
@@ -129,6 +108,17 @@ def get_sample(
         metrics_df = metrics_df.append(metrics2_df)
         labels_df = labels_df.append(labels2_df)
     return metrics_df, labels_df, static_df
+
+
+def config_to_static_mappings(metrics_configuration):
+    mappings = {}
+    for key, item in metrics_configuration["static"].items():
+        if item["kind"] == "range":
+            step = item.get("step", 1)
+            mappings[key] = list(range(item.get("min_range", 0), item.get("max_range", 0) + step, step))
+        if item["kind"] == "choice":
+            mappings[key] = item.get("choices", [])
+    return mappings
 
 
 def init_context(context):
@@ -157,7 +147,7 @@ def init_context(context):
             (datetime.datetime.now() - datetime.timedelta(days=1)).timestamp(),
         )
     )
-    met_gen = metrics_generator.Generator_df(
+    met_gen = Generator_df(
         metrics_configuration,
         user_hierarchy=deployment_df,
         initial_timestamp=initial_timestamp,
