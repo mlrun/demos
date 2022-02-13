@@ -1,0 +1,203 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "pycharm": {
+     "name": "#%% md\n"
+    }
+   },
+   "source": [
+    "# Model Serving Function"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import mlrun\n",
+    "import os"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "from cloudpickle import load\n",
+    "\n",
+    "class LGBMModel(mlrun.serving.V2ModelServer):\n",
+    "    \n",
+    "    def load(self):\n",
+    "        model_file, extra_data = self.get_model('.pkl')\n",
+    "        self.model = load(open(model_file, 'rb'))\n",
+    "\n",
+    "    def predict(self, body):\n",
+    "        try:\n",
+    "            feats = np.asarray(body['inputs'])\n",
+    "            result = self.model.predict(feats)\n",
+    "            return result.tolist()\n",
+    "        except Exception as e:\n",
+    "            raise Exception(\"Failed to predict %s\" % e)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# nuclio: end-code"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Deploy and Test The Function"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This demo uses a Model file from MLRUn demo data repository(by default stored in Wasabi object-store service)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "models_path = mlrun.get_sample_path('models/lightgbm/SampleModel.pkl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fn = mlrun.code_to_function('lightgbm-serving',\n",
+    "                            description=\"LightGBM Serving\",\n",
+    "                            categories=['serving', 'ml'],\n",
+    "                            labels={'author': 'edmondg', 'framework': 'lightgbm'},\n",
+    "                            code_output='.',\n",
+    "                            image='mlrun/mlrun',\n",
+    "                            kind='serving')\n",
+    "fn.spec.build.commands = ['pip install lightgbm']\n",
+    "fn.spec.default_class = 'LGBMModel'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<mlrun.serving.states.TaskStep at 0x7f30478c9890>"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "fn.add_model('nyc-taxi-server', model_path=models_path)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "> 2021-11-16 13:29:40,426 [info] Starting remote function deploy\n",
+      "2021-11-16 13:29:40  (info) Deploying function\n",
+      "2021-11-16 13:29:40  (info) Building\n",
+      "2021-11-16 13:29:40  (info) Staging files and preparing base images\n",
+      "2021-11-16 13:29:40  (info) Building processor image\n",
+      "2021-11-16 13:29:51  (info) Build complete\n",
+      "2021-11-16 13:30:00  (info) Function deploy complete\n",
+      "> 2021-11-16 13:30:01,208 [info] successfully deployed function: {'internal_invocation_urls': ['nuclio-default-lightgbm-serving.default-tenant.svc.cluster.local:8080'], 'external_invocation_urls': ['default-lightgbm-serving-default.default-tenant.app.app-lab-eks.iguazio-cd2.com/']}\n"
+     ]
+    }
+   ],
+   "source": [
+    "# deploy the function\n",
+    "fn.apply(mlrun.platforms.auto_mount())\n",
+    "address = fn.deploy()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "> 2021-11-16 13:30:01,308 [info] invoking function: {'method': 'POST', 'path': 'http://nuclio-default-lightgbm-serving.default-tenant.svc.cluster.local:8080/v2/models/nyc-taxi-server/predict'}\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "{'id': 'e22543f1-15dc-4563-a5d9-c5c6aed9f716',\n",
+       " 'model_name': 'nyc-taxi-server',\n",
+       " 'outputs': [25.374309065093435]}"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# test the function\n",
+    "my_data = '''{\"inputs\":[[5.1, 3.5, 1.4, 3, 5.1, 3.5, 1.4, 0.2, 5.1, 3.5, 1.4, 0.2, 5.1, 3.5, 1.4, 0.2]]}'''\n",
+    "fn.invoke('/v2/models/nyc-taxi-server/predict', my_data)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
