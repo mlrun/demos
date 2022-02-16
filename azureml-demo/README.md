@@ -1,4 +1,4 @@
-# Building Production Pipelines WIth AzureML, Azure Data Services, AKS, and MLRun
+# Building Production Pipelines WIth AzureML and MLRun
 
 <img src="./azure-mlrun.png" alt="MLRun-in-azure" width="1000"/>
 
