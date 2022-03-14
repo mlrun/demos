@@ -99,8 +99,10 @@ def get_sample(
     )
 
     generator = met_gen.generate(as_df=True)
-    for i in range(100):
+    while True:
         sample = next(generator)
+        if len(sample.is_error.unique()) == 2:
+            break
     metrics_df, labels_df = get_data_from_sample(None, sample, as_df)
     for i in range(ticks):
         sample = next(generator)
