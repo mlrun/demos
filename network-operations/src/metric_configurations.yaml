@@ -1,9 +1,9 @@
-errors: {length_in_ticks: 50, rate_in_ticks: 5}
+errors: {length_in_ticks: 5, rate_in_ticks: 10}
 timestamps: {interval: 5s, stochastic_interval: true}
 deployment:
     device:
         faker: msisdn
-        num_items: 20
+        num_items: 100
 static:
     models: 
       kind: range
