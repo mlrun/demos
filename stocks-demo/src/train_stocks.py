@@ -98,7 +98,8 @@ def train_stocks(context,
           hidden_dim=10,
           n_layers=4,
           seq_size=5,
-          epochs=3, 
+          epochs=3,
+          model_filepath='./User/src'
          ):
     
     dataset = stocks_dataset(vector_name, seq_size, start_time, end_time) 
@@ -124,7 +125,7 @@ def train_stocks(context,
                         use_horovod = False,
                         model_name = 'pytorch_stocks_model',
                         custom_objects_map={"train_stocks.py": "Model"},
-                        custom_objects_directory='/User/junkyard/stocks_recreate/src',
+                        custom_objects_directory=model_filepath,
                         metric_functions=[accuracy],
                         auto_log=True,
                         )
