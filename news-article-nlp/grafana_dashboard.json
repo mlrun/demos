@@ -15,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 11,
+  "id": 10,
+  "iteration": 1650475321941,
   "links": [],
   "panels": [
     {
@@ -137,7 +138,7 @@
       "targets": [
         {
           "refId": "A",
-          "target": "backend=kv; container=bigdata; table=nlp; fields=title,summarized_text,authors,keywords,publish_date,url;",
+          "target": "backend=kv; container=bigdata; table=nlp-$user; fields=title,summarized_text,authors,keywords,publish_date,url;",
           "type": "table"
         }
       ],
@@ -151,7 +152,28 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "V3IO User",
+        "name": "user",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -161,5 +183,5 @@
   "timezone": "",
   "title": "NLP Summarization Keyword Extraction",
   "uid": "fyuW8aK7z",
-  "version": 8
+  "version": 9
 }
