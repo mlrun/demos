@@ -1,5 +1,18 @@
-errors: {length_in_ticks: 50, rate_in_ticks: 150}
-timestamps: {interval: 5s, stochastic_interval: true}
+errors: {length_in_ticks: 3, rate_in_ticks: 5}
+timestamps: {interval: 5s, stochastic_interval: false}
+deployment:
+    device:
+        faker: msisdn
+        num_items: 100
+static:
+    models: 
+      kind: range
+      min_range: 0
+      max_range: 9
+      as_integer: True
+    country: 
+      kind: choice
+      choices: [A, B, C, D, E, F, G]
 metrics:
   cpu_utilization:
     accuracy: 2
