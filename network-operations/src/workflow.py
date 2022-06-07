@@ -1,30 +1,53 @@
 import mlrun
 from kfp import dsl
 
+
 # Create a Kubeflow Pipelines pipeline
 @dsl.pipeline(name="netops-demo")
 def pipeline(
-    vector_uri,
-    label_column="is_error",
-    model_name="netops",
-    model_pkg_class="sklearn.ensemble.RandomForestClassifier",
+        vector_name,
+        features=[],
+        label_column="is_error",
+        model_name="netops",
+        model_pkg_class="sklearn.ensemble.RandomForestClassifier",
+        start_time="now-7d",
+        end_time="now",
 ):
-    # Train a model
+    # Get FeatureVector
+    get_vector = mlrun.run_function(
+        "hub://get_offline_features",
+        name="get_vector",
+        params={'feature_vector': vector_name,
+                'features': features,
+                'label_feature': label_column,
+                "start_time": start_time,
+                "end_time": end_time,
+                "entity_timestamp_column": "timestamp",
+                'target': {'name': 'parquet', 'kind': 'parquet'},
+                "update_stats": True},
+        outputs=["feature_vector"],
+    )
+
+    auto_trainer = mlrun.import_function("hub://auto_trainer")
+
+    # Train a models
     train = mlrun.run_function(
-        mlrun.import_function("hub://sklearn_classifier", new_name="train"),
-        params={"label_column": label_column, "model_pkg_class": model_pkg_class},
-        inputs={"dataset": vector_uri},
+        auto_trainer,
+        handler='train',
+        params={"model_class": model_pkg_class},
+        inputs={"dataset": get_vector.outputs['feature_vector']},
         outputs=["model", "test_set"],
     )
 
     # Test and visualize the model
     mlrun.run_function(
-        mlrun.import_function("hub://test_classifier", new_name="test"),
-        params={"label_column": label_column},
-        inputs={
-            "models_path": train.outputs["model"],
-            "test_set": train.outputs["test_set"],
+        auto_trainer,
+        handler='evaluate',
+        params={
+            "label_columns": label_column,
+            "model": train.outputs["model"]
         },
+        inputs={"dataset": train.outputs["test_set"]},
     )
 
     # import the standard ML model serving function
@@ -35,7 +58,7 @@ def pipeline(
     serving_fn.set_topology(
         "router",
         mlrun.serving.routers.EnrichmentModelRouter(
-            feature_vector_uri=str(vector_uri),
+            feature_vector_uri=str(vector_name),
             impute_policy={"*": "$mean"}),
     )
 
