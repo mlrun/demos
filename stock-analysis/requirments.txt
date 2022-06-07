@@ -1,2 +1,2 @@
-torch
-transformers
+yfinance
+yahoo_fin
