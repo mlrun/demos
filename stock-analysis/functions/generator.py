@@ -16,15 +16,15 @@ class IGenerator(ABC):
     def generate(self):
         pass
 
-    def create_file_name(self):
-        file_name = time.strftime("%Y%m%d-%H%M%S") + '-' + self.__class__.__name__ + '.csv'
+    def create_file_name(self, path):
+        file_name = path + time.strftime("%Y%m%d-%H%M%S") + '-' + self.__class__.__name__ + '.csv'
         return file_name
 
 
 class StocksGenerator(IGenerator, ABC):
 
     def __init__(self):
-        self.ctx = get_or_create_ctx()
+        self.ctx = get_or_create_ctx(name='stocks-generator')
 
     def generate(self, number_of_stocks, start_delta, end_delta, interval, path):
         """
@@ -53,7 +53,7 @@ class StocksGenerator(IGenerator, ABC):
         df: pandas.DataFrame = pd.concat(return_list).reset_index().drop(axis=1, columns=['Dividends', 'Stock Splits'])
         print(f"downloaded {len(tickers)} stocks data with size of {df.shape}")
         df['Datetime'] = df['Datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
-        file_name = self.create_file_name()
+        file_name = self.create_file_name(path)
         self.ctx.logger.info("writing file to path {}".format(file_name))
         df.to_csv(file_name, index=False)
         return json.loads(df.to_json(orient='records'))
