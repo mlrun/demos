@@ -7,6 +7,7 @@ import yfinance as yf
 import pandas as pd
 import json
 import time
+from mlrun import get_or_create_ctx
 
 
 class IGenerator(ABC):
@@ -21,6 +22,9 @@ class IGenerator(ABC):
 
 
 class StocksGenerator(IGenerator, ABC):
+
+    def __init__(self):
+        self.ctx = get_or_create_ctx()
 
     def generate(self, number_of_stocks, start_delta, end_delta, interval, path):
         """
@@ -50,6 +54,7 @@ class StocksGenerator(IGenerator, ABC):
         print(f"downloaded {len(tickers)} stocks data with size of {df.shape}")
         df['Datetime'] = df['Datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
         file_name = self.create_file_name()
+        self.ctx.logger.info("writing file to path {}".format(file_name))
         df.to_csv(file_name, index=False)
         return json.loads(df.to_json(orient='records'))
 
