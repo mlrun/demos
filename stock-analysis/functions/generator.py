@@ -56,7 +56,7 @@ class StocksGenerator(IGenerator, ABC):
         file_name = self.create_file_name(path)
         self.ctx.logger.info("writing file to path {}".format(file_name))
         df.to_csv(file_name, index=False)
-        return json.loads(df.to_json(orient='records'))
+        #return json.loads(df.to_json(orient='records'))
 
 
 class NewsGenerator(IGenerator):
