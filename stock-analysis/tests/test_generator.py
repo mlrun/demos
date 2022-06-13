@@ -19,3 +19,14 @@ def test_stocks_generator_job():
                    'number_of_stocks': 4,
                    'path': 'mycsv.csv'},
            local=True)
+
+
+def test_news_generator_job():
+    fn = code_to_function(filename="../functions/generator.py",
+                          handler="NewsGenerator::generate",
+                          kind='job'
+                          )
+
+    fn.run(params={'number_of_stocks': 4,
+                   'path': 'mycsv.csv'},
+           local=True)
