@@ -1,2 +1,4 @@
 yfinance
 yahoo_fin
+graphviz
+pyspark
