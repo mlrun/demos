@@ -21,6 +21,11 @@ def test_stocks_generator_job():
            local=True)
 
 
+def test_news_generator():
+    gen = NewsGenerator()
+    print(gen.generate(number_of_stocks=4, path='myfile.csv'))
+
+
 def test_news_generator_job():
     fn = code_to_function(filename="../functions/generator.py",
                           handler="NewsGenerator::generate",

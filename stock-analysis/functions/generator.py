@@ -5,7 +5,6 @@ import yahoo_fin.stock_info as si
 import datetime
 import yfinance as yf
 import pandas as pd
-import json
 import time
 import yahoo_fin.news as ynews
 from mlrun import get_or_create_ctx
@@ -59,7 +58,6 @@ class StocksGenerator(IGenerator, ABC):
         file_name = self.create_file_name(path)
         self.ctx.logger.info("writing file to path {}".format(file_name))
         df.to_csv(file_name, index=False)
-        #return json.loads(df.to_json(orient='records'))
 
 
 def remove_punctuation(text):
@@ -92,4 +90,3 @@ class NewsGenerator(IGenerator):
         file_name = self.create_file_name(path)
         self.ctx.logger.info("writing file to path {}".format(file_name))
         df.to_csv(file_name, index=False)
-        #return json.loads(df.to_json(orient='records'))
