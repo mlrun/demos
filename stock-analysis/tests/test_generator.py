@@ -13,11 +13,11 @@ def test_stocks_generator_job():
                           kind='job'
                           )
 
-    fn.run(params={'start_delta': 3,
-                   'end_delta': 0,
+    fn.run(params={'start_delta': 7,
+                   'end_delta': 3,
                    'interval': '5m',
                    'number_of_stocks': 4,
-                   'path': 'mycsv.csv'},
+                   'path': 'data/'},
            local=True)
 
 
