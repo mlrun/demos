@@ -10,6 +10,7 @@ import yahoo_fin.news as ynews
 from mlrun import get_or_create_ctx
 from dateutil import parser
 import string
+import pathlib
 
 
 class IGenerator(ABC):
@@ -19,6 +20,7 @@ class IGenerator(ABC):
         pass
 
     def create_file_name(self, path):
+        pathlib.Path(path).mkdir(parents=True, exist_ok=True)
         file_name = path + time.strftime("%Y%m%d-%H%M%S") + '-' + self.__class__.__name__ + '.csv'
         return file_name
 
@@ -48,7 +50,6 @@ class StocksGenerator(IGenerator, ABC):
         for ticker in tickers:
             hist = yf.Ticker(ticker).history(start=start, end=end, interval=interval)
             hist['ticker'] = ticker
-            hist['ticker2onehot'] = ticker
             return_list.append(hist)
 
         # some data manipulations

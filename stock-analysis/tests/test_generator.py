@@ -4,7 +4,7 @@ from mlrun import code_to_function
 
 def test_stocks_generator():
     gen = StocksGenerator()
-    print(gen.generate(number_of_stocks=4, start_delta=7, end_delta=3, interval='5m', path='myfile.csv'))
+    print(gen.generate(number_of_stocks=4, start_delta=7, end_delta=3, interval='5m', path='data/'))
 
 
 def test_stocks_generator_job():
