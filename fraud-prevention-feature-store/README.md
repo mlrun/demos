@@ -12,7 +12,7 @@ quickly respond and block transactions before they occur. Consider, for example,
 average transaction amount. When training the model, it is common to take a DataFrame and just calculate the average. However,
 when dealing with real-time/online scenarios, this average has to be calculated incrementally.
 
-In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, we will consider 2 types of data:  
+In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, we will consider 2 types of data: 
 
 - **Transactions**: Monetary activity between 2 parties to transfer funds.
 - **Events**: Activity that done by the party, such as login or password change.
@@ -22,6 +22,10 @@ In this demo we will learn how to **Ingest** different data sources to our **Fea
 We will walk through creation of ingestion pipeline for each data source with all the needed preprocessing and validation. We will run the pipeline locally within the notebook and then launch a real-time function to **ingest live data** or schedule a cron to run the task when needed.
 
 Following the ingestion, we will create a feature vector, select the most relevant features and create a final model. We will then deploy the model and showcase the feature vector and model serving.
+
+**Note:**<br>
+By default, this demo works with the online feature store, which is currently not part of the Open Source default deployment.
+
 
 ```{toctree}
 :maxdepth: 1

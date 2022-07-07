@@ -27,3 +27,5 @@ the demo has a single notebook:
 - [**azureml_demo.ipynb**](azureml_demo.ipynb) &mdash; implement all the steps outlined above.
 
 
+**Note:**<br>
+By default, this demo works with the online feature store, which is currently not part of the Open Source default deployment.
