@@ -23,7 +23,7 @@ WINDOW_ACK = (STOREY_QUEUE_SIZE+MAX_IN_FLIGHT) * STREAM_SHARDS
 
 
 model_location = 'https://iguazio-sample-data.s3.amazonaws.com/models/model.pt'
-scaled_function = mlrun.import_function('hub://sentiment_analysis_serving:development')
+scaled_function = mlrun.import_function('hub://sentiment_analysis_serving')
 scaled_function.spec.min_replicas = MIN_REPLICAS
 scaled_function.spec.max_replicas = MAX_REPLICAS
 scaled_function.add_model('sentiment_analysis_model', model_path=model_location,
@@ -37,7 +37,7 @@ env_vars = {"SERVING_FUNCTION_TIME_TO_SLEEP": SERVING_PROCESSING_TIME}
 scaled_function.set_envs(env_vars)
 scaled_function.spec.readiness_timeout = 300
 #address = scaled_function.deploy()
-address = "https://stocks-avia-sentiment-analysis-serving-stocks-avia.default-tenant.app.dev39.lab.iguazeng.com/"
+address = "https://stocks-avia-sentiment-analysis-serving-stocks-avia.default-tenant.app.app-lab.iguazio-cd2.com/"
 
 # %%
 
