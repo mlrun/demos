@@ -2,7 +2,7 @@
 
 <img src="./azure-mlrun.png" alt="MLRun-in-azure" width="1000"/>
 
-- This demo works with the online feature store, which is currently not part of the Open Source default deployment.
+> - This demo works with the online feature store, which is currently not part of the Open Source default deployment.
 
 **In This demo we show how to:**
 
