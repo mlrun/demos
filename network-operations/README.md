@@ -2,6 +2,8 @@
 
 [Overview](#overview)&nbsp;| [Running the Demo](#demo-run)&nbsp;| [Demo Flow](#demo-flow)&nbsp;|  [Notebooks and Code](#notebooks-and-code)
 
+> - This demo works with the online feature store, which is currently not part of the Open Source default deployment.
+
 ## Overview
 
 This demo demonstrates how to build an automated machine-learning (ML) pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
