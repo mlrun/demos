@@ -1,6 +1,10 @@
 # Feature-Store End-to-End Demo
 
-This demo shows the usage of MLRun and the feature store. The demo will showcase:
+This demo shows the usage of MLRun and the feature store. 
+
+- This demo works with the online feature store, which is currently not part of the Open Source default deployment.
+
+The demo showcases:
 
 - [**Data ingestion & preparation**](./01-ingest-datasources.ipynb)
 - [**Model training & testing**](./02-create-training-model.ipynb)
@@ -22,10 +26,6 @@ In this demo we will learn how to **Ingest** different data sources to our **Fea
 We will walk through creation of ingestion pipeline for each data source with all the needed preprocessing and validation. We will run the pipeline locally within the notebook and then launch a real-time function to **ingest live data** or schedule a cron to run the task when needed.
 
 Following the ingestion, we will create a feature vector, select the most relevant features and create a final model. We will then deploy the model and showcase the feature vector and model serving.
-
-**Note:**<br>
-By default, this demo works with the online feature store, which is currently not part of the Open Source default deployment.
-
 
 ```{toctree}
 :maxdepth: 1

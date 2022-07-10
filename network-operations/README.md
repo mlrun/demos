@@ -2,6 +2,9 @@
 
 [Overview](#overview)&nbsp;| [Running the Demo](#demo-run)&nbsp;| [Demo Flow](#demo-flow)&nbsp;|  [Notebooks and Code](#notebooks-and-code)
 
+- This demo works with the online feature store, which is currently not part of the Open Source default deployment.
+   
+
 ## Overview
 
 This demo demonstrates how to build an automated machine-learning (ML) pipeline for predicting network outages based on network-device telemetry, also known as Network Operations (NetOps).
@@ -17,10 +20,8 @@ The demo demonstrates how to:
 - Use the MLRun Serving Graphs to build real-time ML applications and serve models.
 - Use the MLRun Model monitoring and drift analysis.
 
-> **Notes:** 
-   - The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com) ("the platform"), and use the platform's data store ("v3io"). 
-   - This demo works with the online feature store, which is currently not part of the Open Source default deployment.
-   
+> **Note:** The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com) ("the platform"), and use the platform's data store ("v3io"). 
+  
 > Contact [Iguazio support](mailto:support@iguazio.com) to request a free trial of the platform.
 
 <a id="demo-run"></a>
