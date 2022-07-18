@@ -19,7 +19,8 @@ The demo demonstrates how to:
 - Use the MLRun Serving Graphs to build real-time ML applications and serve models.
 - Use the MLRun Model monitoring and drift analysis.
 
-> **Note:** The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com) ("the platform"), and use the platform's data store ("v3io").
+> **Note:** The demo applications are tested on the [Iguazio Data Science Platform](https://www.iguazio.com) ("the platform"), and use the platform's data store ("v3io"). 
+  
 > Contact [Iguazio support](mailto:support@iguazio.com) to request a free trial of the platform.
 
 <a id="demo-run"></a>

@@ -4,13 +4,13 @@
 
 > - This demo works with the online feature store, which is currently not part of the Open Source default deployment.
 
-**In this demo we show how to:**
+**In This demo we show how to:**
 
-0. **Setup the environment**
+0. **Set up the environment**
 1. **Use MLRun Feature Store to ingest and prepare data**
 2. **Create offline feature vector (snapshot) for training**
 3. **Run AzureML AutoML Service as an automated step (function) in MLRun:**
-  * take a snapshot of the offline feature vector and register as an AzureDL dataset
+  * Take a snapshot of the offline feature vector and register as an AzureDL dataset
   * Initialize the required resources, experiments and AutoML job in AzureML and track its progress
   * Retrieve the generated models along with their results and register in MLRun
 4. **View and compare the AzureML Models using MLRun tools**
@@ -24,8 +24,6 @@
 <a id="notebooks"></a>
 ### Notebook
 
-the demo has a single notebook:
+The demo has a single notebook:
 
 - [**azureml_demo.ipynb**](azureml_demo.ipynb) &mdash; implement all the steps outlined above.
-
-

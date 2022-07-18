@@ -16,7 +16,7 @@ quickly respond and block transactions before they occur. Consider, for example,
 average transaction amount. When training the model, it is common to take a DataFrame and just calculate the average. However,
 when dealing with real-time/online scenarios, this average has to be calculated incrementally.
 
-In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, we will consider 2 types of data:  
+In this demo we will learn how to **Ingest** different data sources to our **Feature Store**. Specifically, we will consider 2 types of data: 
 
 - **Transactions**: Monetary activity between 2 parties to transfer funds.
 - **Events**: Activity that done by the party, such as login or password change.
