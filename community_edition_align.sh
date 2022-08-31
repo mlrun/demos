@@ -3,3 +3,4 @@ do
    echo removing enterprise $line
    rm -r $line
 done
+
