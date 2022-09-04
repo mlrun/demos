@@ -1,5 +1,17 @@
-#mlrun: start-code
-
+# Copyright 2019 Iguazio
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 import yahoo_fin.stock_info as si
 import datetime
 import yfinance as yf
@@ -38,5 +50,3 @@ def get_stocks(event):
 
 def gen_event_key(event): # since using nosql as target, each event must have its key - therefore this step is needed !
     return Event(event.body,key=event.body['ticker'])
-
-#mlrun: end-code
