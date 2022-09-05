@@ -1,0 +1,5 @@
+01_ingest_news.ipynb
+02_ingest_stocks.ipynb
+03_train_model.ipynb
+04_model_serving.ipynb
+05_stocks_pipeline.ipynb
