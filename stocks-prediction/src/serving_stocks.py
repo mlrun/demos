@@ -81,6 +81,7 @@ def postprocess(event):
     df = pd.DataFrame(data=event['outputs']['results'],columns=['prediction'])
     df['datetime'] = event['outputs']['datetimes']
     df['tickers'] = event['outputs']['tickers']
+    df['key'] = [ticker + ' ' + datetime.strftime('%Y-%m-%d %H:%M:%S') for ticker,datetime in zip(df['tickers'],df['datetime'])]
     df['true'] = event['outputs']['labels']
     df['prediction'] = (df['prediction']*event['outputs']['price_std']) + event['outputs']['price_mean']
     df['true'] = (df['true']*event['outputs']['price_std']) + event['outputs']['price_mean']
@@ -90,7 +91,7 @@ def postprocess(event):
     framesd = os.getenv("V3IO_FRAMESD",'framesd:8081')
     client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
     kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
-    client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
+    client.write('kv', kv_table_path, dfs=df, index_cols=['key'])
     return [df.values.tolist(),list(df.columns)]
 
 class StocksModel(PyTorchModelServer):
