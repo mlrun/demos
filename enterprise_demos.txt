@@ -1,4 +1,6 @@
 azureml-demo
 fraud-prevention-feature-store
-getting-started-tutorial
+tutorials
 network-operations
+howto
+
