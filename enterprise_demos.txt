@@ -3,3 +3,5 @@ fraud-prevention-feature-store
 tutorials
 network-operations
 howto
+docs
+_static
