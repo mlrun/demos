@@ -11,6 +11,7 @@ The mlrun/demos repository demonstrates different aspects of working with MLRun 
 - [Mask Detection Demo](#mask-detection-demo)
 - [News Article Summarization and Keyword Extraction via NLP](#news-article-summary-nlp)
 - [Fraud Prevention - Iguazio Feature Store](#fraud-detection-demo)
+- [Stocks Prices Prediction Demo](#stock-prediction)
 
 
 <a id="overview"></a>
@@ -126,4 +127,23 @@ The code includes the following components:
 **Pipeline Output**
 
 <p><img src="./docs/converting-to-mlrun-pipeline.png" alt="converting-to-mlrun pipeline output"/></p>
+
+<a id="stock-prediction"></a>
+## Stocks prices prediction demo
+
+The [**stock-prediction**](stock-prediction/README.md) demo demonstrates how to use feature store to create two ingestion services - news and stocks. <br>News pipeline enriches the stocks news scraped from [yahoo-api](https://finance.yahoo.com/) with its sentiments using a pretrained sentiment analysis model.<br>
+It uses MLRun's pytorch framework to train RNN based model on a feature-vector and creates a model serving function with a custom predict method.<br>
+<p><img src="stock-prediction/src/demo-flow.png" alt="stock prediction demo flow"/></p>
+
+The code includes the following components:
+
+1. Data ingestion
+2. Model training
+3. Model serving
+4. Full pipeline
+
+<a id="stock-prediction"></a>
+**news-set-transformations**
+
+<p><img src="stock-prediction/src/feature-store-transformations.png" alt="feature-store-transformations"/></p>
 
