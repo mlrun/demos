@@ -54,12 +54,13 @@ def preprocess(event):
     normalized_df['Volume'] = (normalized_df['Volume'] - normalized_df['Volume'].mean()) / normalized_df['Volume'].std()
     
     for ticker in tickers:
-        ticker_df = normalized_df[normalized_df['ticker'] == ticker].sort_values(by='Datetime',ascending=True)
-        datetimes.append(list(ticker_df['Datetime'])[-1])
-        ticker_df = ticker_df.drop(['ticker','Datetime'],axis=1)
-        data.append(ticker_df[-seq_size-1:-1].values.tolist())
-        labels.append(list(ticker_df['Close'])[-1])
-        tickers_list.append(ticker)
+        ticker_df = normalized_df[normalized_df['ticker'] == ticker].sort_values(by='Datetime',ascending=False).drop(['ticker','Datetime'],axis=1)
+        for i in range(0,ticker_df.shape[0]-seq_size-1):
+            data.append(ticker_df[i:i+seq_size].values.tolist())
+            labels.append(ticker_df.iloc[i+seq_size]['Close'])
+            tickers_list.append(ticker)
+            datetimes.append(df.iloc[i+seq_size]['Datetime'])
+            break
 
     data = torch.tensor(data).detach()
     labels = torch.tensor(labels, dtype=torch.float).detach()
@@ -74,14 +75,12 @@ def preprocess(event):
     event['datetimes'] = datetimes
     event['inputs'] = data.tolist()
     event['labels'] = labels.tolist()
-    
     return event
 
 def postprocess(event):
     df = pd.DataFrame(data=event['outputs']['results'],columns=['prediction'])
     df['datetime'] = event['outputs']['datetimes']
     df['tickers'] = event['outputs']['tickers']
-    df['key'] = [ticker + ' ' + datetime.strftime('%Y-%m-%d %H:%M:%S') for ticker,datetime in zip(df['tickers'],df['datetime'])]
     df['true'] = event['outputs']['labels']
     df['prediction'] = (df['prediction']*event['outputs']['price_std']) + event['outputs']['price_mean']
     df['true'] = (df['true']*event['outputs']['price_std']) + event['outputs']['price_mean']
@@ -91,7 +90,7 @@ def postprocess(event):
     framesd = os.getenv("V3IO_FRAMESD",'framesd:8081')
     client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
     kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
-    client.write('kv', kv_table_path, dfs=df.reset_index(), index_cols=['key'])
+    client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
     return [df.values.tolist(),list(df.columns)]
 
 class StocksModel(PyTorchModelServer):

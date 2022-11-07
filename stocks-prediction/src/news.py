@@ -23,6 +23,16 @@ import string
 import mlrun
 
 
+def wrap_event(event):
+    wrapped_event = {'meta_data': {'ticker': event['ticker'],
+                                   'Datetime': event['Datetime'],
+                                   'published': event['published'],
+                                   'summary':event['summary'],
+                                   'title': event['title']},
+                     'inputs': [event['summary']]}
+    
+    return wrapped_event
+
 def remove_punctuation(text):
     punctuationfree="".join([i for i in text if i not in string.punctuation])
     return punctuationfree
@@ -39,8 +49,8 @@ def get_news(event):
         news_df = pd.DataFrame(news)
         df_copy = news_df[['title','summary','link','published']].copy()
         df_copy['ticker'] = ticker
-        df_copy['Datetime'] = df_copy['published'].apply(lambda x: parser.parse(x).strftime('%Y-%m-%d %H:%M:%S'))
-        df_copy = df_copy.drop(['published'],axis=1)
+        df_copy['published'] = df_copy['published'].apply(lambda x: parser.parse(x).strftime('%Y-%m-%d %H:%M:%S'))
+        df_copy['Datetime'] = df_copy['published'].copy()
         df_copy['summary'] = df_copy['summary'].apply(lambda x:remove_punctuation(x))
         df_copy['title'] = df_copy['title'].apply(lambda x:remove_punctuation(x))
         tickers_news.append(df_copy)
@@ -52,10 +62,9 @@ class sentiment_analysis():
         self.address= address    
         
     def do(self,event):
-        inputs_to_predict = {'inputs': [event.body['summary']]}
-        response = requests.put(self.address + "v2/models/sentiment_analysis_model/predict",
-                                                     json=inputs_to_predict)
-    
-        pred = json.loads(response.text)['outputs']['predictions'][0]
-        event.body['sentiment'] = pred/2 # so it'll be 0 for neg, 0.5 for neutral and 1 for pos
-        return event
+        response = json.loads(requests.put(self.address + "v2/models/sentiment_analysis_model/predict",
+                                                     json=json.dumps(event.body)).text)
+        
+        sentiment_event = event.body['meta_data']
+        sentiment_event['sentiment'] = response['outputs']['predictions'][0]/2 # so it'll be 0 for neg, 0.5 for neutral and 1 for pos
+        return Event(sentiment_event,key=sentiment_event['ticker'], time=sentiment_event['Datetime'])
