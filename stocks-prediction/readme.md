@@ -21,6 +21,7 @@ The demo is preconfigured to run on the Iguazio Data Science Platform ("the plat
 _____
 1. Run `01_ingest_news.ipynb` and `02_ingest_stocks.ipynb` to deploy two Feature-Store ingestion services, one for stocks data and one for stocks news data from yahoo api.
 2. Run `05_stocks_pipeline.ipynb` for creating kubeflow-pipeline with model-training and serving functions to train and deploy RNN model to predict stocks prices.
+   OR not using kfpipeline and run notebooks `03_model_training.ipynb` and `04_model_serving.ipynb`
 3. Run `06_grafana_view.ipynb` to create a Grafana dashbord for model analysis.
 
 ## **Demo Flow**

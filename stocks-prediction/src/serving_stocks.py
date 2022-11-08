@@ -92,7 +92,7 @@ def postprocess(event):
     client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
     kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
     client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
-    print(f'writing prediction to kv at {'projects'+kv_table_path} ...')
+    print(f'writing prediction to kv at projects{kv_table_path} ...')
     return [df.values.tolist(),list(df.columns)]
 
 class StocksModel(PyTorchModelServer):
