@@ -1,7 +1,8 @@
 azureml-demo
+docs
 fraud-prevention-feature-store
+howto
 tutorials
 network-operations
-howto
-docs
+stocks-prediction
 _static
