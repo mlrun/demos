@@ -25,6 +25,7 @@ from mlrun.frameworks.pytorch import PyTorchModelServer
 import datetime
 import v3io_frames as v3f
 import os
+import time
 
 warnings.filterwarnings("ignore")
 
@@ -54,13 +55,13 @@ def preprocess(event):
     normalized_df['Volume'] = (normalized_df['Volume'] - normalized_df['Volume'].mean()) / normalized_df['Volume'].std()
     
     for ticker in tickers:
-        ticker_df = normalized_df[normalized_df['ticker'] == ticker].sort_values(by='Datetime',ascending=False).drop(['ticker','Datetime'],axis=1)
-        for i in range(0,ticker_df.shape[0]-seq_size-1):
-            data.append(ticker_df[i:i+seq_size].values.tolist())
-            labels.append(ticker_df.iloc[i+seq_size]['Close'])
-            tickers_list.append(ticker)
-            datetimes.append(df.iloc[i+seq_size]['Datetime'])
-            break
+        ticker_df = normalized_df[normalized_df['ticker'] == ticker].sort_values(by='Datetime',ascending=False)
+        timestamp = ticker_df.iloc[0]['Datetime']
+        ticker_df = ticker_df.drop(['ticker','Datetime'],axis=1)
+        data.append(ticker_df[1:seq_size+1].values.tolist())
+        labels.append(ticker_df.iloc[0]['Close'])
+        tickers_list.append(ticker)
+        datetimes.append(timestamp)
 
     data = torch.tensor(data).detach()
     labels = torch.tensor(labels, dtype=torch.float).detach()
@@ -91,6 +92,7 @@ def postprocess(event):
     client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
     kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
     client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
+    print(f'writing prediction to kv at projects{kv_table_path} ...')
     return [df.values.tolist(),list(df.columns)]
 
 class StocksModel(PyTorchModelServer):
@@ -104,3 +106,9 @@ class StocksModel(PyTorchModelServer):
             all_results.append(result.tolist()[0])
         body['results'] = all_results
         return body
+from mlrun.runtimes import nuclio_init_hook
+def init_context(context):
+    nuclio_init_hook(context, globals(), 'serving_v2')
+
+def handler(context, event):
+    return context.mlrun_handler(context, event)
