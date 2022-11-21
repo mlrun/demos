@@ -24,7 +24,6 @@ from sklearn.model_selection import train_test_split
 from torch import Tensor
 from torch.nn import Module
 from torch.utils.data import DataLoader, Dataset
-from torchvision.transforms import InterpolationMode
 
 
 class MaskDetectionDataset(Dataset):
@@ -51,7 +50,7 @@ class MaskDetectionDataset(Dataset):
                 torchvision.transforms.RandomResizedCrop(
                     size=(224, 224),
                     ratio=(0.85, 1.15),
-                    interpolation=InterpolationMode.NEAREST,
+                    interpolation=Image.Resampling.NEAREST,
                 ),
             ]
         )  # type: Callable[[Image.Image], Image.Image]
