@@ -107,14 +107,3 @@ def kv_format(event):
             event.body[k] = json.dumps(v)
     
     return event
-
-def write_to_redis(event):
-    redis_url = os.environ.get('MLRUN_REDIS_URL')
-    redis_pass = os.environ.get('MLRUN_REDIS_PASS')
-    if redis_url:
-        r = redis.Redis(host = redis_url[:redis_url.index(":")],
-                        port = redis_url[redis_url.index(":")+1:])
-        
-        r.auth(redis_pass)
-        event_url = event.body.pop('url')
-        r.hmset(event_url, event.body)
