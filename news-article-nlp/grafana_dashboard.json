@@ -138,7 +138,7 @@
       "targets": [
         {
           "refId": "A",
-          "target": "backend=kv; container=bigdata; table=nlp-$user; fields=title,summarized_text,authors,keywords,publish_date,url;",
+          "target": "backend=kv; container=bigdata; table=nlp-${__user.login}; fields=title,summarized_text,authors,keywords,publish_date,url;",
           "type": "table"
         }
       ],
