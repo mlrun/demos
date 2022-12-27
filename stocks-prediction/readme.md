@@ -27,7 +27,7 @@ _____
 ## **Demo Flow**
 _____
 
-![demo flow:](https://github.com/daniels290813/app-lab/blob/stocks_readme/apps/stocks_recreate/src/demo-flow.png)
+![demo flow:](https://github.com/daniels290813/demos/blob/1.2.x-dev/docs/_static/images/demo-flow.png)
 
 ### **Deploying a Sentiment-Analysis Model Server**
 _____
