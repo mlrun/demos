@@ -27,7 +27,7 @@ _____
 ## **Demo Flow**
 _____
 
-![demo flow:](https://github.com/daniels290813/demos/blob/1.2.x-dev/docs/_static/images/demo-flow.png)
+![demo flow:](../docs/_static/images/demo-flow.png)
 
 ### **Deploying a Sentiment-Analysis Model Server**
 _____
@@ -41,7 +41,7 @@ This step defines and deploys a Nuclio function for serving a sentiment-analysis
 _____
 With the Feature-Store we are able to create scalable, performant data pipelines to transform raw data into features, using the ingestion service endpoint to trigger our data pipelines (01_ingest_new.ipynb, 02_ingest_stocks.ipynb) with custom parameters, creating feature-sets `stocks` and `news`.
 For training the RNN model, a Feature-Vector is created (05_stocks_pipeline.ipynb) and the training data is requested in an offline manner (providing start-time and end-time as parameters). Online access (nosql - kv) can be used for visualisation.
-![feature-store-transformations:](src/feature-store-transformations.png)
+![feature-store-transformations:](../docs/_static/images/feature-store-transformations.png)
 
 ### **MLrun Frameworks**
 _____
