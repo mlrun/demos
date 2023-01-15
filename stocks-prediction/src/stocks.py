@@ -19,6 +19,7 @@ import pandas as pd
 import json
 from storey import Event
 
+
 def get_stocks(event):
     '''
     event: dict with the following keys:
@@ -28,25 +29,29 @@ def get_stocks(event):
     n_stocks - how many stocks to collect
     '''
     # getting stock names
+    context.logger.info("getting stocks for event {}".format(event))
     tickers = si.tickers_sp500()[:event['n_stocks']]
     # time deltas to scrape data
-    start = datetime.datetime.now()-datetime.timedelta(event['start_delta'])
-    end = datetime.datetime.now()-datetime.timedelta(event['end_delta'])
+    start = datetime.datetime.now() - datetime.timedelta(event['start_delta'])
+    end = datetime.datetime.now() - datetime.timedelta(event['end_delta'])
     interval = event['interval']
-    
+
     # collecting data from yfinance
     return_list = []
+    context.logger.info(
+        "retrieving tickers {} history between {} and {} with interval {}".format(tickers, start, end, interval))
     for ticker in tickers:
         hist = yf.Ticker(ticker).history(start=start, end=end, interval=interval)
         hist['ticker'] = ticker
         hist['ticker2onehot'] = ticker
         return_list.append(hist)
-        
+
     # some data manipulations
-    df = pd.concat(return_list).reset_index().drop(axis=1,columns=['Dividends','Stock Splits'])
-    df['Datetime']= df['Datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
-    
+    df = pd.concat(return_list).reset_index().drop(axis=1, columns=['Dividends', 'Stock Splits'])
+    df['Datetime'] = df['Datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
+    context.logger.info("finished processing stocks")
     return json.loads(df.to_json(orient='records'))
 
-def gen_event_key(event): # since using nosql as target, each event must have its key - therefore this step is needed !
-    return Event(event.body,key=event.body['ticker'])
+
+def gen_event_key(event):  # since using nosql as target, each event must have its key - therefore this step is needed !
+    return Event(event.body, key=event.body['ticker'])
