@@ -18,6 +18,7 @@ import yfinance as yf
 import pandas as pd
 import json
 from storey import Event
+from mlrun import get_or_create_ctx
 
 
 def get_stocks(event):
@@ -29,7 +30,8 @@ def get_stocks(event):
     n_stocks - how many stocks to collect
     '''
     # getting stock names
-    context.logger.info("getting stocks for event {}".format(event))
+    ctx = get_or_create_ctx(name="stocks-context")
+    ctx.logger.info("getting stocks for event {}".format(event))
     tickers = si.tickers_sp500()[:event['n_stocks']]
     # time deltas to scrape data
     start = datetime.datetime.now() - datetime.timedelta(event['start_delta'])
@@ -38,7 +40,7 @@ def get_stocks(event):
 
     # collecting data from yfinance
     return_list = []
-    context.logger.info(
+    ctx.logger.info(
         "retrieving tickers {} history between {} and {} with interval {}".format(tickers, start, end, interval))
     for ticker in tickers:
         hist = yf.Ticker(ticker).history(start=start, end=end, interval=interval)
@@ -49,7 +51,7 @@ def get_stocks(event):
     # some data manipulations
     df = pd.concat(return_list).reset_index().drop(axis=1, columns=['Dividends', 'Stock Splits'])
     df['Datetime'] = df['Datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
-    context.logger.info("finished processing stocks")
+    ctx.logger.info("finished processing stocks")
     return json.loads(df.to_json(orient='records'))
 
 
