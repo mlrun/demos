@@ -69,17 +69,15 @@ class HuggingSentimentAnalysis:
         print("prediction: {}".format(prediction))
         event.body = event.body['meta_data']
         int_prediction = self.convert_sentiment_to_int(prediction)
-        event.body['prediction'] = int_prediction
-        print(event.body)
         return event
 
     def convert_sentiment_to_int(self, sentiment):
         if sentiment[0]['label'] == 'NEGATIVE':
-            return [0]
+            return 0
         if sentiment[0]['label'] == 'POSITIVE':
-            return [1]
+            return 1
         else:
-            return [2]
+            return 2
 
 
 class sentiment_analysis:
