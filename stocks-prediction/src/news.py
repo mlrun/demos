@@ -69,6 +69,7 @@ class HuggingSentimentAnalysis:
         event.body = event.body['meta_data']
         int_prediction = self.convert_sentiment_to_int(prediction)
         event.body['sentiment'] = int_prediction
+        event.key=event.body['ticker']
         return event
 
     def convert_sentiment_to_int(self, sentiment):
