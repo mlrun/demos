@@ -66,9 +66,9 @@ class HuggingSentimentAnalysis:
 
     def get_sentiment(self, event):
         prediction = self.sentiment_pipeline(event.body['inputs'])
-        print("prediction: {}".format(prediction))
         event.body = event.body['meta_data']
         int_prediction = self.convert_sentiment_to_int(prediction)
+        event.body['sentiment'] = int_prediction
         return event
 
     def convert_sentiment_to_int(self, sentiment):
