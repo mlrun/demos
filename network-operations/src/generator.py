@@ -125,8 +125,8 @@ def get_sample(
     for i in range(ticks):
         sample = next(generator)
         metrics2_df, labels2_df = get_data_from_sample(None, sample, as_df)
-        metrics_df = metrics_df.append(metrics2_df)
-        labels_df = labels_df.append(labels2_df)
+        metrics_df = pd.concat([metrics2_df])
+        labels_df = pd.concat([labels2_df])
     return metrics_df, labels_df, static_df
 
 
