@@ -1,0 +1,7 @@
+01-mlrun-basics.ipynb
+02-model-training.ipynb
+03-model-serving.ipynb
+04-pipeline.ipynb
+05-model-monitoring.ipynb
+06-add-mlops-to-code.ipynb
+07-batch-infer.ipynb
