@@ -3,8 +3,7 @@ name: Test functions
 on:
   pull_request:
     types: [opened,synchronize]
-    branches-ignore:
-      - testing
+
 env:
   NAMESPACE: mlrun
   MLRUN_API_NODE_PORT: 30070
