@@ -1,0 +1,101 @@
+name: Test functions
+
+on:
+  pull_request:
+    types: [opened,synchronize]
+    branches-ignore:
+      - testing
+env:
+  NAMESPACE: mlrun
+  MLRUN_API_NODE_PORT: 30070
+
+jobs:
+  build_stategy_matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the current branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: myref
+
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        # This is very hacky, but it goes like that:
+        # 1) Associate base_ref with origin/base_ref since actions/checkout doesn't do it, if we don't do that we won't be able to check the actual diff
+        # 2) Build JSON string
+        #  2.1) Add beginning of JSON
+        #  2.2) Get diff between origin/base_ref and the checked-out repo => git diff ${{ github.base_ref }} --name-only
+        #  2.3) Clean the file name and leave us only with directories => sed 's,/*[^/]\+/*$,,'
+        #  2.4) Sort and keep only unique directories => sort | uniq
+        #  2.5) Remove directories starting with '.' => grep -v '^\.'
+        #  2.6) Add quotation marks to all strings => sed 's/.*/"&"/'
+        #  2.7) Add comma suffix to all strings excluding the last one => sed '$!s/.*/&,/'
+        #  2.8) Close JSON
+        # 3) Save matrix JSON to output
+        # This is previous fetch command that stopped working (wile invetsigating added WA bello in run sectiong): git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+        # This is old git diff version:             git diff ${{ github.base_ref }} --name-only | sed 's,/*[^/]\+/*$,,' | sort | uniq | grep -v '^\.' | sed 's/.*/"&"/' | sed '$!s/.*/&,/'
+        # Based on instructions regarding https://docs.github.com/en/actions/learn-github-actions/contexts#github-context , github.base_ref triggers a workflow run is either pull_request or pull_request_target
+        run: |
+          git fetch --no-tags --prune --depth=1 origin ${{ github.base_ref }}:${{ github.base_ref }}
+          matrix=$((
+            echo '{ "package" : ['
+            git diff ${{ github.base_ref }} --name-only | sed 's,/*[^/]\+/*$,,' | sort | uniq | grep -v '^\.' | sed 's/.*/"&"/' | sed '$!s/.*/&,/'
+            echo " ]}"
+          ) | jq 'del(.[][] | select(. == ""))'  -c)
+          echo "::set-output name=matrix::$matrix"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+  check_matrix:
+    runs-on: ubuntu-20.04
+    needs: build_stategy_matrix
+    steps:
+      - name: Install json2yaml
+        run: |
+          sudo npm install -g json2yaml
+      - name: Check matrix definition
+        run: |
+          matrix='${{ needs.build_stategy_matrix.outputs.matrix }}'
+          echo $matrix
+          echo $matrix | jq .
+          echo $matrix | json2yaml
+  run_monorepo_tests:
+    needs: build_stategy_matrix
+    runs-on: ubuntu-20.04
+    strategy:
+      # matrix: [{"package": some package that changed}, {...}, ...]
+      matrix: ${{fromJson(needs.build_stategy_matrix.outputs.matrix)}}
+    steps:
+      Source
+      
+    - uses: azure/setup-helm@v1
+      with:
+        version: "v3.9.1"
+
+    - uses: manusa/actions-setup-minikube@v2.7.1
+      with:
+        minikube version: "v1.26.0"
+        kubernetes version: "v1.23.9"
+        github token: ${{ github.token }}
+        driver: docker
+        start args: '--addons=registry --insecure-registry="192.168.49.2:5000"'
+
+    - name: Get mlrun kit charts and create namespace
+      run: |
+        helm repo add mlrun https://mlrun.github.io/ce
+        helm repo update
+        kubectl create namespace ${NAMESPACE}
+    - name: Install MLRun CE helm chart
+      run: |
+        helm install mlrun-ce --namespace ${NAMESPACE}  --set minio.resources.requests.memory="128Mi"   --set  jupyterNotebook.persistence.size="1Gi"  --set  mlrun.db.persistence.size="1Gi" --set  mlrun.api.persistence.size="1Gi" --set  mpi-operator.deployment.create="false" --set  mlrun.httpDB.dbType="sqlite" --set  mlrun.httpDB.dirPath="/mlrun/db" --set  mlrun.httpDB.dsn="sqlite:////mlrun/db/mlrun.db?check_same_thread=false"  --set  mlrun.httpDB.oldDsn=""  --set global.registry.url=$(minikube ip):5000  --set global.registry.secretName=""   --set global.externalHostAddress=$(minikube ip)  --set nuclio.dashboard.externalIPAddresses[0]=$(minikube ip)  --wait --debug   mlrun/mlrun-ce
+    - name: Create environment file
+      run: |
+        kubectl get pods -A
+        kubectl get  nodes
+        echo "MLRUN_DBPATH=http://$(minikube ip):${MLRUN_API_NODE_PORT}" > /tmp/examples_ci.env
+        echo "AWS_ACCESS_KEY_ID=minio" >> /tmp/examples_ci.env
+        echo "AWS_SECRET_ACCESS_KEY=minio123" >> /tmp/examples_ci.env
+        echo "S3_ENDPOINT_URL=http://$(minikube ip):30080" >> /tmp/examples_ci.env
+        echo "MLRUN_STORAGE__AUTO_MOUNT_PARAMS='aws_access_key=minio,aws_secret_key=minio123,endpoint_url=http://minio.mlrun.svc.cluster.local:9000'" >> /tmp/examples_ci.env
+        echo "MLRUN_STORAGE__AUTO_MOUNT_TYPE=s3" >> /tmp/examples_ci.env
+        cat /tmp/examples_ci.env
