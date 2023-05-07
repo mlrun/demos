@@ -133,3 +133,6 @@ dmypy.json
 # IDEs
 .idea/
 .vscode/
+
+# operating system
+.DS_Store
