@@ -21,6 +21,7 @@ import requests
 from storey import Event
 import string
 from transformers import pipeline
+from mlrun import get_or_create_ctx
 
 
 def wrap_event(event):
@@ -63,6 +64,7 @@ def get_news(event):
 class HuggingSentimentAnalysis:
     def __init__(self):
         self.sentiment_pipeline = pipeline("sentiment-analysis")
+        self.ctx = get_or_create_ctx("news-context")
 
     def get_sentiment(self, event):
         prediction = self.sentiment_pipeline(event.body['inputs'])
@@ -70,6 +72,7 @@ class HuggingSentimentAnalysis:
         int_prediction = self.convert_sentiment_to_int(prediction)
         event.body['sentiment'] = int_prediction
         event.key=event.body['ticker']
+        self.ctx.logger.info(event.body)
         return event
 
     def convert_sentiment_to_int(self, sentiment):
