@@ -148,7 +148,11 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-dest_dir="/v3io/users/${user}"
+current_dir=$(pwd)
+parent_dir=$(dirname "$current_dir")
+
+dest_dir=${parent_dir}
+
 demos_dir="${dest_dir}/demos"
 echo "Updating demos from ${git_url} branch ${branch} to '${demos_dir}'..."
 
