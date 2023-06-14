@@ -3,8 +3,7 @@
 set -o errexit
 set -o pipefail
 
-SCRIPT="$(basename $0)"
-product="Iguazio Data Science Platform"
+SCRIPT="$(basename "$0")"
 
 git_owner=mlrun
 git_repo=demos
@@ -113,10 +112,12 @@ if [ -z "${user}" ]; then
     error_usage "Missing username."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${dry_run}" ]; then
     echo "Dry run; no files will be copied."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${no_backup}" ]; then
     echo "The existing demos directory won't be backed up before the update."
 fi
@@ -136,11 +137,18 @@ if [ -z "${branch}" ]; then
         echo "Looking for demos for the specified MLRun version - ${mlrun_version}."
     fi
     
-    tag_prefix=`echo ${mlrun_version} | cut -d . -f1-2`
-    latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | grep -v 'rc' | grep -v 'RC' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+    # shellcheck disable=SC2006
+    tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
+    echo "tag prefix " ${tag_prefix} 
+    # shellcheck disable=SC2006
+    echo "git base url" ${git_base_url}
+    echo "mlrun_version "  ${mlrun_version%%r*}
+    latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep "${mlrun_version%%r*}" | grep -v '\^{}' | grep 'rc' | grep  'RC' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+    echo "latest tag " 
     if [ -z "${latest_tag}" ]; then
         error_exit "Couldn't locate a Git tag with prefix 'v${tag_prefix}.*'."
-        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+        # shellcheck disable=SC2006
+        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep "${mlrun_version%%r*}" | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
     else
         # Remove the prefix from the Git tag
         branch=${latest_tag#refs/tags/}
@@ -148,16 +156,12 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-current_dir=$(pwd)
-parent_dir=$(dirname "$current_dir")
-
-dest_dir=${parent_dir}
-
+dest_dir="/v3io/users/${user}"
 demos_dir="${dest_dir}/demos"
 echo "Updating demos from ${git_url} branch ${branch} to '${demos_dir}'..."
 
 temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
-trap "{ rm -rf $temp_dir; }" EXIT
+trap '{ rm -rf $temp_dir; }' EXIT
 echo "Copying files to a temporary directory '${temp_dir}'..."
 
 tar_url="${git_base_url}/archive/${branch}.tar.gz"
