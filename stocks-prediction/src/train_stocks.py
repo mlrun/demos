@@ -114,7 +114,8 @@ def handler(vector_name='stocks',
             n_layers=1,
             seq_size=5,
             epochs=3,
-            model_filepath=''):
+            model_filepath=''
+            ):
     context = get_or_create_ctx(name='train-context')
     dataset = StocksDataset(vector_name, seq_size, start_time, end_time)
     training_set = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, drop_last=True)
@@ -127,6 +128,9 @@ def handler(vector_name='stocks',
     # Initialize the optimizer:
     optimizer = torch.optim.Adam(lr=0.0001, params=model.parameters())
     criterion = torch.nn.MSELoss()
+
+    # attaching run_id to model tag
+    model_tag = context.uid
 
     # training with mlrun's torch interface
     mlrun_pytorch.train(model=model,
@@ -141,6 +145,7 @@ def handler(vector_name='stocks',
                         custom_objects_map={"train_stocks.py": "Model"},
                         custom_objects_directory=model_filepath,
                         metric_functions=[accuracy],
+                        mlrun_callback_kwargs={"log_model_tag": model_tag},
                         auto_log=True,
                         context=context
                         )
