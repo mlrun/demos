@@ -130,7 +130,7 @@ def handler(vector_name='stocks',
     criterion = torch.nn.MSELoss()
 
     # attaching run_id to model tag
-    model_tag = context.run_id
+    model_tag = context.uid
 
     # training with mlrun's torch interface
     mlrun_pytorch.train(model=model,
