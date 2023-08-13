@@ -40,6 +40,15 @@ def remove_punctuation(text):
     return punctuations
 
 
+def convert_sentiment_to_int(sentiment):
+    if sentiment[0]['label'] == 'NEGATIVE':
+        return 0
+    if sentiment[0]['label'] == 'POSITIVE':
+        return 1
+    else:
+        return 2
+
+
 def get_news(event):
     """
     event: dict with the following keys:
@@ -69,30 +78,8 @@ class HuggingSentimentAnalysis:
     def get_sentiment(self, event):
         prediction = self.sentiment_pipeline(event.body['inputs'])
         event.body = event.body['meta_data']
-        int_prediction = self.convert_sentiment_to_int(prediction)
+        int_prediction = convert_sentiment_to_int(prediction)
         event.body['sentiment'] = int_prediction
-        event.key=event.body['ticker']
+        event.key = event.body['ticker']
         self.ctx.logger.info(event.body)
         return event
-
-    def convert_sentiment_to_int(self, sentiment):
-        if sentiment[0]['label'] == 'NEGATIVE':
-            return 0
-        if sentiment[0]['label'] == 'POSITIVE':
-            return 1
-        else:
-            return 2
-
-
-class sentiment_analysis:
-    def __init__(self, address):
-        self.address = address
-
-    def do(self, event):
-        response = json.loads(requests.put(self.address + "v2/models/sentiment_analysis_model/predict",
-                                           json=json.dumps(event.body)).text)
-
-        sentiment_event = event.body['meta_data']
-        sentiment_event['sentiment'] = response['outputs']['predictions'][
-                                           0] / 2  # so it'll be 0 for neg, 0.5 for neutral and 1 for pos
-        return Event(sentiment_event, key=sentiment_event['ticker'], time=sentiment_event['Datetime'])
