@@ -41,7 +41,7 @@ train_df = clean_df(train_df)
 # To Compute Haversine distance
 def sphere_dist(pickup_lat, pickup_lon, dropoff_lat, dropoff_lon):
     """
-    Return distance along great radius between pickup and dropoff coordinates.
+    Return distance along great radius between pickup and drop-off coordinates.
     """
     # Define earth radius (km)
     R_earth = 6371
@@ -63,7 +63,7 @@ def sphere_dist(pickup_lat, pickup_lon, dropoff_lat, dropoff_lon):
 
 def sphere_dist_bear(pickup_lat, pickup_lon, dropoff_lat, dropoff_lon):
     """
-    Return distance along great radius between pickup and dropoff coordinates.
+    Return distance along great radius between pickup and drop-off coordinates.
     """
     # Convert degrees to radians
     pickup_lat, pickup_lon, dropoff_lat, dropoff_lon = map(
@@ -90,7 +90,7 @@ def radian_conv(degree):
 
 def add_airport_dist(dataset):
     """
-    Return minumum distance from pickup or dropoff coordinates to each airport.
+    Return minimum distance from pickup or drop-off coordinates to each airport.
     JFK: John F. Kennedy International Airport
     EWR: Newark Liberty International Airport
     LGA: LaGuardia Airport
@@ -199,32 +199,23 @@ params = {
     "scale_pos_weight": 1,
     "zero_as_missing": True,
     "seed": 0,
-    "num_rounds": 50000,
+    # "categorical_feature": "name:year,month,day,weekday",
 }
 
-train_set = lgbm.Dataset(
-    x_train,
-    y_train,
-    silent=False,
-    categorical_feature=["year", "month", "day", "weekday"],
-)
-valid_set = lgbm.Dataset(
-    x_test,
-    y_test,
-    silent=False,
-    categorical_feature=["year", "month", "day", "weekday"],
-)
+train_set = lgbm.Dataset(x_train, y_train)
+valid_set = lgbm.Dataset(x_test, y_test)
 
 # [MLRun] Apply MLRun on the LightGBM module:
 apply_mlrun(context=context)
 
 model = lgbm.train(
     params,
-    train_set=train_set,
     num_boost_round=10000,
-    early_stopping_rounds=500,
+    train_set=train_set,
     valid_sets=[valid_set],
+    callbacks=[lgbm.early_stopping(stopping_rounds=500)],
 )
+
 del x_train
 del y_train
 del x_test
