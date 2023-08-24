@@ -7,7 +7,7 @@ SCRIPT="$(basename "$0")"
 
 git_owner=mlrun
 git_repo=demos
-git_base_url="https://github.com/${git_owner}/${git_repo}"
+git_base_url="https://github.com/${git_owner}/${git_repo}" 
 git_url="${git_base_url}.git"
 user=${V3IO_USERNAME}
 
@@ -50,36 +50,39 @@ error_usage()
 }
 
 get_latest_tag() {
-  local mlrun_version="$1"
-  local git_owner="$2"
-  local git_repo="$3"
-  local git_base_url="$4"
-  local git_url="$5"
+    local mlrun_version="$1"
+    local git_owner="$2"
+    local git_repo="$3"
+    local git_base_url="$4" # Unused in this function but can be useful for future enhancements
+    local git_url="$5"
 
-  local tag_prefix=`echo ${mlrun_version} | cut -d . -f1-2`
+    # Fetch tags from git
+    local tags=$(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}')
 
-  # Fetch remote tags
-  local tags=$(git ls-remote --tags --refs --sort='v:refname' "${git_url}" "refs/tags/v${tag_prefix}.*")
+    local latest_release=""
+    local latest_rc=""
 
-  # Extract tag names
-  local tag_names=$(echo "$tags" | awk -F'/' '{print $NF}')
+    # Parse
+    while IFS= read -r tag; do
+        tag=${tag#refs/tags/}
 
-  # Find the latest release and RC
-  local latest_release=""
-  local latest_rc=""
-  for tag in $tag_names; do
-      if [[ $tag == *"rc"* ]]; then
-          latest_rc=$tag
-      else
-          latest_release=$tag
-      fi
-  done
+        # Check if tag matches the target
+        if [[ $tag =~ ^v${mlrun_version} ]]; then
+            if [[ $tag == *"-rc"* ]]; then
+                latest_rc=$tag
+            else
+                latest_release=$tag
+            fi
+        fi
+    done <<< "$tags"
 
-  if [[ -z $latest_release ]]; then
-      echo $latest_rc
-  else
-      echo $latest_release
-  fi
+    if [[ -n "$latest_release" ]]; then
+        echo "$latest_release"
+    elif [[ -n "$latest_rc" ]]; then
+        echo "$latest_rc"
+    else
+        echo "No matching tags found."
+    fi
 }
 
 while :
@@ -169,7 +172,7 @@ if [ -z "${branch}" ]; then
     else
         echo "Looking for demos for the specified MLRun version - ${mlrun_version}."
     fi
-
+    
     # shellcheck disable=SC2006
     tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
     # shellcheck disable=SC2006
