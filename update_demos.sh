@@ -49,6 +49,42 @@ error_usage()
     exit 1
 }
 
+get_latest_tag() {
+    local mlrun_version="$1"
+    local git_owner="$2"
+    local git_repo="$3"
+    local git_base_url="$4" # Unused in this function but can be useful for future enhancements
+    local git_url="$5"
+
+    # Fetch tags from git
+    local tags=$(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}')
+
+    local latest_release=""
+    local latest_rc=""
+
+    # Parse
+    while IFS= read -r tag; do
+        tag=${tag#refs/tags/}
+
+        # Check if tag matches the target
+        if [[ $tag =~ ^v${mlrun_version} ]]; then
+            if [[ $tag == *"-rc"* ]]; then
+                latest_rc=$tag
+            else
+                latest_release=$tag
+            fi
+        fi
+    done <<< "$tags"
+
+    if [[ -n "$latest_release" ]]; then
+        echo "$latest_release"
+    elif [[ -n "$latest_rc" ]]; then
+        echo "$latest_rc"
+    else
+        echo "No matching tags found."
+    fi
+}
+
 while :
 do
     case $1 in
@@ -140,8 +176,8 @@ if [ -z "${branch}" ]; then
     # shellcheck disable=SC2006
     tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
     # shellcheck disable=SC2006
-    latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep "${mlrun_version%%r*}" | grep -v '\^{}' | grep 'rc' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
-    echo "latest tag " 
+    latest_tag=$(get_latest_tag "${mlrun_version}" "${git_owner}" "${git_repo}" "${git_base_url}" "${git_url}")
+    echo $latest_tag
     if [ -z "${latest_tag}" ]; then
         error_exit "Couldn't locate a Git tag with prefix 'v${tag_prefix}.*'."
         # shellcheck disable=SC2006
