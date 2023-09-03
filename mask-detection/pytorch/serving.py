@@ -87,7 +87,7 @@ def postprocess(model_response: dict) -> Dict[str, Union[int, float]]:
 
     # Parse and return:
     return {
-        "class": int(np.argmax(prediction)),
-        "with_mask": float(prediction[0]),
-        "without_mask": float(prediction[1]),
+        "class": int(np.argmax(prediction.cpu())),
+        "with_mask": float(prediction[0].cpu()),
+        "without_mask": float(prediction[1].cpu()),
     }
