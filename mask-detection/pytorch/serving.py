@@ -86,8 +86,9 @@ def postprocess(model_response: dict) -> Dict[str, Union[int, float]]:
     prediction = np.squeeze(model_response["outputs"])
 
     # Parse and return:
+    prediction = prediction.cpu() if type(prediction)!=np.ndarray else prediction
     return {
-        "class": int(np.argmax(prediction.cpu())),
-        "with_mask": float(prediction[0].cpu()),
-        "without_mask": float(prediction[1].cpu()),
+        "class": int(np.argmax(prediction)),
+        "with_mask": float(prediction[0]),
+        "without_mask": float(prediction[1]),
     }
