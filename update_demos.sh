@@ -32,7 +32,6 @@ OPTIONS:
 
 error_exit()
 {
-
 # ----------------------------------------------------------------
 # Function for exit due to fatal program error
 #   Accepts 1 argument:
@@ -57,33 +56,65 @@ get_latest_tag() {
     local git_url="$5"
 
     # Fetch tags from git
-    local tags=$(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}')
-
-    local latest_release=""
-    local latest_rc=""
-
-    # Parse
-    while IFS= read -r tag; do
-        tag=${tag#refs/tags/}
-
-        # Check if tag matches the target
-        if [[ $tag =~ ^v${mlrun_version} ]]; then
-            if [[ $tag == *"-rc"* ]]; then
-                latest_rc=$tag
-            else
-                latest_release=$tag
-            fi
-        fi
-    done <<< "$tags"
-
-    if [[ -n "$latest_release" ]]; then
-        echo "$latest_release"
-    elif [[ -n "$latest_rc" ]]; then
-        echo "$latest_rc"
-    else
-        echo "No matching tags found."
+    local tags=($(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}'))
+    # Initialize two empty arrays to hold the two separate lists
+    with_rc=()
+    without_rc=()
+    # Iterate through the list of version strings to split between latest and release
+    for version in "${tags[@]}"; do
+      tag=${version#refs/tags/}
+      if [[ $version == *"rc"* ]]; then
+        # If the version string contains "rc," add it to the list with "rc"
+        with_rc+=("$tag")
+      else
+        # Otherwise, add it to the list without "rc"
+        without_rc+=("$tag")
+      fi
+    done
+    
+    formatted_version=$(echo "$mlrun_version" | sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
+    # finding whether there is a release
+    for item in "${without_rc[@]}"; do
+      if [[ $item == *"$formatted_version"* ]]; then
+        echo "$item"
+        return
+      fi
+    done
+    
+    # if release doesn't exists, find matching rc
+    formatted_rc=$(echo "$mlrun_version" | sed -E 's/.*rc([0-9]+)?.*/-rc\1/')
+    if [ "$formatted_rc" == "$mlrun_version" ]; then # couldn't find rc (mlrun_version is a release with no rc)
+      formatted_rc=""
     fi
-}
+    
+    all_rcs=()
+    for item in "${with_rc[@]}"; do
+      if [[ $item == *"$formatted_version"* ]]; then
+        all_rcs+=("$item")
+      fi
+    done
+    
+    if [ -z "$all_rcs" ]; then
+      error_usage "Couldn't find matching version."
+    else
+      # trying to find matching rc
+      # case mlrun doesnt have an rc (its a release) and demos doesn't have matching release (fetching latest rc)
+      if [ -z "$formatted_rc" ]; then # rc is ""
+        echo "${with_rc[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
+        return
+      fi
+      # case mlrun does have an rc - return its matching demos rc
+      for item in "${all_rcs[@]}"; do
+        if [[ $item == *"$formatted_rc"* ]]; then
+          echo "$item"
+          return
+        fi
+      done
+      # coldn't find matching rc (mlrun does have an rc but demos doesn't have a matching one) returns latest rc
+      echo "${with_rc[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
+      return
+    fi 
+    }
 
 while :
 do
@@ -159,10 +190,8 @@ if [ ! -z "${no_backup}" ]; then
 fi
 
 if [ -z "${branch}" ]; then
-
     if [ -z "${mlrun_version}" ]; then
         pip_mlrun=$(pip show mlrun | grep Version) || :
-
         if [ -z "${pip_mlrun}" ]; then
             error_exit "MLRun version not found. Aborting..."
         else
@@ -172,12 +201,10 @@ if [ -z "${branch}" ]; then
     else
         echo "Looking for demos for the specified MLRun version - ${mlrun_version}."
     fi
-    
     # shellcheck disable=SC2006
     tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
     # shellcheck disable=SC2006
     latest_tag=$(get_latest_tag "${mlrun_version}" "${git_owner}" "${git_repo}" "${git_base_url}" "${git_url}")
-    echo $latest_tag
     if [ -z "${latest_tag}" ]; then
         error_exit "Couldn't locate a Git tag with prefix 'v${tag_prefix}.*'."
         # shellcheck disable=SC2006
@@ -198,6 +225,7 @@ trap '{ rm -rf $temp_dir; }' EXIT
 echo "Copying files to a temporary directory '${temp_dir}'..."
 
 tar_url="${git_base_url}/archive/${branch}.tar.gz"
+echo "Downloading : $tar_url ..."
 wget -qO- "${tar_url}" | tar xz -C "${temp_dir}" --strip-components 1
 
 if [ -z "${dry_run}" ]; then
@@ -207,16 +235,13 @@ if [ -z "${dry_run}" ]; then
             # Back up the existing demos directory
             dt=$(date '+%Y%m%d%H%M%S');
             old_demos_dir="${dest_dir}/demos.old/${dt}"
-
             echo "Moving existing '${demos_dir}' to ${old_demos_dir}'..."
-
             mkdir -p "${old_demos_dir}"
             cp -r "${demos_dir}/." "${old_demos_dir}" && rm -rf "${demos_dir}"
         else
             rm -rf "${demos_dir}"
         fi
     fi
-
     echo "Copying files to '${demos_dir}'..."
     mkdir -p "${demos_dir}"
     cp -RT "${temp_dir}" "${demos_dir}"
@@ -228,5 +253,4 @@ fi
 
 echo "Deleting temporary directory '${temp_dir}..."
 rm -rf "${temp_dir}"
-
 echo "DONE"
