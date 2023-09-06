@@ -3,8 +3,7 @@
 set -o errexit
 set -o pipefail
 
-SCRIPT="$(basename $0)"
-product="Iguazio Data Science Platform"
+SCRIPT="$(basename "$0")"
 
 git_owner=mlrun
 git_repo=demos
@@ -48,6 +47,42 @@ error_usage()
     echo "${SCRIPT}: ${1:-"Unknown Error"}" 1>&2
     echo -e "$USAGE"
     exit 1
+}
+
+get_latest_tag() {
+    local mlrun_version="$1"
+    local git_owner="$2"
+    local git_repo="$3"
+    local git_base_url="$4" # Unused in this function but can be useful for future enhancements
+    local git_url="$5"
+
+    # Fetch tags from git
+    local tags=$(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}')
+
+    local latest_release=""
+    local latest_rc=""
+
+    # Parse
+    while IFS= read -r tag; do
+        tag=${tag#refs/tags/}
+
+        # Check if tag matches the target
+        if [[ $tag =~ ^v${mlrun_version} ]]; then
+            if [[ $tag == *"-rc"* ]]; then
+                latest_rc=$tag
+            else
+                latest_release=$tag
+            fi
+        fi
+    done <<< "$tags"
+
+    if [[ -n "$latest_release" ]]; then
+        echo "$latest_release"
+    elif [[ -n "$latest_rc" ]]; then
+        echo "$latest_rc"
+    else
+        echo "No matching tags found."
+    fi
 }
 
 while :
@@ -113,10 +148,12 @@ if [ -z "${user}" ]; then
     error_usage "Missing username."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${dry_run}" ]; then
     echo "Dry run; no files will be copied."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${no_backup}" ]; then
     echo "The existing demos directory won't be backed up before the update."
 fi
@@ -136,11 +173,15 @@ if [ -z "${branch}" ]; then
         echo "Looking for demos for the specified MLRun version - ${mlrun_version}."
     fi
     
-    tag_prefix=`echo ${mlrun_version} | cut -d . -f1-2`
-    latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | grep -v 'rc' | grep -v 'RC' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+    # shellcheck disable=SC2006
+    tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
+    # shellcheck disable=SC2006
+    latest_tag=$(get_latest_tag "${mlrun_version}" "${git_owner}" "${git_repo}" "${git_base_url}" "${git_url}")
+    echo $latest_tag
     if [ -z "${latest_tag}" ]; then
         error_exit "Couldn't locate a Git tag with prefix 'v${tag_prefix}.*'."
-        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+        # shellcheck disable=SC2006
+        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep "${mlrun_version%%r*}" | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
     else
         # Remove the prefix from the Git tag
         branch=${latest_tag#refs/tags/}
@@ -153,7 +194,7 @@ demos_dir="${dest_dir}/demos"
 echo "Updating demos from ${git_url} branch ${branch} to '${demos_dir}'..."
 
 temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
-trap "{ rm -rf $temp_dir; }" EXIT
+trap '{ rm -rf $temp_dir; }' EXIT
 echo "Copying files to a temporary directory '${temp_dir}'..."
 
 tar_url="${git_base_url}/archive/${branch}.tar.gz"
