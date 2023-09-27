@@ -28,7 +28,8 @@ OPTIONS:
   --dry-run   -  Show files to update but don't execute the update.
   --no-backup -  Don't back up the existing demos directory before the update.
                  Default: Back up the existing demos directory to a
-                 /v3io/users/<username>/demos.old/<timestamp>/ directory."
+                 /v3io/users/<username>/demos.old/<timestamp>/ directory.
+  --path      -  Demos folder download path."
 
 error_exit()
 {
@@ -162,6 +163,9 @@ do
         --mlrun-ver=)         # Handle the case of an empty --mlrun-ver=
             error_usage "$1: Missing MLRun version."
             ;;
+        --path=?*)
+            demos_dir=${1#*=} # Delete everything up to "=" and assign the remainder.
+            ;;
         --dry-run)
             dry_run=1
             ;;
@@ -216,8 +220,12 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-dest_dir="/v3io/users/${user}"
-demos_dir="${dest_dir}/demos"
+# On Community edition, a different demo path introduced.
+if [ -z "${demos_dir}" ]; then
+    dest_dir="/v3io/users/${user}"
+    demos_dir="${dest_dir}/demos"
+fi
+
 echo "Updating demos from ${git_url} branch ${branch} to '${demos_dir}'..."
 
 temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
