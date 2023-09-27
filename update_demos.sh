@@ -220,8 +220,8 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-# when --path argument specified - use it.
-if [ -z "${demos_dir}"]; then
+# On Community edition, a different demo path introduced.
+if [ -z "${demos_dir}" ]; then
     dest_dir="/v3io/users/${user}"
     demos_dir="${dest_dir}/demos"
 fi
