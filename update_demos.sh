@@ -95,8 +95,9 @@ get_latest_tag() {
       fi
     done
     
-    if [ -z "$all_rcs" ]; then
-      error_usage "Couldn't find matching version."
+    if [ -z "$all_rcs" ]; then # couldn't find any version, returning latest release
+      echo "${without_rc[@]}" | tr ' ' '\n' | sort -r | head -n 1
+      return
     else
       # trying to find matching rc
       # case mlrun doesnt have an rc (its a release) and demos doesn't have matching release (fetching latest rc)
@@ -220,7 +221,7 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-# On Community edition, a different demo path introduced.
+# If --path argument is specified
 if [ -z "${demos_dir}" ]; then
     dest_dir="/v3io/users/${user}"
     demos_dir="${dest_dir}/demos"
