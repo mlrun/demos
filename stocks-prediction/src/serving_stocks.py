@@ -27,8 +27,6 @@ import v3io_frames as v3f
 import os
 import time
 
-warnings.filterwarnings("ignore")
-
 def log_results(df: pd.DataFrame):
     # writing to tsdb
     if "V3IO_USERNAME" in os.environ:
