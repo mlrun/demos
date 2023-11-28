@@ -27,7 +27,15 @@ import v3io_frames as v3f
 import os
 import time
 
-warnings.filterwarnings("ignore")
+def log_results(df: pd.DataFrame):
+    # writing to tsdb
+    if "V3IO_USERNAME" in os.environ:
+        framesd = os.getenv("V3IO_FRAMESD",'framesd:8081')
+        client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
+        kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
+        client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
+        print(f'writing prediction to kv at projects{kv_table_path} ...')
+
 
 def preprocess(event):
     vector_name = event['vector_name']
@@ -85,14 +93,8 @@ def postprocess(event):
     df['true'] = event['outputs']['labels']
     df['prediction'] = (df['prediction']*event['outputs']['price_std']) + event['outputs']['price_mean']
     df['true'] = (df['true']*event['outputs']['price_std']) + event['outputs']['price_mean']
-    df2 = df.copy()
     df['datetime'] = df['datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
-    # writing to tsdb
-    framesd = os.getenv("V3IO_FRAMESD",'framesd:8081')
-    client = v3f.Client(framesd, container=os.getenv('V3IO_CONTAINER', 'projects'))
-    kv_table_path = '/stocks-'+ os.environ['V3IO_USERNAME'] + '/artifacts/stocks_prediction'
-    client.write('kv', kv_table_path, dfs=df, index_cols=['datetime','tickers'])
-    print(f'writing prediction to kv at projects{kv_table_path} ...')
+    log_results(df)
     return [df.values.tolist(),list(df.columns)]
 
 class StocksModel(PyTorchModelServer):
