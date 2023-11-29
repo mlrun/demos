@@ -3,8 +3,7 @@
 set -o errexit
 set -o pipefail
 
-SCRIPT="$(basename $0)"
-product="Iguazio Data Science Platform"
+SCRIPT="$(basename "$0")"
 
 git_owner=mlrun
 git_repo=demos
@@ -29,11 +28,11 @@ OPTIONS:
   --dry-run   -  Show files to update but don't execute the update.
   --no-backup -  Don't back up the existing demos directory before the update.
                  Default: Back up the existing demos directory to a
-                 /v3io/users/<username>/demos.old/<timestamp>/ directory."
+                 /v3io/users/<username>/demos.old/<timestamp>/ directory.
+  --path      -  Demos folder download path."
 
 error_exit()
 {
-
 # ----------------------------------------------------------------
 # Function for exit due to fatal program error
 #   Accepts 1 argument:
@@ -49,6 +48,75 @@ error_usage()
     echo -e "$USAGE"
     exit 1
 }
+
+get_latest_tag() {
+    local mlrun_version="$1"
+    local git_owner="$2"
+    local git_repo="$3"
+    local git_base_url="$4" # Unused in this function but can be useful for future enhancements
+    local git_url="$5"
+
+    # Fetch tags from git
+    local tags=($(git ls-remote --tags --refs --sort='v:refname' "${git_url}" | awk '{print $2}'))
+    # Initialize two empty arrays to hold the two separate lists
+    with_rc=()
+    without_rc=()
+    # Iterate through the list of version strings to split between latest and release
+    for version in "${tags[@]}"; do
+      tag=${version#refs/tags/}
+      if [[ $version == *"rc"* ]]; then
+        # If the version string contains "rc," add it to the list with "rc"
+        with_rc+=("$tag")
+      else
+        # Otherwise, add it to the list without "rc"
+        without_rc+=("$tag")
+      fi
+    done
+    
+    formatted_version=$(echo "$mlrun_version" | sed -E 's/.*([0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
+    # finding whether there is a release
+    for item in "${without_rc[@]}"; do
+      if [[ $item == *"$formatted_version"* ]]; then
+        echo "$item"
+        return
+      fi
+    done
+    
+    # if release doesn't exists, find matching rc
+    formatted_rc=$(echo "$mlrun_version" | sed -E 's/.*rc([0-9]+)?.*/-rc\1/')
+    if [ "$formatted_rc" == "$mlrun_version" ]; then # couldn't find rc (mlrun_version is a release with no rc)
+      formatted_rc=""
+    fi
+    
+    all_rcs=()
+    for item in "${with_rc[@]}"; do
+      if [[ $item == *"$formatted_version"* ]]; then
+        all_rcs+=("$item")
+      fi
+    done
+    
+    if [ -z "$all_rcs" ]; then # couldn't find any version, returning latest release
+      echo "${without_rc[@]}" | tr ' ' '\n' | sort -r | head -n 1
+      return
+    else
+      # trying to find matching rc
+      # case mlrun doesnt have an rc (its a release) and demos doesn't have matching release (fetching latest rc)
+      if [ -z "$formatted_rc" ]; then # rc is ""
+        echo "${with_rc[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
+        return
+      fi
+      # case mlrun does have an rc - return its matching demos rc
+      for item in "${all_rcs[@]}"; do
+        if [[ $item == *"$formatted_rc"* ]]; then
+          echo "$item"
+          return
+        fi
+      done
+      # coldn't find matching rc (mlrun does have an rc but demos doesn't have a matching one) returns latest rc
+      echo "${with_rc[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
+      return
+    fi 
+    }
 
 while :
 do
@@ -96,6 +164,9 @@ do
         --mlrun-ver=)         # Handle the case of an empty --mlrun-ver=
             error_usage "$1: Missing MLRun version."
             ;;
+        --path=?*)
+            demos_dir=${1#*=} # Delete everything up to "=" and assign the remainder.
+            ;;
         --dry-run)
             dry_run=1
             ;;
@@ -113,19 +184,19 @@ if [ -z "${user}" ]; then
     error_usage "Missing username."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${dry_run}" ]; then
     echo "Dry run; no files will be copied."
 fi
 
+# shellcheck disable=SC2236
 if [ ! -z "${no_backup}" ]; then
     echo "The existing demos directory won't be backed up before the update."
 fi
 
 if [ -z "${branch}" ]; then
-
     if [ -z "${mlrun_version}" ]; then
         pip_mlrun=$(pip show mlrun | grep Version) || :
-
         if [ -z "${pip_mlrun}" ]; then
             error_exit "MLRun version not found. Aborting..."
         else
@@ -135,12 +206,14 @@ if [ -z "${branch}" ]; then
     else
         echo "Looking for demos for the specified MLRun version - ${mlrun_version}."
     fi
-    
-    tag_prefix=`echo ${mlrun_version} | cut -d . -f1-2`
-    latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | grep -v 'rc' | grep -v 'RC' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+    # shellcheck disable=SC2006
+    tag_prefix=`echo "${mlrun_version}" | cut -d . -f1-2`
+    # shellcheck disable=SC2006
+    latest_tag=$(get_latest_tag "${mlrun_version}" "${git_owner}" "${git_repo}" "${git_base_url}" "${git_url}")
     if [ -z "${latest_tag}" ]; then
         error_exit "Couldn't locate a Git tag with prefix 'v${tag_prefix}.*'."
-        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep ${mlrun_version%%r*} | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
+        # shellcheck disable=SC2006
+        latest_tag=`git ls-remote --tags --refs --sort=-v:refname ${git_base_url} | grep "${mlrun_version%%r*}" | grep -v '\^{}' | head -n1 | awk '{print $2}' | sed 's#refs/tags/##'`
     else
         # Remove the prefix from the Git tag
         branch=${latest_tag#refs/tags/}
@@ -148,15 +221,20 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-dest_dir="/v3io/users/${user}"
-demos_dir="${dest_dir}/demos"
+# If --path argument is specified
+if [ -z "${demos_dir}" ]; then
+    dest_dir="/v3io/users/${user}"
+    demos_dir="${dest_dir}/demos"
+fi
+
 echo "Updating demos from ${git_url} branch ${branch} to '${demos_dir}'..."
 
 temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
-trap "{ rm -rf $temp_dir; }" EXIT
+trap '{ rm -rf $temp_dir; }' EXIT
 echo "Copying files to a temporary directory '${temp_dir}'..."
 
 tar_url="${git_base_url}/archive/${branch}.tar.gz"
+echo "Downloading : $tar_url ..."
 wget -qO- "${tar_url}" | tar xz -C "${temp_dir}" --strip-components 1
 
 if [ -z "${dry_run}" ]; then
@@ -166,16 +244,13 @@ if [ -z "${dry_run}" ]; then
             # Back up the existing demos directory
             dt=$(date '+%Y%m%d%H%M%S');
             old_demos_dir="${dest_dir}/demos.old/${dt}"
-
             echo "Moving existing '${demos_dir}' to ${old_demos_dir}'..."
-
             mkdir -p "${old_demos_dir}"
             cp -r "${demos_dir}/." "${old_demos_dir}" && rm -rf "${demos_dir}"
         else
             rm -rf "${demos_dir}"
         fi
     fi
-
     echo "Copying files to '${demos_dir}'..."
     mkdir -p "${demos_dir}"
     cp -RT "${temp_dir}" "${demos_dir}"
@@ -187,5 +262,4 @@ fi
 
 echo "Deleting temporary directory '${temp_dir}..."
 rm -rf "${temp_dir}"
-
 echo "DONE"
