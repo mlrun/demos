@@ -43,7 +43,7 @@ def preprocess(event):
     end_time = datetime.datetime.now()-datetime.timedelta(event['end_time'])
     seq_size = event['seq_size']
     
-    train_dataset = fstore.get_offline_features(vector_name, timestamp_for_filtering='Datetime',  with_indexes=True, start_time=start_time, end_time=end_time)
+    train_dataset = fstore.FeatureVector.get_offline_features(vector_name, timestamp_for_filtering='Datetime',  with_indexes=True, start_time=start_time, end_time=end_time)
     price_cols = ['Open','High','Low','Close']
     df = train_dataset.to_dataframe().reset_index(drop=False)
     df.fillna(value=1,inplace=True)
