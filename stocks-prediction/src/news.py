@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# import yahoo_fin.stock_info as si
+import yahoo_fin.stock_info as si
 import yahoo_fin.news as ynews
 from dateutil import parser
 import pandas as pd
@@ -56,7 +56,7 @@ def get_news(event):
     """
     tickers = si.tickers_sp500()[:event['n_stocks']]
     if len(tickers) == 0:
-        tickers = event['stocks_list']
+        tickers = list(event['stocks_list'].split(','))
     tickers_news = []
     for ticker in tickers:
         news = ynews.get_yf_rss(ticker=ticker)
