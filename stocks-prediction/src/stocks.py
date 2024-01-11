@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import yahoo_fin.stock_info as si
+#import yahoo_fin.stock_info as si
 import datetime
 import yfinance as yf
 import pandas as pd
@@ -33,6 +33,8 @@ def get_stocks(event):
     ctx = get_or_create_ctx(name="stocks-context")
     ctx.logger.info("getting stocks for event {}".format(event))
     tickers = si.tickers_sp500()[:event['n_stocks']]
+    if len(tickers) == 0:
+        tickers = event['stocks_list']
     # time deltas to scrape data
     start = datetime.datetime.now() - datetime.timedelta(event['start_delta'])
     end = datetime.datetime.now() - datetime.timedelta(event['end_delta'])
