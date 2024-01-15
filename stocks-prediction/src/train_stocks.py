@@ -120,6 +120,7 @@ def handler(vector_name='stocks',
     dataset = StocksDataset(vector_name, seq_size, start_time, end_time)
     training_set = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, drop_last=True)
     input_size = dataset.data[0][0].shape[0]
+    context.logger.info("input size {}".format(input_size))
     output_size = 1
     # creating the model
     model = Model(input_size=input_size, output_size=output_size, hidden_dim=hidden_dim, n_layers=n_layers,
