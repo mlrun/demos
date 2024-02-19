@@ -48,7 +48,7 @@ def pipeline(
     train = mlrun.run_function(
         auto_trainer,
         handler='train',
-        params={"model_class": model_pkg_class},
+        params={"model_class": model_pkg_class, "random_state": 3},
         inputs={"dataset": get_vector.outputs['feature_vector']},
         outputs=["model", "test_set"],
     )
