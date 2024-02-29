@@ -1,4 +1,4 @@
 mlrun
-transformers==4.11.3
+transformers==4.36.0
 graphviz
 tensorflow
