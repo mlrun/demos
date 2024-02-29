@@ -155,7 +155,7 @@ def init_context(context):
     )
 
     static_set = fstore.get_feature_set("static")
-    static_set.ingest(static_deployment)
+    static_set.ingest(static_deployment, overwrite=False)
 
     setattr(context, "label_col_indicator", "error")
     setattr(context, "deployment_levels", ["device"])
