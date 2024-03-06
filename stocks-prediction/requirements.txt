@@ -1,4 +1,6 @@
 mlrun
-transformers==4.11.3
-graphviz
-tensorflow
+yfinance
+yahoo_fin
+# transformers==4.11.3
+# graphviz
+# tensorflow
