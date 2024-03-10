@@ -6,7 +6,6 @@ from storey import Event
 
 
 def get_stocks(event):
-
     ctx = get_or_create_ctx(name="stocks-context")
     stocks_list = event['stocks_list']
     api_key = event['api_key']
@@ -30,6 +29,8 @@ def get_stocks(event):
         df['datetime'] = df['datetime'].apply(lambda x: x.strftime('%Y-%m-%d %H:%M:%S'))
         df[['open', 'high', 'low', 'close']] = df[['open', 'high', 'low', 'close']].astype(float)
         df['volume'] = df['volume'].astype(int)
+
+        df = df.rename(columns={'datetime': 'Datetime'})
 
         # Store the DataFrame in our dictionary
         stock_dataframes[symbol] = df
