@@ -33,6 +33,8 @@ def get_stocks(event):
     ctx = get_or_create_ctx(name="stocks-context")
     ctx.logger.info("getting stocks for event {}".format(event))
     tickers = si.tickers_sp500()[:event['n_stocks']]
+    if len(tickers) == 0:
+        tickers = list(event['stocks_list'].split(','))
     # time deltas to scrape data
     start = datetime.datetime.now() - datetime.timedelta(event['start_delta'])
     end = datetime.datetime.now() - datetime.timedelta(event['end_delta'])

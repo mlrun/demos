@@ -36,7 +36,7 @@ def pipeline(
                 'label_feature': label_column,
                 "start_time": start_time,
                 "end_time": end_time,
-                "entity_timestamp_column": "timestamp",
+                "timestamp_for_filtering": "timestamp",
                 'target': {'name': 'parquet', 'kind': 'parquet'},
                 "update_stats": True},
         outputs=["feature_vector"],
@@ -48,7 +48,7 @@ def pipeline(
     train = mlrun.run_function(
         auto_trainer,
         handler='train',
-        params={"model_class": model_pkg_class},
+        params={"model_class": model_pkg_class, "random_state": 3},
         inputs={"dataset": get_vector.outputs['feature_vector']},
         outputs=["model", "test_set"],
     )
