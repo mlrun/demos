@@ -47,7 +47,7 @@ def get_stocks(event):
     for ticker in tickers:
         hist = yf.Ticker(ticker).history(start=start, end=end, interval=interval)
         hist['ticker'] = ticker
-        hist['ticker2onehot'] = ticker
+        #hist['ticker2onehot'] = ticker
         return_list.append(hist)
 
     # some data manipulations

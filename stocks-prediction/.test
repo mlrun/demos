@@ -3,3 +3,4 @@
 03_train_model.ipynb
 04_model_serving.ipynb
 05_stocks_pipeline.ipynb
+06_grafana_view.ipynb
