@@ -6,7 +6,7 @@ set -o pipefail
 SCRIPT="$(basename "$0")"
 
 git_owner=mlrun
-git_repo=demos
+git_repo=mlrun
 git_base_url="https://github.com/${git_owner}/${git_repo}" 
 git_url="${git_base_url}.git"
 user=${V3IO_USERNAME}
@@ -65,10 +65,12 @@ get_latest_tag() {
     for version in "${tags[@]}"; do
       tag=${version#refs/tags/}
       if [[ $version == *"rc"* ]]; then
-        # If the version string contains "rc," add it to the list with "rc"
-        with_rc+=("$tag")
+        # If the version string contains "rc," add it to the list with "rc" - only the ones in the form of "something"rcXX
+        if [[ $version =~ (^|[^[:alnum:]])rc[0-9]{1,2}$ ]]; then
+            with_rc+=("$tag")
+        fi
       else
-        # Otherwise, add it to the list without "rc"
+        # Otherwise, add it to the list without "rc" 
         without_rc+=("$tag")
       fi
     done
@@ -192,7 +194,7 @@ fi
 # shellcheck disable=SC2236
 if [ ! -z "${no_backup}" ]; then
     echo "The existing demos directory won't be backed up before the update."
-fi
+fi 
 
 if [ -z "${branch}" ]; then
     if [ -z "${mlrun_version}" ]; then
@@ -221,14 +223,6 @@ if [ -z "${branch}" ]; then
     fi
 fi
 
-if [[ "${tag_prefix}" >= "1.7"]]; then
-    echo "MLRun version >= 1.7 running new update_demos.sh script"
-    rm -rf update_demos.sh
-    wget https://raw.githubusercontent.com/mlrun/mlrun/development/automation/scripts/update_demos.sh
-    sh update_demos.sh
-    error_exit "Done"
-fi
-    
 # If --path argument is specified
 if [ -z "${demos_dir}" ]; then
     dest_dir="/v3io/users/${user}"
@@ -241,9 +235,16 @@ temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
 trap '{ rm -rf $temp_dir; }' EXIT
 echo "Copying files to a temporary directory '${temp_dir}'..."
 
-tar_url="${git_base_url}/archive/${branch}.tar.gz"
-echo "Downloading : $tar_url ..."
-wget -qO- "${tar_url}" | tar xz -C "${temp_dir}" --strip-components 1
+if [[ "${branch}">"v1.7" ]]; then
+    tar_url="https://github.com/mlrun/mlrun/releases/download/${branch}/mlrun-demos.tar"
+    echo "Downloading : $tar_url ..."
+    wget "${tar_url}"
+    tar -xvf mlrun-demos.tar -C "${temp_dir}" --strip-components 1
+else
+    tar_url="https://github.com/mlrun/demos/archive/${branch}.tar.gz"
+    echo "Downloading : $tar_url ..."
+    wget -qO- "${tar_url}" | tar xz -C "${temp_dir}" --strip-components 1
+fi
 
 if [ -z "${dry_run}" ]; then
     if [ -d "${demos_dir}" ]; then
