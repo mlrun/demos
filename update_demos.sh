@@ -235,7 +235,7 @@ get_latest_tag() {
       # trying to find matching rc
       # case mlrun doesnt have an rc (its a release) and demos doesn't have matching release (fetching latest rc)
       if [ -z "$formatted_rc" ]; then # rc is ""
-        echo "${with_rc[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
+        echo "${all_rcs[*]}" | tr ' ' '\n' | sort -Vr | head -n 1
         return
       fi
       # case mlrun does have an rc - return its matching demos rc
