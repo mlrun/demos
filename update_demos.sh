@@ -252,6 +252,36 @@ get_latest_tag() {
     }
 
 # --------------------------------------------------------------------------------------------------------------------------------
+# Function to get compare current version with 1.7 Iversion when demos were introduced
+# --------------------------------------------------------------------------------------------------------------------------------
+
+is_newer_than_1_7() {
+  version="${1#v}"
+  base="${version%%-*}"  # Strip -rcX if present
+  rc="${version#"$base"}"
+
+  major=$(echo "$base" | cut -d. -f1)
+  minor=$(echo "$base" | cut -d. -f2)
+  major=${major:-0}
+  minor=${minor:-0}
+
+  # If rc is present, consider version as pre-release → not >= 1.7
+  if echo "$rc" | grep -q '^-' ; then
+    # pre-release version like -rc2
+    if [ "$major" -eq 1 ] && [ "$minor" -eq 7 ]; then
+      return 1  # not considered >= 1.7
+    fi
+  fi
+
+  if [ "$major" -gt 1 ]; then return 0; fi
+  if [ "$major" -eq 1 ] && [ "$minor" -gt 7 ]; then return 0; fi
+  if [ "$major" -eq 1 ] && [ "$minor" -eq 7 ]; then return 0; fi
+
+  return 1
+}
+
+
+# --------------------------------------------------------------------------------------------------------------------------------
 # Download tar file to a temporary folder
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -323,7 +353,7 @@ branch=${latest_tag#refs/tags/}
 echo "Using branch ${branch} to download demos"
 temp_dir=$(mktemp -d /tmp/temp-get-demos.XXXXXXXXXX)
 # demos introduced to mlrun in 1.7.0
-if [[ "${branch}">"v1.7" ]]; then
+if is_newer_than_1_7 "$branch"; then
     tar_url="${git_base_url}/releases/download/${branch}/mlrun-demos.tar"
     download_tar_to_temp_dir "$tar_url" "$temp_dir"
     verify_update_demos "${temp_dir}" "${branch}"
