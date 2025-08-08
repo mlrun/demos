@@ -238,7 +238,6 @@ get_latest_tag() {
         done
         # Get the latest version (version sort)
         latest_version=$(printf "%s\n" "${clean_versions[@]}" | sort -V | tail -n 1)
-        echo "Cant find any matching version, using $latest_version"
         echo "$latest_version"
         return
     else
