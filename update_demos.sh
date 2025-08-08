@@ -229,8 +229,18 @@ get_latest_tag() {
       fi
     done
     if [ -z "$all_rcs" ]; then # couldn't find any version, returning latest release
-      echo "${without_rc[@]}" | tr ' ' '\n' | sort -r | head -n 1
-      return
+        clean_versions=()
+        # Removing tags that are not vX.Y.Z 
+        for v in "${without_rc[@]}"; do
+            if [[ "$v" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                clean_versions+=("$v")
+            fi
+        done
+        # Get the latest version (version sort)
+        latest_version=$(printf "%s\n" "${clean_versions[@]}" | sort -V | tail -n 1)
+        echo "Cant find any matching version, using $latest_version"
+        echo "$latest_version"
+        return
     else
       # trying to find matching rc
       # case mlrun doesnt have an rc (its a release) and demos doesn't have matching release (fetching latest rc)
