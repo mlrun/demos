@@ -7,7 +7,7 @@
         "demo-call-center",
         "demo-sagemaker"
       ]
-  }
+  },
   
   "1.9.2": {
     "demos": [
@@ -17,7 +17,7 @@
         "demo-call-center",
         "demo-sagemaker"
       ]
-  }
+  },
 
   "development": {
     "demos": [
