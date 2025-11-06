@@ -18,4 +18,14 @@
         "demo-sagemaker"
       ]
   }
+
+  "development": {
+    "demos": [
+        "demo-fraud",
+        "demo-mask-detection",
+        "demo-monitoring-and-feedback-loop",
+        "demo-call-center",
+        "demo-sagemaker"
+      ]
+  }
 }
